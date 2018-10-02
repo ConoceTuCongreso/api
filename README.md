@@ -9,6 +9,6 @@
 *TODO*
 
 ## Contributors
+- [@CarminaP](https://github.com/CarminaP)
 - [@dragv](https://github.com/dragv)
-- [@LuciaVG](https://github.com/LuciaVG)
 - [@mmiranda96](https://github.com/mmiranda96)
