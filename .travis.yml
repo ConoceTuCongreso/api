@@ -9,6 +9,7 @@ addons:
 
 script:
   - yarn build
+  - yarn lint
   - yarn test
   - sonar-scanner
 

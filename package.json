@@ -7,10 +7,14 @@
   "license": "MIT",
   "dependencies": {
     "babel-cli": "^6.26.0",
+    "eslint": "^5.6.1",
+    "eslint-config-airbnb-base": "^13.1.0",
+    "eslint-plugin-import": "^2.14.0",
     "loopback": "^3.22.3",
     "mocha": "^5.2.0"
   },
   "scripts": {
+    "lint": "eslint -f json -o report.json src/main/",
     "build": "babel src/main -d build",
     "serve": "node src/index.js",
     "test": "mocha src/test"
