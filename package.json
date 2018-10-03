@@ -1,7 +1,10 @@
 {
   "name": "api",
   "version": "1.0.0",
-  "main": "index.js",
+  "main": "server/server.js",
+  "engines": {
+    "node": ">=4"
+  },
   "repository": "git@github.com:ConoceTuCongreso/api.git",
   "author": "ConoceTuCongreso",
   "license": "MIT",
@@ -10,13 +13,21 @@
     "eslint": "^5.6.1",
     "eslint-config-airbnb-base": "^13.1.0",
     "eslint-plugin-import": "^2.14.0",
-    "loopback": "^3.22.3",
-    "mocha": "^5.2.0"
+    "mocha": "^5.2.0",
+    "compression": "^1.0.3",
+    "cors": "^2.5.2",
+    "helmet": "^3.10.0",
+    "loopback-boot": "^2.6.5",
+    "serve-favicon": "^2.0.1",
+    "strong-error-handler": "^3.0.0",
+    "loopback-component-explorer": "^6.2.0",
+    "loopback": "^3.22.0"
   },
   "scripts": {
     "lint": "eslint -f json -o report.json src/main/",
-    "build": "babel src/main -d build",
-    "serve": "node src/index.js",
-    "test": "mocha src/test"
+    "start": "node .",
+    "build": "babel server/server.js -d build",
+    "serve": "node .",
+    "test": "mocha test"
   }
 }
