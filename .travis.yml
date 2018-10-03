@@ -11,3 +11,8 @@ script:
   - yarn build
   - yarn test
   - sonar-scanner
+
+branches:
+  only:
+    - master
+    - develop
