@@ -24,7 +24,7 @@
     "loopback": "^3.22.0"
   },
   "scripts": {
-    "lint": "eslint -f json -o report.json src/main/",
+    "lint": "eslint -f json -o report.json server",
     "start": "node .",
     "build": "babel server/server.js -d build",
     "serve": "node .",
