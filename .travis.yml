@@ -2,6 +2,9 @@ language: node_js
 node_js:
   - "7"
 
+install:
+  - yarn install --ignore-engines
+
 addons:
   sonarcloud:
     organization: "conoce-tu-congreso"
@@ -9,6 +12,7 @@ addons:
 
 script:
   - yarn build
+  - yarn lint
   - yarn test
   - sonar-scanner
 
