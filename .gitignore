@@ -69,3 +69,22 @@ build/
 
 # Lint report
 report.json
+
+# LoopBack framework related files
+*.csv
+*.dat
+*.iml
+*.log
+*.out
+*.pid
+*.seed
+*.sublime-*
+*.swo
+*.swp
+*.tgz
+*.xml
+.DS_Store
+.idea
+.project
+.strong-pm
+coverage
