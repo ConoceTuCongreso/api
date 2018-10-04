@@ -1,0 +1,25 @@
+{
+  "name": "partido",
+  "plural": "partidos",
+  "base": "PersistedModel",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {
+    "name": {
+      "type": "string",
+      "required": true
+    }
+  },
+  "validations": [],
+  "relations": {
+    "diputados": {
+      "type": "hasMany",
+      "model": "diputado",
+      "foreignKey": ""
+    }
+  },
+  "acls": [],
+  "methods": {}
+}

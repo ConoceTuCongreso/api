@@ -1,0 +1,53 @@
+{
+  "name": "suplente",
+  "plural": "suplentes",
+  "base": "PersistedModel",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {
+    "firstName": {
+      "type": "string"
+    },
+    "middleName": {
+      "type": "string"
+    },
+    "lastName": {
+      "type": "string",
+      "required": true
+    },
+    "date_of_birth": {
+      "type": "date",
+      "required": true
+    },
+    "gender": {
+      "type": "string",
+      "required": true
+    },
+    "phone": {
+      "type": "string",
+      "required": true
+    },
+    "email": {
+      "type": "string",
+      "required": true
+    },
+    "twitter_account": {
+      "type": "string"
+    },
+    "facebook_account": {
+      "type": "string"
+    }
+  },
+  "validations": [],
+  "relations": {
+    "diputado": {
+      "type": "hasOne",
+      "model": "diputado",
+      "foreignKey": ""
+    }
+  },
+  "acls": [],
+  "methods": {}
+}
