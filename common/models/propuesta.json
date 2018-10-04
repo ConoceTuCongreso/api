@@ -31,6 +31,11 @@
       "type": "hasMany",
       "model": "firma",
       "foreignKey": ""
+    },
+    "usuarios": {
+      "type": "hasAndBelongsToMany",
+      "model": "usuario",
+      "foreignKey": ""
     }
   },
   "acls": [],

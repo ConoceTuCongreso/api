@@ -32,7 +32,13 @@
     }
   },
   "validations": [],
-  "relations": {},
+  "relations": {
+    "categoria": {
+      "type": "hasMany",
+      "model": "categoria",
+      "foreignKey": ""
+    }
+  },
   "acls": [],
   "methods": {}
 }
