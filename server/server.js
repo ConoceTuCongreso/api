@@ -5,7 +5,7 @@ const app = loopback();
 module.exports = loopback();
 
 app.start = function Str() {
-  // start the web server
+  // start the web server 234576
   return app.listen(() => {
     app.emit('started');
   });
@@ -19,6 +19,5 @@ boot(app, __dirname, (err) => {
   // start the server if `$ node server.js`
   if (require.main === module) {
     app.start();
-    console.log('Running on port 3000...');
   }
 });
