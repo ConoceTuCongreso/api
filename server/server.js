@@ -19,5 +19,6 @@ boot(app, __dirname, (err) => {
   // start the server if `$ node server.js`
   if (require.main === module) {
     app.start();
+    console.log('Running on port 3000...');
   }
 });
