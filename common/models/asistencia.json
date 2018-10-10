@@ -1,0 +1,29 @@
+{
+  "name": "asistencia",
+  "plural": "asistencias",
+  "base": "PersistedModel",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {
+    "session": {
+      "type": "date",
+      "required": true
+    },
+    "presence": {
+      "type": "boolean",
+      "required": true
+    }
+  },
+  "validations": [],
+  "relations": {
+    "diputado": {
+      "type": "belongsTo",
+      "model": "diputado",
+      "foreignKey": ""
+    }
+  },
+  "acls": [],
+  "methods": {}
+}

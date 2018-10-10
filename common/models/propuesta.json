@@ -1,0 +1,43 @@
+{
+  "name": "propuesta",
+  "plural": "propuestas",
+  "base": "PersistedModel",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {
+    "description": {
+      "type": "string",
+      "required": true
+    },
+    "entryDate": {
+      "type": "date",
+      "required": true
+    },
+    "status": {
+      "type": "string",
+      "required": true
+    },
+    "signNum": {
+      "type": "number",
+      "required": true,
+      "default": 0
+    }
+  },
+  "validations": [],
+  "relations": {
+    "firmas": {
+      "type": "hasMany",
+      "model": "firma",
+      "foreignKey": ""
+    },
+    "usuarios": {
+      "type": "hasAndBelongsToMany",
+      "model": "usuario",
+      "foreignKey": ""
+    }
+  },
+  "acls": [],
+  "methods": {}
+}

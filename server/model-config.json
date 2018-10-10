@@ -14,7 +14,8 @@
     ]
   },
   "User": {
-    "dataSource": "db"
+    "dataSource": "db",
+    "public": false
   },
   "AccessToken": {
     "dataSource": "db",
@@ -34,5 +35,41 @@
   "Role": {
     "dataSource": "db",
     "public": false
+  },
+  "diputado": {
+    "dataSource": "db",
+    "public": true
+  },
+  "suplente": {
+    "dataSource": "db",
+    "public": true
+  },
+  "propuesta": {
+    "dataSource": "db",
+    "public": true
+  },
+  "partido": {
+    "dataSource": "db",
+    "public": true
+  },
+  "firma": {
+    "dataSource": "db",
+    "public": true
+  },
+  "asistencia": {
+    "dataSource": "db",
+    "public": true
+  },
+  "categoria": {
+    "dataSource": "db",
+    "public": true
+  },
+  "condicion": {
+    "dataSource": "db",
+    "public": true
+  },
+  "usuario": {
+    "dataSource": "db",
+    "public": true
   }
 }
