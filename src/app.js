@@ -15,30 +15,19 @@ app.use(bodyParser.json());
 app.use(cookieParser());
 app.use(session({
   key: 'user_sid',
-  secret: 'hermesmomolona',
+  secret: process.env.CTC_SESSION,
   resave: false,
   saveUninitialized: false,
   cookie: {
     expires: 600000,
   },
 }));
-app.use('/', usersRouter);
+app.use('/api', usersRouter);
 app.use((req, res, next) => {
   if (req.cookies.user_sid && !req.session.user) {
     res.clearCookie('user_sid');
   }
   next();
-});
-const sessionChecker = (req, res, next) => {
-  if (req.session.user && req.cookies.user_sid) {
-    next();
-  } else {
-    res.sendStatus(401);
-  }
-};
-
-app.get('/', sessionChecker, (req, res) => {
-  res.sendStatus(200);
 });
 
 const server = http.createServer(app);
