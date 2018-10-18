@@ -1,7 +1,7 @@
 {
   "name": "api",
   "version": "1.0.0",
-  "main": "server/server.js",
+  "main": "src/app.js",
   "engines": {
     "node": ">=4"
   },
@@ -10,25 +10,24 @@
   "license": "MIT",
   "dependencies": {
     "babel-cli": "^6.26.0",
-    "compression": "^1.0.3",
-    "cors": "^2.5.2",
+    "bcrypt": "^3.0.1",
+    "body-parser": "^1.18.3",
+    "cookie-parser": "^1.4.3",
     "eslint": "^5.6.1",
     "eslint-config-airbnb": "^17.1.0",
     "eslint-config-airbnb-base": "^13.1.0",
     "eslint-plugin-import": "^2.14.0",
-    "helmet": "^3.10.0",
-    "loopback": "^3.22.0",
-    "loopback-boot": "^2.6.5",
-    "loopback-component-explorer": "^6.2.0",
+    "express": "^4.16.4",
+    "express-session": "^1.15.6",
     "mocha": "^5.2.0",
-    "serve-favicon": "^2.0.1",
-    "strong-error-handler": "^3.0.0"
+    "nodemon": "^1.18.4",
+    "pg": "^7.5.0"
   },
   "scripts": {
-    "lint": "eslint -f json -o report.json server/server.js",
-    "start": "node .",
-    "build": "babel server -d build",
-    "serve": "node .",
+    "lint": "eslint -f json -o report.json src/",
+    "start": "nodemon -e css,ejs,js,json --watch app src/app.js --ignore 'feedback.json'",
+    "build": "babel src/ -d build",
+    "serve": "nodemon -e css,ejs,js,json --watch app src/app.js --ignore 'feedback.json'",
     "test": "mocha test"
   }
 }
