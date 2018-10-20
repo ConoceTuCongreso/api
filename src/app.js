@@ -3,6 +3,7 @@ const bodyParser = require('body-parser');
 const session = require('express-session');
 const cookieParser = require('cookie-parser');
 const http = require('http');
+const sessionChecker = require('./sessionChecker');
 
 const usersRouter = require('./routes/usuario');
 
@@ -28,6 +29,10 @@ app.use((req, res, next) => {
     res.clearCookie('user_sid');
   }
   next();
+});
+
+app.get('/', sessionChecker, (req, res) => {
+  res.sendStatus(200);
 });
 
 const server = http.createServer(app);

@@ -6,7 +6,31 @@ const saltRounds = 10;
 const router = express.Router();
 
 router.post('/login', (req, res) => {
-  res.sendStatus(200);
+  client.connect();
+  const query = {
+    name: 'fetch-user',
+    text: 'SELECT password_hash FROM users WHERE username = $1',
+    values: [req.body.username],
+  };
+  client.query(query)
+    .then((resq) => {
+      bcrypt.compare(req.body.password, resq.rows[0].password_hash).then((resb) => {
+        if (resb) {
+          res.sendStatus(200);
+        }
+      })
+        .catch((error) => {
+          console.log(error);
+          res.sendStatus(500);
+        });
+    })
+    .then(() => {
+      client.end();
+    })
+    .catch((error) => {
+      console.log(error);
+      res.sendStatus(500);
+    });
 });
 
 router.post('/logout', (req, res) => {
@@ -46,7 +70,7 @@ router.post('/registro', (req, res) => {
           req.session.user = {
             username: req.body.username,
             email: req.body.email,
-            password: req.body.password,
+            password: hash,
           };
           res.sendStatus(200);
         }
