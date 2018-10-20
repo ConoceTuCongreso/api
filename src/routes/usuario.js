@@ -66,7 +66,6 @@ router.post('/registro', (req, res) => {
               if (errq) {
                 res.sendStatus(500);
               } else {
-                pool.end();
                 req.session.user = {
                   username: req.body.username,
                   email: req.body.email,
