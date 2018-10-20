@@ -3,7 +3,7 @@ const bodyParser = require('body-parser');
 const session = require('express-session');
 const cookieParser = require('cookie-parser');
 const http = require('http');
-const sessionChecker = require('./sessionChecker');
+const sessionChecker = require('./utils/sessionChecker');
 
 const usersRouter = require('./routes/usuario');
 
