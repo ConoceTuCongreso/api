@@ -15,7 +15,6 @@ const config = {
   },
 };
 
+const pool = new pg.Pool(config);
 
-const client = new pg.Client(config);
-
-module.exports = client;
+module.exports = pool;
