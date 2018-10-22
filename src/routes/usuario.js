@@ -41,7 +41,7 @@ router.post('/registro', (req, res) => {
     const client = await pool.connect();
     try {
       const checkUsernameExist = await client.query('SELECT username FROM users WHERE username = $1', [req.body.username]);
-      if (checkUsernameExist.rows.length === 0) {
+      if (checkUsernameExist.rows.length !== 0) {
         res.send(`${req.body.username} already taken.`);
       } else {
         bcrypt.genSalt(saltRounds, (err, salt) => {
