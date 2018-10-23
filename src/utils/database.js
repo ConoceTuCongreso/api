@@ -2,10 +2,10 @@ const pg = require('pg');
 const fs = require('fs');
 
 const config = {
-  user: process.env.USER_POSTGRES,
+  user: process.env.USER_POSTGRES || 'postgres',
   database: process.env.DATABASE_POSTGRES,
-  host: process.env.HOST_POSTGRES,
-  port: process.env.PORT_POSTGRES,
+  host: process.env.HOST_POSTGRES || 'localhost',
+  port: process.env.PORT_POSTGRES || 5432,
   password: process.env.PASSWORD_POSTGRES,
   ssl: {
     rejectUnauthorized: false,
