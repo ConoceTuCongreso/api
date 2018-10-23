@@ -1,7 +1,7 @@
 const interactor = require('./Interactor');
 
 class UserInteractor extends interactor {
-  saveUser(user) {
+  async saveUser(user) {
     (async () => {
       const client = await this.getDB().connect();
       try {
