@@ -1,6 +1,7 @@
 const express = require('express');
 const bcrypt = require('bcrypt');
 const pool = require('../utils/database');
+const logger = require()
 
 const saltRounds = 10;
 const router = express.Router();
@@ -24,7 +25,9 @@ router.post('/login', (req, res) => {
     } finally {
       client.release();
     }
-  })().catch(() => res.sendStatus(500));
+  })().catch(() => {
+    res.sendStatus(500)
+  });
 });
 
 router.post('/logout', (req, res) => {
