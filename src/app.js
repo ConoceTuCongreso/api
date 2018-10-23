@@ -22,7 +22,7 @@ app.use(session({
     expires: 600000,
   },
 }));
-app.use(`/${process.env.PATH_PREFIX}`, usersRouter);
+app.use(`/${process.env.PATH_PREFIX || ''}`, usersRouter);
 app.use((req, res, next) => {
   if (req.cookies.user_sid && !req.session.user) {
     res.clearCookie('user_sid');
