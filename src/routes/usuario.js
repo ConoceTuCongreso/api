@@ -1,6 +1,7 @@
 const express = require('express');
 const bcrypt = require('bcrypt');
 const pool = require('../utils/database');
+const logger = require('../utils/logger');
 
 const saltRounds = 10;
 const router = express.Router();
@@ -24,7 +25,10 @@ router.post('/login', (req, res) => {
     } finally {
       client.release();
     }
-  })().catch(() => res.sendStatus(500));
+  })().catch((e) => {
+    logger.info(e);
+    res.sendStatus(500);
+  });
 });
 
 router.post('/logout', (req, res) => {
@@ -46,10 +50,12 @@ router.post('/registro', (req, res) => {
       } else {
         bcrypt.genSalt(saltRounds, (err, salt) => {
           if (err) {
+            logger.info(err);
             res.sendStatus(500);
           }
           bcrypt.hash(req.body.password, salt, (errh, hash) => {
             if (errh) {
+              logger.info(errh);
               res.sendStatus(500);
             }
             const query = {
@@ -64,6 +70,7 @@ router.post('/registro', (req, res) => {
             };
             client.query(query, (errq) => {
               if (errq) {
+                logger.info(errq);
                 res.sendStatus(500);
               } else {
                 req.session.user = {
@@ -80,7 +87,10 @@ router.post('/registro', (req, res) => {
     } finally {
       client.release();
     }
-  })().catch(() => res.sendStatus(500));
+  })().catch((e) => {
+    logger.info(e);
+    res.sendStatus(500);
+  });
 });
 
 module.exports = router;

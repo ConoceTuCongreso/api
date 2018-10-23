@@ -21,7 +21,8 @@
     "express-session": "^1.15.6",
     "mocha": "^5.2.0",
     "nodemon": "^1.18.4",
-    "pg": "^7.5.0"
+    "pg": "^7.5.0",
+    "winston": "^3.1.0"
   },
   "scripts": {
     "lint": "eslint -f json -o report.json src/",
