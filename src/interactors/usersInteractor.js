@@ -1,42 +1,57 @@
-const interactor = require('./Interactor');
+const interactor = require('./interactor');
 
 class UserInteractor extends interactor {
-  async saveUser(user) {
-    (async () => {
-      const client = await this.getDB().connect();
-      try {
-        const query = {
-          text: 'INSERT INTO users(first_name, user_id, username, middle_name, last_name, email, password_salt, password_hash) VALUES($1, (SELECT uuid_generate_v1()), $2, $3, $4, $5, $6, $7)',
-          values: [user.first_name,
-            user.username,
-            user.middle_name,
-            user.last_name,
-            user.email,
-            user.salt,
-            user.hash],
-        };
-        const queryResponse = await client.query(query);
-        return queryResponse.rows[0];
-      } finally {
-        client.release();
-      }
-    })().catch(e => console.log(e));
+  saveUser(user) {
+    return this.getDB().connect()
+      .then((client) => {
+        const text = 'INSERT INTO users(first_name, user_id, username, middle_name, last_name, email, password_salt, password_hash) VALUES($1, (SELECT uuid_generate_v1()), $2, $3, $4, $5, $6, $7) RETURNING *';
+        const values = [user.first_name,
+          user.username,
+          user.middle_name,
+          user.last_name,
+          user.email,
+          user.salt,
+          user.hash];
+        return client.query(text, values)
+          .then((result) => {
+            client.release();
+            return result;
+          })
+          .catch((e) => {
+            client.release();
+            this.getLogger().error(`Request to insert failed. ${e}`);
+            return e;
+          });
+      })
+      .catch((e) => {
+        this.getLogger().error(e);
+        return e;
+      });
   }
 
-  getUser(user) {
-    (async () => {
-      const client = await this.getDB().connect();
-      try {
+  getUser(variableToLookUp, nameOfVariableToUse = 'username') {
+    return this.getDB().connect()
+      .then((client) => {
         const query = {
-          text: 'SELECT * FROM users WHERE username = $1',
-          values: [user.name],
+          text: `SELECT * FROM users WHERE ${nameOfVariableToUse} = $1`,
+          values: [variableToLookUp],
         };
-        const queryResponse = await client.query(query);
-        return queryResponse.rows[0];
-      } finally {
-        client.release();
-      }
-    })().catch(e => console.log(e));
+        return client.query(query)
+          .then((queryResponse) => {
+            client.release();
+            this.getLogger().info(`Request for user ${variableToLookUp}.`);
+            return (queryResponse.rows[0]);
+          })
+          .catch((e) => {
+            client.release();
+            this.getLogger().error(`Request for user ${variableToLookUp} failed. ${e}`);
+            return e;
+          });
+      })
+      .catch((e) => {
+        this.getLogger().error(e);
+        return e;
+      });
   }
 }
 
