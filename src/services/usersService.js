@@ -1,6 +1,6 @@
-const interactor = require('./interactor');
+const DBServices = require('./DBServices');
 
-class UserInteractor extends interactor {
+class UserService extends DBServices {
   saveUser(user) {
     return this.getDB().connect()
       .then((client) => {
@@ -25,7 +25,7 @@ class UserInteractor extends interactor {
       })
       .catch((e) => {
         this.getLogger().error(e);
-        return e;
+        throw new this.Error(500, 'Error Connecting to database');
       });
   }
 
@@ -50,9 +50,9 @@ class UserInteractor extends interactor {
       })
       .catch((e) => {
         this.getLogger().error(e);
-        return e;
+        throw new this.Error(500, 'Error Connecting to database');
       });
   }
 }
 
-module.exports = UserInteractor;
+module.exports = UserService;

@@ -19,7 +19,9 @@ class Encryptor {
             salt,
           };
           return hashWithSalt;
-        }));
+        })
+        .catch(e => e))
+      .catch(e => e);
   }
 
   compare(password, passwordHash) {
@@ -27,7 +29,8 @@ class Encryptor {
       .then((match) => {
         const toReturn = match;
         return toReturn;
-      });
+      })
+      .catch(e => e);
   }
 }
 

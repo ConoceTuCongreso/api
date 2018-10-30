@@ -1,4 +1,5 @@
-const Logger = require('../utils/logger');
+const Logger = require('../../utils/logger');
+const Error = require('../../utils/statusError');
 
 class InputValidation {
   constructor() {
@@ -7,6 +8,7 @@ class InputValidation {
 
   init() {
     this.logger = new Logger();
+    this.Error = Error;
   }
 
   getLogger() {

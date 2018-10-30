@@ -1,19 +1,35 @@
-const UserInteractor = require('../interactors/usersInteractor');
 const Encryptor = require('../utils/encryptor');
 const Logger = require('../utils/logger');
+const UserService = require('../services/usersService');
+const LoginDBValidation = require('../validations/database/loginDBValidation');
+const SignupDBValidation = require('../validations/database/signupDBValidation');
+const LoginValidation = require('../validations/input/loginValidation');
+const SignupValidation = require('../validations/input/signupValidation');
 
 const logger = new Logger();
-const userInteractor = new UserInteractor();
 const encryptor = new Encryptor();
+const userService = new UserService();
+const loginDBValidation = new LoginDBValidation();
+const signupDBValidation = new SignupDBValidation();
+const loginValidation = new LoginValidation();
+const signupValidation = new SignupValidation();
 
 exports.login = (req, res) => {
-  req.session.user = {
-    username: req.body.username,
-    email: req.body.email,
-    password: req.password,
-  };
-  logger.info(`Successful login, user: ${req.body.username}.`);
-  res.status(200).send('Successful Login.');
+  const params = { username: req.body.username, password: req.body.password };
+  loginValidation.validateInput(params.username, params.password);
+  loginDBValidation.validateUsernamePassword(params.username, params.password)
+    .then((pass) => {
+      req.session.user = {
+        username: req.body.username,
+        email: req.body.email,
+        password: pass,
+      };
+      logger.info(`Successful login, user: ${req.body.username}.`);
+      res.status(200).send('Successful Login.');
+    })
+    .catch((e) => {
+      res.status(e.code).send(e.msg);
+    });
 };
 
 exports.logout = (req, res) => {
@@ -27,31 +43,53 @@ exports.logout = (req, res) => {
 };
 
 exports.signup = (req, res) => {
-  encryptor.encrypt(req.body.password)
-    .then((pass) => {
-      userInteractor.saveUser(
-        {
-          first_name: req.body.first_name,
-          username: req.body.username,
-          middle_name: req.body.middle_name || '',
-          last_name: req.body.last_name,
-          email: req.body.email,
-          salt: pass.salt,
-          hash: pass.password,
-        },
-      )
+  const params = {
+    first_name: req.body.first_name,
+    username: req.body.username,
+    middle_name: req.body.middle_name || '',
+    last_name: req.body.last_name,
+    email: req.body.email,
+    password: req.body.password,
+  };
+
+  signupValidation.validateInput(params);
+  signupDBValidation.validateUsername(params.username)
+    .then(() => {
+      signupDBValidation.validateEmail(params.email)
         .then(() => {
-          req.session.user = {
-            username: req.body.username,
-            email: req.body.email,
-            password: pass.password,
-          };
-          logger.info(`Successful registration, user: ${req.body.username}, email ${req.body.email}`);
-          res.status('200').send('Successful registration');
+          encryptor.encrypt(req.body.password)
+            .then((pass) => {
+              userService.saveUser(
+                {
+                  first_name: req.body.first_name,
+                  username: req.body.username,
+                  middle_name: req.body.middle_name || '',
+                  last_name: req.body.last_name,
+                  email: req.body.email,
+                  salt: pass.salt,
+                  hash: pass.password,
+                },
+              )
+                .then(() => {
+                  req.session.user = {
+                    username: req.body.username,
+                    email: req.body.email,
+                    password: pass.password,
+                  };
+                  logger.info(`Successful registration, user: ${req.body.username}, email ${req.body.email}`);
+                  res.status('200').send('Successful registration');
+                })
+                .catch((e) => {
+                  logger.error(e);
+                  res.status('500').send('Error connecting to the database');
+                });
+            });
         })
         .catch((e) => {
-          logger.error(e);
-          res.status('500').send('Error connecting to the database');
+          res.status(e.code).send(e.msg);
         });
+    })
+    .catch((e) => {
+      res.status(e.code).send(e.msg);
     });
 };

@@ -1,9 +1,10 @@
 const db = require('../utils/database');
 const Logger = require('../utils/logger');
+const Error = require('../utils/statusError');
 
 const logger = new Logger();
 
-class Interactor {
+class DBService {
   constructor() {
     this.init();
   }
@@ -11,6 +12,7 @@ class Interactor {
   init() {
     this.db = db;
     this.logger = logger;
+    this.Error = Error;
   }
 
   getDB() {
@@ -22,4 +24,4 @@ class Interactor {
   }
 }
 
-module.exports = Interactor;
+module.exports = DBService;
