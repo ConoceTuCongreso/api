@@ -4,7 +4,7 @@ class UserService extends DBServices {
   saveUser(user) {
     return this.getDB().connect()
       .then((client) => {
-        const text = 'INSERT INTO users(first_name, user_id, username, middle_name, last_name, email, password_salt, password_hash) VALUES($1, (SELECT uuid_generate_v1()), $2, $3, $4, $5, $6, $7) RETURNING *';
+        const text = 'INSERT INTO users(first_name, user_id, username, middle_name, last_name, email, password_salt, password_hash) VALUES($1, (SELECT uuid_generate_v4()), $2, $3, $4, $5, $6, $7) RETURNING *';
         const values = [user.first_name,
           user.username,
           user.middle_name,

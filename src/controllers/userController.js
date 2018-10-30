@@ -16,7 +16,12 @@ const signupValidation = new SignupValidation();
 
 exports.login = (req, res) => {
   const params = { username: req.body.username, password: req.body.password };
-  loginValidation.validateInput(params.username, params.password);
+  try {
+    loginValidation.validateInput(params.username, params.password);
+  } catch (e) {
+    res.status(e.code).send(e.msg);
+    return;
+  }
   loginDBValidation.validateUsernamePassword(params.username, params.password)
     .then((pass) => {
       req.session.user = {
@@ -52,7 +57,12 @@ exports.signup = (req, res) => {
     password: req.body.password,
   };
 
-  signupValidation.validateInput(params);
+  try {
+    signupValidation.validateInput(params);
+  } catch (e) {
+    res.status(e.code).send(e.msg);
+    return;
+  }
   signupDBValidation.validateUsername(params.username)
     .then(() => {
       signupDBValidation.validateEmail(params.email)
