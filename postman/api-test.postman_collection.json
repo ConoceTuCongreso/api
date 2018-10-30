@@ -1,0 +1,107 @@
+{
+	"info": {
+		"_postman_id": "041e1eeb-1d71-432b-b558-e5496d775e2c",
+		"name": "api-test",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Create",
+			"description": "",
+			"item": [
+				{
+					"name": "Happy Path",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "591c939c-d10b-425c-b0d4-5408812ceb14",
+								"type": "text/javascript",
+								"exec": [
+									"pm.test(\"Response code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									""
+								]
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "1e86aee1-709f-4544-b971-2c8a5bf527b4",
+								"type": "text/javascript",
+								"exec": [
+									""
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/x-www-form-urlencoded"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "first_name",
+									"value": "John",
+									"description": "First name of the user (REQUIRED)",
+									"type": "text"
+								},
+								{
+									"key": "middle_name",
+									"value": "H",
+									"description": "Middle name of the user",
+									"type": "text"
+								},
+								{
+									"key": "last_name",
+									"value": "Doe",
+									"description": "Last name of the user (REQUIRED)",
+									"type": "text"
+								},
+								{
+									"key": "username",
+									"value": "johndoe8",
+									"description": "Username of the user (REQUIRED)",
+									"type": "text"
+								},
+								{
+									"key": "email",
+									"value": "johndoe2@internet.com",
+									"description": "Email of the user (REQUIRED)",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "P4ssw0rd",
+									"description": "Password of the user (REQUIRED)",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{SCHEME}}://{{HOST}}:{{PORT}}/api/registro",
+							"protocol": "{{SCHEME}}",
+							"host": [
+								"{{HOST}}"
+							],
+							"port": "{{PORT}}",
+							"path": [
+								"api",
+								"registro"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}

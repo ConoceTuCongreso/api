@@ -88,3 +88,6 @@ report.json
 .project
 .strong-pm
 coverage
+
+# Private files
+secret/

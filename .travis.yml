@@ -2,19 +2,35 @@ language: node_js
 node_js:
   - "8.12"
 
-install:
-  - yarn install --ignore-engines
-
 addons:
   sonarcloud:
     organization: "conoce-tu-congreso"
     token: "$SONAR_TOKEN"
+
+services:
+  - postgresql
+
+env:
+  - HOST_POSTGRES=localhost
+  - DATABASE_POSTGRES=test
+  - USER_POSTGRES=postgres
+  - SSL_MODE=false
+
+before_script:
+  - psql -U postgres -c 'CREATE DATABASE test;'
+  - psql -U postgres -d test -c 'CREATE EXTENSION IF NOT EXISTS "uuid-ossp";'
+  - psql -U postgres -d test -a -f schema.sql
+
+install:
+  - yarn install --ignore-engines
 
 script:
   - yarn build
   - yarn lint
   - yarn test
   - sonar-scanner
+  - yarn start &
+  - yarn integrate
 
 branches:
   only:
