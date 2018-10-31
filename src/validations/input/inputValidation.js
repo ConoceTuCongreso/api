@@ -15,10 +15,8 @@ class InputValidation {
     return this.logger;
   }
 
-  validateInput(req, res, next) {
-    this.logger.info(req);
-    this.logger.info(res);
-    next();
+  validateInput() {
+    this.logger.info('Any subclass from InputValidation needs to implement method validateInput');
     return new Error('Any subclass needs to implement this method');
   }
 }
