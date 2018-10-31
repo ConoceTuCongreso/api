@@ -21,6 +21,7 @@
     "express": "^4.16.4",
     "express-session": "^1.15.6",
     "mocha": "^5.2.0",
+    "newman": "^4.1.0",
     "nodemon": "^1.18.4",
     "pg": "^7.5.0",
     "winston": "^3.1.0"
@@ -30,6 +31,7 @@
     "start": "nodemon -e css,ejs,js,json --watch app src/app.js --ignore 'feedback.json'",
     "build": "babel src/ -d build",
     "serve": "nodemon -e css,ejs,js,json --watch app src/app.js --ignore 'feedback.json'",
-    "test": "mocha test"
+    "test": "mocha test",
+    "integrate": "node_modules/.bin/newman run postman/api-test.postman_collection.json -e  postman/Local.postman_environment.json"
   }
 }
