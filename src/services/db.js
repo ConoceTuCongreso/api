@@ -1,6 +1,6 @@
 const db = require('../utils/database');
 const Logger = require('../utils/logger');
-const Error = require('../utils/statusError');
+const Error = require('../errors/statusError');
 
 const logger = new Logger();
 

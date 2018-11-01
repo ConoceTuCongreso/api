@@ -1,28 +1,22 @@
 const express = require('express');
 const Logger = require('../utils/logger');
-const LoginValidator = require('../validations/input/loginValidation');
-const SignupValidator = require('../validations/input/signupValidation');
-const LoginDBValidation = require('../validations/database/loginDBValidation');
-const SignupDBValidation = require('../validations/database/signupDBValidation');
-const UserService = require('../services/usersService');
+const Encryptor = require('../services/encryptor');
+const UserValidation = require('../validations/userValidation');
+const UserService = require('../services/userService');
 const UserController = require('../controllers/user');
 
 const router = express.Router();
 
 // Init validators and services
 const logger = new Logger();
-const loginValidator = new LoginValidator();
-const signupValidator = new SignupValidator();
-const loginDBValidation = new LoginDBValidation();
-const signupDBValidation = new SignupDBValidation();
+const encryptor = new Encryptor();
 const userService = new UserService();
+const userValidation = new UserValidation();
 const userController = new UserController(
   logger,
-  loginValidator,
-  signupValidator,
-  loginDBValidation,
-  signupDBValidation,
+  encryptor,
   userService,
+  userValidation,
 );
 
 router.post('/login', userController.login);

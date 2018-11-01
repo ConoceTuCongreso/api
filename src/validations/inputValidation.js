@@ -1,7 +1,7 @@
-const Logger = require('../../utils/logger');
-const Error = require('../../utils/statusError');
+const Logger = require('../utils/logger');
+const Error = require('../errors/statusError');
 
-class DBValidation {
+class InputValidation {
   constructor() {
     this.init();
   }
@@ -16,4 +16,4 @@ class DBValidation {
   }
 }
 
-module.exports = DBValidation;
+module.exports = InputValidation;

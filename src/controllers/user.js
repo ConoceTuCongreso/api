@@ -1,13 +1,9 @@
 class User {
-  constructor(logger, encryptor, userService, loginDBValidation,
-    signupDBValidation, loginValidation, signupValidation) {
+  constructor(logger, encryptor, userService, userValidation) {
     this.logger = logger;
     this.encryptor = encryptor;
     this.userService = userService;
-    this.loginDBValidation = loginDBValidation;
-    this.signupDBValidation = signupDBValidation;
-    this.loginValidation = loginValidation;
-    this.signupValidation = signupValidation;
+    this.userValidation = userValidation;
 
     this.login = this.login.bind(this);
     this.logout = this.logout.bind(this);
@@ -17,12 +13,12 @@ class User {
   login(req, res) {
     const params = { username: req.body.username, password: req.body.password };
     try {
-      this.loginValidation.validateInput(params.username, params.password);
+      this.userValidation.validateInputLogin(params.username, params.password);
     } catch (e) {
       res.status(e.code).send(e.msg);
       return;
     }
-    this.loginDBValidation.validateUsernamePassword(params.username, params.password)
+    this.userService.validateUsernamePassword(params.username, params.password)
       .then((pass) => {
         req.session.user = {
           username: req.body.username,
@@ -58,14 +54,14 @@ class User {
     };
 
     try {
-      this.signupValidation.validateInput(params);
+      this.userValidation.validateInputSignup(params);
     } catch (e) {
       res.status(e.code).send(e.msg);
       return;
     }
-    this.signupDBValidation.validateUsername(params.username)
+    this.userService.validateUsername(params.username)
       .then(() => {
-        this.signupDBValidation.validateEmail(params.email)
+        this.userService.validateEmail(params.email)
           .then(() => {
             this.encryptor.encrypt(req.body.password)
               .then((pass) => {
