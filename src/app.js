@@ -25,13 +25,18 @@ app.use(session({
     expires: 600000,
   },
 }));
-app.use(`/${process.env.PATH_PREFIX || ''}`, usersRouter);
+app.use((req, res, next) => {
+  res.removeHeader('Transfer-Encoding');
+  res.removeHeader('X-Powered-By');
+  next();
+});
 app.use((req, res, next) => {
   if (req.cookies.user_sid && !req.session.user) {
     res.clearCookie('user_sid');
   }
   next();
 });
+app.use(`/${process.env.PATH_PREFIX || ''}`, usersRouter);
 
 const server = http.createServer(app);
 
