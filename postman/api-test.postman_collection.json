@@ -6,22 +6,25 @@
 	},
 	"item": [
 		{
-			"name": "Create",
+			"name": "Sign up",
 			"description": "",
 			"item": [
 				{
-					"name": "Happy Path",
+					"name": "Happy path",
 					"event": [
 						{
 							"listen": "test",
 							"script": {
-								"id": "591c939c-d10b-425c-b0d4-5408812ceb14",
+								"id": "ede6afe8-690f-4ab7-88f3-ee25bdff4b37",
 								"type": "text/javascript",
 								"exec": [
-									"pm.test(\"Response code is 200\", function () {",
+									"pm.test(\"Response code is 200\", () => {",
 									"    pm.response.to.have.status(200);",
 									"});",
 									"",
+									"pm.test(\"Response body is successful\", () => {",
+									"    pm.expect(pm.response.text()).to.include(\"OK\");",
+									"})",
 									""
 								]
 							}
@@ -42,60 +45,193 @@
 						"header": [
 							{
 								"key": "Content-Type",
-								"value": "application/x-www-form-urlencoded"
+								"value": "application/json"
 							}
 						],
 						"body": {
-							"mode": "urlencoded",
-							"urlencoded": [
-								{
-									"key": "first_name",
-									"value": "John",
-									"description": "First name of the user (REQUIRED)",
-									"type": "text"
-								},
-								{
-									"key": "middle_name",
-									"value": "H",
-									"description": "Middle name of the user",
-									"type": "text"
-								},
-								{
-									"key": "last_name",
-									"value": "Doe",
-									"description": "Last name of the user (REQUIRED)",
-									"type": "text"
-								},
-								{
-									"key": "username",
-									"value": "johndoe8",
-									"description": "Username of the user (REQUIRED)",
-									"type": "text"
-								},
-								{
-									"key": "email",
-									"value": "johndoe2@internet.com",
-									"description": "Email of the user (REQUIRED)",
-									"type": "text"
-								},
-								{
-									"key": "password",
-									"value": "P4ssw0rd",
-									"description": "Password of the user (REQUIRED)",
-									"type": "text"
-								}
-							]
+							"mode": "raw",
+							"raw": "{\n\t\"first_name\": \"Juan\",\n\t\"last_name\": \"Pérez\",\n\t\"middle_name\": \"López\",\n\t\"username\": \"jperez1\",\n\t\"email\": \"jperez@gmail.com\",\n\t\"password\": \"Sup3rS3cr3t\"\n}"
 						},
 						"url": {
-							"raw": "{{SCHEME}}://{{HOST}}:{{PORT}}/api/registro",
+							"raw": "{{SCHEME}}://{{HOST}}:{{PORT}}{{PREFIX}}/signup",
 							"protocol": "{{SCHEME}}",
 							"host": [
 								"{{HOST}}"
 							],
-							"port": "{{PORT}}",
+							"port": "{{PORT}}{{PREFIX}}",
 							"path": [
-								"api",
-								"registro"
+								"signup"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Existing user",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "6a4c0e20-fce7-429b-9f65-c74e6d973422",
+								"type": "text/javascript",
+								"exec": [
+									"pm.test(\"Response code is 409\", () => {",
+									"    pm.response.to.have.status(409);",
+									"});",
+									"",
+									"pm.test(\"Response body is error\", () => {",
+									"    pm.expect(pm.response.text()).to.include(\"Username and/or email already registered\");",
+									"})",
+									""
+								]
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "1e86aee1-709f-4544-b971-2c8a5bf527b4",
+								"type": "text/javascript",
+								"exec": [
+									""
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"first_name\": \"Laura\",\n\t\"last_name\": \"Pérez\",\n\t\"middle_name\": \"López\",\n\t\"username\": \"lperez1\",\n\t\"email\": \"lperez@gmail.com\",\n\t\"password\": \"Sup3rS3cr3t\"\n}"
+						},
+						"url": {
+							"raw": "{{SCHEME}}://{{HOST}}:{{PORT}}{{PREFIX}}/signup",
+							"protocol": "{{SCHEME}}",
+							"host": [
+								"{{HOST}}"
+							],
+							"port": "{{PORT}}{{PREFIX}}",
+							"path": [
+								"signup"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Invalid email",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "f5a893c7-8527-4b56-a8c2-d572450597c7",
+								"type": "text/javascript",
+								"exec": [
+									"pm.test(\"Response code is 400\", () => {",
+									"    pm.response.to.have.status(400);",
+									"});",
+									"",
+									"pm.test(\"Response body is error\", () => {",
+									"    pm.expect(pm.response.text()).to.include(\"Username and/or email already registered\");",
+									"})",
+									""
+								]
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "1e86aee1-709f-4544-b971-2c8a5bf527b4",
+								"type": "text/javascript",
+								"exec": [
+									""
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"first_name\": \"Pedro\",\n\t\"last_name\": \"Pérez\",\n\t\"middle_name\": \"López\",\n\t\"username\": \"pperez1\",\n\t\"email\": \"notAnEmail\",\n\t\"password\": \"Sup3rS3cr3t\"\n}"
+						},
+						"url": {
+							"raw": "{{SCHEME}}://{{HOST}}:{{PORT}}{{PREFIX}}/signup",
+							"protocol": "{{SCHEME}}",
+							"host": [
+								"{{HOST}}"
+							],
+							"port": "{{PORT}}{{PREFIX}}",
+							"path": [
+								"signup"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Invalid password",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "3ed61098-9e37-44ad-9053-48cd89247f7f",
+								"type": "text/javascript",
+								"exec": [
+									"pm.test(\"Response code is 400\", () => {",
+									"    pm.response.to.have.status(400);",
+									"});",
+									"",
+									"pm.test(\"Response body is error\", () => {",
+									"    pm.expect(pm.response.text()).to.include(\"Password is too weak\");",
+									"})",
+									""
+								]
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "1e86aee1-709f-4544-b971-2c8a5bf527b4",
+								"type": "text/javascript",
+								"exec": [
+									""
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"first_name\": \"Pedro\",\n\t\"last_name\": \"Pérez\",\n\t\"middle_name\": \"López\",\n\t\"username\": \"pperez1\",\n\t\"email\": \"notAnEmail\",\n\t\"password\": \"Sup3rS3cr3t\"\n}"
+						},
+						"url": {
+							"raw": "{{SCHEME}}://{{HOST}}:{{PORT}}{{PREFIX}}/signup",
+							"protocol": "{{SCHEME}}",
+							"host": [
+								"{{HOST}}"
+							],
+							"port": "{{PORT}}{{PREFIX}}",
+							"path": [
+								"signup"
 							]
 						}
 					},
