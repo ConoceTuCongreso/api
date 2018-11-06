@@ -15,15 +15,15 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "ede6afe8-690f-4ab7-88f3-ee25bdff4b37",
+								"id": "05a9245a-6348-4c71-a894-6e6535c78449",
 								"type": "text/javascript",
 								"exec": [
-									"pm.test(\"Response code is 200\", () => {",
+									"pm.test('Response code is 200', () => {",
 									"    pm.response.to.have.status(200);",
 									"});",
 									"",
-									"pm.test(\"Response body is successful\", () => {",
-									"    pm.expect(pm.response.text()).to.include(\"OK\");",
+									"pm.test('Response body contains \"OK\"', () => {",
+									"    pm.expect(pm.response.text()).to.include('OK');",
 									"})",
 									""
 								]
@@ -72,15 +72,15 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "6a4c0e20-fce7-429b-9f65-c74e6d973422",
+								"id": "75c0c8e0-73c8-4b1c-8e21-a017ea47945d",
 								"type": "text/javascript",
 								"exec": [
-									"pm.test(\"Response code is 409\", () => {",
+									"pm.test('Response code is 409', () => {",
 									"    pm.response.to.have.status(409);",
 									"});",
 									"",
-									"pm.test(\"Response body is error\", () => {",
-									"    pm.expect(pm.response.text()).to.include(\"Username and/or email already registered\");",
+									"pm.test('Response body contains \"Username and/or email already registered\"', () => {",
+									"    pm.expect(pm.response.text()).to.include('Username and/or email already registered');",
 									"})",
 									""
 								]
@@ -129,15 +129,15 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "f5a893c7-8527-4b56-a8c2-d572450597c7",
+								"id": "4e4a14d0-7c86-4527-893b-37f9b20da8da",
 								"type": "text/javascript",
 								"exec": [
-									"pm.test(\"Response code is 400\", () => {",
+									"pm.test('Response code is 400', () => {",
 									"    pm.response.to.have.status(400);",
 									"});",
 									"",
-									"pm.test(\"Response body is error\", () => {",
-									"    pm.expect(pm.response.text()).to.include(\"Username and/or email already registered\");",
+									"pm.test('Response body contains \"Username and/or email already registered\"', () => {",
+									"    pm.expect(pm.response.text()).to.include('Username and/or email already registered');",
 									"})",
 									""
 								]
@@ -186,15 +186,15 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "3ed61098-9e37-44ad-9053-48cd89247f7f",
+								"id": "491482c1-fe72-4a15-ab82-f90fa7c544e7",
 								"type": "text/javascript",
 								"exec": [
-									"pm.test(\"Response code is 400\", () => {",
+									"pm.test('Response code is 400', () => {",
 									"    pm.response.to.have.status(400);",
 									"});",
 									"",
-									"pm.test(\"Response body is error\", () => {",
-									"    pm.expect(pm.response.text()).to.include(\"Password is too weak\");",
+									"pm.test('Response body contains \"Password is too weak\"', () => {",
+									"    pm.expect(pm.response.text()).to.include('Password is too weak');",
 									"})",
 									""
 								]
