@@ -50,7 +50,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\t\"first_name\": \"Juan\",\n\t\"last_name\": \"Pérez\",\n\t\"middle_name\": \"López\",\n\t\"username\": \"jperez1\",\n\t\"email\": \"jperez@gmail.com\",\n\t\"password\": \"Sup3rS3cr3t\"\n}"
+							"raw": "{\n\t\"first_name\": \"Juan\",\n\t\"last_name\": \"Pérez\",\n\t\"middle_name\": \"López\",\n\t\"username\": \"jperez1\",\n\t\"email\": \"jperez@gmail.com\",\n\t\"password\": \"Sup3rS3cr3t!\"\n}"
 						},
 						"url": {
 							"raw": "{{SCHEME}}://{{HOST}}:{{PORT}}{{PREFIX}}/signup",
@@ -107,7 +107,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\t\"first_name\": \"Laura\",\n\t\"last_name\": \"Pérez\",\n\t\"middle_name\": \"López\",\n\t\"username\": \"lperez1\",\n\t\"email\": \"lperez@gmail.com\",\n\t\"password\": \"Sup3rS3cr3t\"\n}"
+							"raw": "{\n\t\"first_name\": \"Laura\",\n\t\"last_name\": \"Pérez\",\n\t\"middle_name\": \"López\",\n\t\"username\": \"lperez1\",\n\t\"email\": \"lperez@gmail.com\",\n\t\"password\": \"Sup3rS3cr3t!\"\n}"
 						},
 						"url": {
 							"raw": "{{SCHEME}}://{{HOST}}:{{PORT}}{{PREFIX}}/signup",
@@ -164,7 +164,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\t\"first_name\": \"Pedro\",\n\t\"last_name\": \"Pérez\",\n\t\"middle_name\": \"López\",\n\t\"username\": \"pperez1\",\n\t\"email\": \"notAnEmail\",\n\t\"password\": \"Sup3rS3cr3t\"\n}"
+							"raw": "{\n\t\"first_name\": \"Pedro\",\n\t\"last_name\": \"Pérez\",\n\t\"middle_name\": \"López\",\n\t\"username\": \"pperez1\",\n\t\"email\": \"notAnEmail\",\n\t\"password\": \"Sup3rS3cr3t!\"\n}"
 						},
 						"url": {
 							"raw": "{{SCHEME}}://{{HOST}}:{{PORT}}{{PREFIX}}/signup",
@@ -221,7 +221,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\t\"first_name\": \"Pedro\",\n\t\"last_name\": \"Pérez\",\n\t\"middle_name\": \"López\",\n\t\"username\": \"pperez1\",\n\t\"email\": \"notAnEmail\",\n\t\"password\": \"Sup3rS3cr3t\"\n}"
+							"raw": "{\n\t\"first_name\": \"Pedro\",\n\t\"last_name\": \"Pérez\",\n\t\"middle_name\": \"López\",\n\t\"username\": \"pperez1\",\n\t\"email\": \"notAnEmail\",\n\t\"password\": \"password\"\n}"
 						},
 						"url": {
 							"raw": "{{SCHEME}}://{{HOST}}:{{PORT}}{{PREFIX}}/signup",
