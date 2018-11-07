@@ -10,7 +10,7 @@ class UserService extends DBServices {
   saveUser(user) {
     return this.getDB().connect()
       .then((client) => {
-        const text = 'INSERT INTO users(first_name, user_id, username, middle_name, last_name, email, password_salt, password_hash) VALUES($1, (SELECT uuid_generate_v4()), $2, $3, $4, $5, $6, $7) RETURNING *';
+        const text = 'INSERT INTO users(first_name, user_id, username, middle_name, last_name, email, password_salt, password_hash) VALUES($1, (SELECT uuid_generate_v4()), $2, $3, $4, $5, $6, $7)';
         const values = [user.first_name,
           user.username,
           user.middle_name,
@@ -45,12 +45,12 @@ class UserService extends DBServices {
         return client.query(query)
           .then((queryResponse) => {
             client.release();
-            this.getLogger().info(`Request for user ${variableToLookUp}.`);
+            this.getLogger().info(`Request for ${nameOfVariableToUse} ${variableToLookUp}.`);
             return (queryResponse.rows[0]);
           })
           .catch((e) => {
             client.release();
-            this.getLogger().error(`Request for user ${variableToLookUp} failed. ${e}`);
+            this.getLogger().error(`Request for ${nameOfVariableToUse} ${variableToLookUp} failed. ${e}`);
             return e;
           });
       })
@@ -92,7 +92,7 @@ class UserService extends DBServices {
       .then((user) => {
         if (user) {
           this.getLogger().info('Username already taken.');
-          throw new this.Error(409, 'Username already taken.');
+          throw new this.Error(409, 'Username and/or email already registered');
         }
       })
       .catch((e) => {
@@ -106,7 +106,7 @@ class UserService extends DBServices {
       .then((user) => {
         if (user) {
           this.getLogger().info('Email already taken.');
-          throw new this.Error(409, 'Email already taken.');
+          throw new this.Error(400, 'Username and/or email already registered');
         }
       })
       .catch((e) => {

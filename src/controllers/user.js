@@ -26,7 +26,7 @@ class User {
           password: pass,
         };
         this.logger.info(`Successful login, user: ${req.body.username}.`);
-        res.status(200).send('Successful Login.');
+        res.status(200).send('OK');
       })
       .catch((e) => {
         res.status(e.code).send(e.msg);
@@ -37,7 +37,7 @@ class User {
     if (req.session.user && req.cookies.user_sid) {
       res.clearCookie('user_sid');
       this.logger.info('Successful logout');
-      res.status(200).send('Successful sign out.');
+      res.status(200).send('OK');
     } else {
       res.status(400).send('You must be logged in to sign out.');
     }
@@ -83,7 +83,7 @@ class User {
                       password: pass.password,
                     };
                     this.logger.info(`Successful registration, user: ${req.body.username}, email ${req.body.email}`);
-                    res.status('200').send('Successful registration');
+                    res.status('200').send('OK');
                   })
                   .catch((e) => {
                     this.logger.error(e);
