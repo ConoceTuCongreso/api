@@ -5,7 +5,7 @@ const session = require('express-session');
 const cookieParser = require('cookie-parser');
 const http = require('http');
 
-const usersRouter = require('./routes/usuario');
+const usersRouter = require('./routes/users');
 
 const app = express();
 
