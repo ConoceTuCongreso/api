@@ -7,9 +7,25 @@ class UserValidation extends inputValidation {
     this.getLogger = this.getLogger.bind(this);
   }
 
-  validateInputLogin(username, password) {
-    if (!username || !password) {
-      this.getLogger().info('Missing required parameters.');
+  validateInputLogin(params) {
+    if (params.username && params.email) {
+      this.getLogger().info('Received too many parameters.');
+      throw new this.Error(400, 'Received too many parameters.');
+    }
+    if (params.username && !params.email) {
+      if (!params.password) {
+        this.getLogger().info(`Missing required parameters. ${params.username} ${params.email} ${params.password}`);
+        throw new this.Error(400, 'Missing required parameters.');
+      }
+    }
+    if (!params.username && params.email) {
+      if (!params.password) {
+        this.getLogger().info(`Missing required parameters. ${params.username} ${params.email} ${params.password}`);
+        throw new this.Error(400, 'Missing required parameters.');
+      }
+    }
+    if ((!params.username && !params.email) || !params.password) {
+      this.getLogger().info(`Missing required parameters. ${params.username} ${params.email} ${params.password}`);
       throw new this.Error(400, 'Missing required parameters.');
     }
   }

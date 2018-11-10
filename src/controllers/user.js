@@ -11,14 +11,18 @@ class User {
   }
 
   login(req, res) {
-    const params = { username: req.body.username, password: req.body.password };
+    const params = {
+      username: req.body.username,
+      email: req.body.email,
+      password: req.body.password,
+    };
     try {
-      this.userValidation.validateInputLogin(params.username, params.password);
+      this.userValidation.validateInputLogin(params);
     } catch (e) {
       res.status(e.code).send(e.msg);
       return;
     }
-    this.userService.validateUsernamePassword(params.username, params.password)
+    this.userService.validateUsernamePassword(params.username, params.email, params.password)
       .then((pass) => {
         req.session.user = {
           username: req.body.username,
@@ -36,10 +40,11 @@ class User {
   logout(req, res) {
     if (req.session.user && req.cookies.user_sid) {
       res.clearCookie('user_sid');
+      res.removeHeader('Set-Cookie');
       this.logger.info('Successful logout');
-      res.status(200).send('OK');
+      res.status(205).send('OK');
     } else {
-      res.status(400).send('You must be logged in to sign out.');
+      res.status(205).send('You must be logged in to sign out.');
     }
   }
 

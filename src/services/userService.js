@@ -60,12 +60,18 @@ class UserService extends DBServices {
       });
   }
 
-  validateUsernamePassword(username, password) {
-    return this.getUser(username)
+  validateUsernamePassword(username, email, password) {
+    let nameOfVariableToUse = 'username';
+    let variableToLookUp = username;
+    if (email && !username) {
+      nameOfVariableToUse = 'email';
+      variableToLookUp = email;
+    }
+    return this.getUser(variableToLookUp, nameOfVariableToUse)
       .then((user) => {
         if (!user) {
           this.getLogger().info('No user found with specified username.');
-          throw new this.Error(409, 'Error matching username and password.');
+          throw new this.Error(401, 'Invalid username/email and/or password"');
         } else {
           return this.encryptor.compare(password, user.password_hash)
             .then((match) => {
@@ -73,11 +79,11 @@ class UserService extends DBServices {
                 return user.password_hash;
               }
               this.getLogger().info('Miss match with username and password given.');
-              throw new this.Error(409, 'Error matching username and password.');
+              throw new this.Error(401, 'Invalid username/email and/or password"');
             })
             .catch((e) => {
               this.getLogger().error(e.msg);
-              throw new this.Error(409, 'Error matching username and password.');
+              throw new this.Error(401, 'Invalid username/email and/or password"');
             });
         }
       })
