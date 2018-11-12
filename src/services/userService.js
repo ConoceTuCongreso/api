@@ -10,7 +10,7 @@ class UserService extends DBServices {
   saveUser(user) {
     return this.getDB().connect()
       .then((client) => {
-        const text = 'INSERT INTO users(first_name, user_id, username, middle_name, last_name, email, password_salt, password_hash) VALUES($1, (SELECT uuid_generate_v4()), $2, $3, $4, $5, $6, $7)';
+        const text = 'INSERT INTO users(first_name, user_id, username, middle_name, last_name, email, password_salt, password_hash) VALUES($1, (SELECT uuid_generate_v4()), $2, $3, $4, $5, $6, $7) RETURNING *';
         const values = [user.first_name,
           user.username,
           user.middle_name,
@@ -76,7 +76,7 @@ class UserService extends DBServices {
           return this.encryptor.compare(password, user.password_hash)
             .then((match) => {
               if (match) {
-                return user.password_hash;
+                return user;
               }
               this.getLogger().info('Miss match with username and password given.');
               throw new this.Error(401, 'Invalid username/email and/or password"');

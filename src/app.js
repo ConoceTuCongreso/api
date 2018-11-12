@@ -6,6 +6,7 @@ const cookieParser = require('cookie-parser');
 const http = require('http');
 
 const usersRouter = require('./routes/users');
+const initiativesRouter = require('./routes/initiative');
 
 const app = express();
 
@@ -37,6 +38,7 @@ app.use((req, res, next) => {
   next();
 });
 app.use(`/${process.env.PATH_PREFIX || ''}`, usersRouter);
+app.use(`/${process.env.PATH_PREFIX || ''}`, initiativesRouter);
 
 const server = http.createServer(app);
 

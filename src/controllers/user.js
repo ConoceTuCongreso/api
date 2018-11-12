@@ -23,11 +23,12 @@ class User {
       return;
     }
     this.userService.validateUsernamePassword(params.username, params.email, params.password)
-      .then((pass) => {
+      .then((user) => {
         req.session.user = {
+          id: user.user_id,
           username: req.body.username,
           email: req.body.email,
-          password: pass,
+          password: user.password_hash,
         };
         this.logger.info(`Successful login, user: ${req.body.username}.`);
         res.status(200).send('OK');
@@ -81,11 +82,12 @@ class User {
                     hash: pass.password,
                   },
                 )
-                  .then(() => {
+                  .then((user) => {
                     req.session.user = {
-                      username: req.body.username,
-                      email: req.body.email,
-                      password: pass.password,
+                      id: user.user_id,
+                      username: user.username,
+                      email: user.email,
+                      password: user.password,
                     };
                     this.logger.info(`Successful registration, user: ${req.body.username}, email ${req.body.email}`);
                     res.status('200').send('OK');

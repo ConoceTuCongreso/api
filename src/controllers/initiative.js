@@ -1,11 +1,18 @@
 class Initiatives {
-  constructor(logger, initiativeService) {
+  constructor(logger, initiativeService, initiativeValidation) {
     this.logger = logger;
     this.initiativeService = initiativeService;
+    this.initiativeValidation = initiativeValidation;
+
+    this.initiatives = this.initiatives.bind(this);
+    this.initiativeById = this.initiativeById.bind(this);
+    this.initiativeVotes = this.initiativeVotes.bind(this);
+    this.addToFavorites = this.addToFavorites.bind(this);
+    this.sign = this.sign.bind(this);
   }
 
   initiatives(req, res) {
-    this.iniciativeService.getInitiatives()
+    this.initiativeService.getInitiatives()
       .then((result) => {
         res.status(200).send(result);
       })
@@ -15,7 +22,7 @@ class Initiatives {
   }
 
   initiativeById(req, res) {
-    this.iniciativeService.getInitiativesById(req.params.initiativeId)
+    this.initiativeService.getInitiativeById(req.params.initiativeId)
       .then((result) => {
         res.status(200).send(result);
       })
@@ -25,9 +32,39 @@ class Initiatives {
   }
 
   initiativeVotes(req, res) {
-    this.iniciativeService.getInitiativeVotes(req.params.initiativeId)
+    this.initiativeService.getInitiativeVotes(req.params.initiativeId)
       .then((result) => {
         res.status(200).send(result);
+      })
+      .catch((e) => {
+        res.status(e.code).send(e.msg);
+      });
+  }
+
+  addToFavorites(req, res) {
+    try {
+      this.initiativeValidation.validateAddToFavorites(req.params.initiativeId);
+    } catch (e) {
+      res.status(e.code).send(e.msg);
+    }
+    this.initiativeService.addToFavorites(req.session.user.id, req.params.initiativeId)
+      .then(() => {
+        res.status(200).send('Added');
+      })
+      .catch((e) => {
+        res.status(e.code).send(e.msg);
+      });
+  }
+
+  sign(req, res) {
+    try {
+      this.initiativeValidation.validateSign(req.params);
+    } catch (e) {
+      res.status(e.code).send(e.msg);
+    }
+    this.initiativeService.vote(req.params)
+      .then(() => {
+        res.status(200).send('Voted');
       })
       .catch((e) => {
         res.status(e.code).send(e.msg);
