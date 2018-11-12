@@ -15,7 +15,8 @@ env:
     - HOST_POSTGRES=localhost
     - DATABASE_POSTGRES=test
     - USER_POSTGRES=postgres
-    - PATH_PREFIX=api
+    - PATH_PREFIX=""
+    - SSL_MODE=""
 
 before_script:
   - psql -U postgres -c 'CREATE DATABASE test;'
