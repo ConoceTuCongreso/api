@@ -129,27 +129,27 @@
 							"listen": "test",
 							"script": {
 								"id": "4e4a14d0-7c86-4527-893b-37f9b20da8da",
-								"type": "text/javascript",
 								"exec": [
 									"pm.test('Response code is 400', () => {",
 									"    pm.response.to.have.status(400);",
 									"});",
 									"",
-									"pm.test('Response body contains \"Username and/or email already registered\"', () => {",
-									"    pm.expect(pm.response.text()).to.include('Username and/or email already registered');",
+									"pm.test('Response body contains \"Invalid email\"', () => {",
+									"    pm.expect(pm.response.text()).to.include('Invalid email');",
 									"})",
 									""
-								]
+								],
+								"type": "text/javascript"
 							}
 						},
 						{
 							"listen": "prerequest",
 							"script": {
 								"id": "1e86aee1-709f-4544-b971-2c8a5bf527b4",
-								"type": "text/javascript",
 								"exec": [
 									""
-								]
+								],
+								"type": "text/javascript"
 							}
 						}
 					],

@@ -31,6 +31,26 @@ class UserValidation extends inputValidation {
   }
 
   validateInputSignup(params) {
+    if (params.first_name.length < 2 || params.first_name.length > 64) {
+      this.getLogger().info('First name is not in the range of expected length');
+      throw new this.Error(400, 'First name length must be longer than 2 and less than 64.');
+    }
+
+    if (params.username.length < 2 || params.username.length > 64) {
+      this.getLogger().info('Username is not in the range of expected length');
+      throw new this.Error(400, 'Username length must be longer than 2 and less than 64.');
+    }
+
+    if (params.last_name.length < 2 || params.last_name.length > 64) {
+      this.getLogger().info('Last name is not in the range of expected length');
+      throw new this.Error(400, 'Last name length must be longer than 2 and less than 64.');
+    }
+
+    if (params.middle_name.length > 64) {
+      this.getLogger().info('Middle name is not in the range of expected length');
+      throw new this.Error(400, 'Middle name length can not be greater than 64');
+    }
+
     if (params.password.length < 8) {
       this.getLogger().info('Password given is shorter than the 8 characters previously established.');
       throw new this.Error(400, 'Password is too weak');
@@ -48,7 +68,7 @@ class UserValidation extends inputValidation {
 
     if (!validator.validate(params.email)) {
       this.getLogger().info('Email given is not a valid email.');
-      throw new this.Error(400, 'Username and/or email already registered"');
+      throw new this.Error(400, 'Invalid email');
     }
 
     if (!params.username
