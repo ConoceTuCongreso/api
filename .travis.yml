@@ -22,6 +22,7 @@ before_script:
   - psql -U postgres -c 'CREATE DATABASE test;'
   - psql -U postgres -d test -c 'CREATE EXTENSION IF NOT EXISTS "uuid-ossp";'
   - psql -U postgres -d test -a -f schema.sql
+  - psql -U postgres -d test -a -f postman/data.sql
 
 install:
   - yarn install --ignore-engines
