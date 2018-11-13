@@ -49,7 +49,7 @@ class Initiatives {
     }
     this.initiativeService.addToFavorites(req.session.user.id, req.params.initiativeId)
       .then(() => {
-        res.status(200).send('Added');
+        res.status(200).send('OK');
       })
       .catch((e) => {
         res.status(e.code).send(e.msg);

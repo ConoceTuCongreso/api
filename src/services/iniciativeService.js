@@ -26,14 +26,12 @@ class InitiativeService extends DBServices {
       .then((client) => {
         const query = {
           text: 'SELECT * FROM initiatives WHERE initiative_id = $1',
-          values: id,
+          values: [id],
         };
-        client.query(query)
+        return client.query(query)
           .then((result) => {
-            console.log(result);
-            
             client.release();
-            return result.rows;
+            return result.rows[0];
           })
           .catch(() => {
             this.getLogger('Query was a no no');
@@ -50,10 +48,15 @@ class InitiativeService extends DBServices {
     return this.db.connect()
       .then((client) => {
         const query = {
-          text: 'SELECT * FROM votes WHERE initiative = $1',
-          values: id,
+          text: 'SELECT votes.initiative, votes.congressperson, congresspeople.congressperson_name, vote_values.initiative_value '
+            + 'FROM votes '
+            + 'LEFT JOIN vote_values ON votes.value_id = vote_values.value_id '
+            + 'LEFT JOIN congresspeople ON votes.congressperson = congresspeople.congressperson_id '
+            + 'WHERE votes.initiative = $1 '
+            + 'ORDER BY votes.congressperson',
+          values: [id],
         };
-        client.query(query)
+        return client.query(query)
           .then((result) => {
             client.release();
             return result.rows;
@@ -71,12 +74,16 @@ class InitiativeService extends DBServices {
 
   addToFavorites(userId, initiativeId) {
     return this.db.connect()
-      .then((client) => {
+      .then((client) => {    
         const query = {
-          text: 'INSERT INTO favorites(user_id, initiative_id) VALUES($1, $2)',
+          text: 'INSERT INTO favorites(user_id, initiative_id) VALUES($1, $2) RETURNING *',
           values: [userId, initiativeId],
         };
-        client.query(query)
+        return client.query(query)
+          .then((result) => {
+            client.release();
+            return result;
+          })
           .catch(() => {
             this.getLogger('Query was a no no');
             throw new this.Error(500, 'Error Connecting to database');
