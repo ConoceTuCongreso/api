@@ -32,9 +32,15 @@ class Initiatives {
   }
 
   initiativeVotes(req, res) {
-    this.initiativeService.getInitiativeVotes(req.params.initiativeId)
-      .then((result) => {
-        res.status(200).send(result);
+    this.initiativeService.validateInitiative(req.params.initiativeId)
+      .then(() => {
+        this.initiativeService.getInitiativeVotes(req.params.initiativeId)
+          .then((result) => {
+            res.status(200).send(result);
+          })
+          .catch((e) => {
+            res.status(e.code).send(e.msg);
+          });
       })
       .catch((e) => {
         res.status(e.code).send(e.msg);
@@ -42,14 +48,15 @@ class Initiatives {
   }
 
   addToFavorites(req, res) {
-    try {
-      this.initiativeValidation.validateAddToFavorites(req.params.initiativeId);
-    } catch (e) {
-      res.status(e.code).send(e.msg);
-    }
-    this.initiativeService.addToFavorites(req.session.user.id, req.params.initiativeId)
+    this.initiativeService.validateInitiative(req.params.initiativeId)
       .then(() => {
-        res.status(200).send('OK');
+        this.initiativeService.addToFavorites(req.session.user.id, req.params.initiativeId)
+          .then(() => {
+            res.status(200).send('OK');
+          })
+          .catch((e) => {
+            res.status(e.code).send(e.msg);
+          });
       })
       .catch((e) => {
         res.status(e.code).send(e.msg);
@@ -57,14 +64,15 @@ class Initiatives {
   }
 
   sign(req, res) {
-    try {
-      this.initiativeValidation.validateSign(req.params);
-    } catch (e) {
-      res.status(e.code).send(e.msg);
-    }
-    this.initiativeService.vote(req.params)
+    this.initiativeService.validateInitiative(req.params.initiativeId)
       .then(() => {
-        res.status(200).send('Voted');
+        this.initiativeService.vote(req.params)
+          .then(() => {
+            res.status(200).send('OK');
+          })
+          .catch((e) => {
+            res.status(e.code).send(e.msg);
+          });
       })
       .catch((e) => {
         res.status(e.code).send(e.msg);

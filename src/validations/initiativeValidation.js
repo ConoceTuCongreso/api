@@ -6,12 +6,8 @@ class InitiativeValidation extends inputValidation {
     this.getLogger = this.getLogger.bind(this);
   }
 
-  validateAddToFavorites(initiativeId) {
-    this.getLogger.info(initiativeId);
-  }
-
-  validateSign(params) {
-    this.getLogger.info(params);
+  validateGetInitiatives() {
+    this.getLogger.info('TODO');
   }
 }
 
