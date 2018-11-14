@@ -1,0 +1,658 @@
+{
+	"info": {
+		"_postman_id": "957896f8-d37b-4c29-9a7c-8195f3c3be93",
+		"name": "api-test",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Sign up",
+			"item": [
+				{
+					"name": "Happy path",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "05a9245a-6348-4c71-a894-6e6535c78449",
+								"type": "text/javascript",
+								"exec": [
+									"pm.test('Response code is 200', () => {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test('Response body contains \"OK\"', () => {",
+									"    pm.expect(pm.response.text()).to.include('OK');",
+									"})",
+									""
+								]
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "1e86aee1-709f-4544-b971-2c8a5bf527b4",
+								"type": "text/javascript",
+								"exec": [
+									""
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"first_name\": \"Juan\",\n\t\"last_name\": \"Pérez\",\n\t\"middle_name\": \"López\",\n\t\"username\": \"jperez1\",\n\t\"email\": \"jperez@gmail.com\",\n\t\"password\": \"Sup3rS3cr3t!\"\n}"
+						},
+						"url": {
+							"raw": "{{SCHEME}}://{{HOST}}:{{PORT}}{{PREFIX}}/signup",
+							"protocol": "{{SCHEME}}",
+							"host": [
+								"{{HOST}}"
+							],
+							"port": "{{PORT}}{{PREFIX}}",
+							"path": [
+								"signup"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Existing user",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "75c0c8e0-73c8-4b1c-8e21-a017ea47945d",
+								"type": "text/javascript",
+								"exec": [
+									"pm.test('Response code is 409', () => {",
+									"    pm.response.to.have.status(409);",
+									"});",
+									"",
+									"pm.test('Response body contains \"Username and/or email already registered\"', () => {",
+									"    pm.expect(pm.response.text()).to.include('Username and/or email already registered');",
+									"})",
+									""
+								]
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "1e86aee1-709f-4544-b971-2c8a5bf527b4",
+								"type": "text/javascript",
+								"exec": [
+									""
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"first_name\": \"Laura\",\n\t\"last_name\": \"Pérez\",\n\t\"middle_name\": \"López\",\n\t\"username\": \"lperez1\",\n\t\"email\": \"lperez@gmail.com\",\n\t\"password\": \"Sup3rS3cr3t!\"\n}"
+						},
+						"url": {
+							"raw": "{{SCHEME}}://{{HOST}}:{{PORT}}{{PREFIX}}/signup",
+							"protocol": "{{SCHEME}}",
+							"host": [
+								"{{HOST}}"
+							],
+							"port": "{{PORT}}{{PREFIX}}",
+							"path": [
+								"signup"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Invalid email",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "4e4a14d0-7c86-4527-893b-37f9b20da8da",
+								"exec": [
+									"pm.test('Response code is 400', () => {",
+									"    pm.response.to.have.status(400);",
+									"});",
+									"",
+									"pm.test('Response body contains \"Invalid email\"', () => {",
+									"    pm.expect(pm.response.text()).to.include('Invalid email');",
+									"})",
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "1e86aee1-709f-4544-b971-2c8a5bf527b4",
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"first_name\": \"Pedro\",\n\t\"last_name\": \"Pérez\",\n\t\"middle_name\": \"López\",\n\t\"username\": \"pperez1\",\n\t\"email\": \"notAnEmail\",\n\t\"password\": \"Sup3rS3cr3t!\"\n}"
+						},
+						"url": {
+							"raw": "{{SCHEME}}://{{HOST}}:{{PORT}}{{PREFIX}}/signup",
+							"protocol": "{{SCHEME}}",
+							"host": [
+								"{{HOST}}"
+							],
+							"port": "{{PORT}}{{PREFIX}}",
+							"path": [
+								"signup"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Invalid password",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "491482c1-fe72-4a15-ab82-f90fa7c544e7",
+								"type": "text/javascript",
+								"exec": [
+									"pm.test('Response code is 400', () => {",
+									"    pm.response.to.have.status(400);",
+									"});",
+									"",
+									"pm.test('Response body contains \"Password is too weak\"', () => {",
+									"    pm.expect(pm.response.text()).to.include('Password is too weak');",
+									"})",
+									""
+								]
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "1e86aee1-709f-4544-b971-2c8a5bf527b4",
+								"type": "text/javascript",
+								"exec": [
+									""
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"first_name\": \"Pedro\",\n\t\"last_name\": \"Pérez\",\n\t\"middle_name\": \"López\",\n\t\"username\": \"pperez1\",\n\t\"email\": \"jperez@gmail.com\",\n\t\"password\": \"password\"\n}"
+						},
+						"url": {
+							"raw": "{{SCHEME}}://{{HOST}}:{{PORT}}{{PREFIX}}/signup",
+							"protocol": "{{SCHEME}}",
+							"host": [
+								"{{HOST}}"
+							],
+							"port": "{{PORT}}{{PREFIX}}",
+							"path": [
+								"signup"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Login",
+			"item": [
+				{
+					"name": "Happy path username",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "a82d51a9-f328-4418-ab1f-55d6f44be6fb",
+								"exec": [
+									"pm.test('Response code is 200', () => {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test('Response body is successful', () => {",
+									"    pm.expect(pm.response.text()).to.include('OK');",
+									"    ",
+									"})",
+									"",
+									"pm.test('Set-Cookie is present', () => {",
+									"    pm.response.to.have.header('Set-Cookie');",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "1e86aee1-709f-4544-b971-2c8a5bf527b4",
+								"exec": [
+									"const scheme = pm.variables.get('SCHEME');",
+									"const host = pm.variables.get('HOST');",
+									"const port = pm.variables.get('PORT');",
+									"const prefix = pm.variables.get('PREFIX');",
+									"const body = {",
+									"\tfirst_name: 'Hermes',",
+									"\tlast_name: 'Espinola',",
+									"\tmiddle_name: 'Gonzalez',",
+									"\tusername: 'memes97',",
+									"\temail: 'memes97@gmail.com',",
+									"\tpassword: 'SoyHermes!',",
+									"};",
+									"const preRequest = {",
+									"    url: `${scheme}://${host}:${port}${prefix}/signup`,",
+									"    method: 'POST',",
+									"    header: { 'Content-Type': 'application/json' },",
+									"    body: {",
+									"        mode: 'raw',",
+									"        raw: JSON.stringify(body),",
+									"    },",
+									"};",
+									"",
+									"pm.sendRequest(preRequest); "
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"username\": \"memes97\",\n\t\"password\": \"SoyHermes!\"\n}"
+						},
+						"url": {
+							"raw": "{{SCHEME}}://{{HOST}}:{{PORT}}{{PREFIX}}/login",
+							"protocol": "{{SCHEME}}",
+							"host": [
+								"{{HOST}}"
+							],
+							"port": "{{PORT}}{{PREFIX}}",
+							"path": [
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Happy path email",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "495f4b64-0d50-4493-be55-f7ae599262fb",
+								"exec": [
+									"pm.test('Response code is 200', () => {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test('Response body is successful', () => {",
+									"    pm.expect(pm.response.text()).to.include('OK');",
+									"    ",
+									"})",
+									"",
+									"pm.test('Set-Cookie is present', () => {",
+									"    pm.response.to.have.header('Set-Cookie');",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "1e86aee1-709f-4544-b971-2c8a5bf527b4",
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"email\": \"memes97@gmail.com\",\n\t\"password\": \"SoyHermes!\"\n}"
+						},
+						"url": {
+							"raw": "{{SCHEME}}://{{HOST}}:{{PORT}}{{PREFIX}}/login",
+							"protocol": "{{SCHEME}}",
+							"host": [
+								"{{HOST}}"
+							],
+							"port": "{{PORT}}{{PREFIX}}",
+							"path": [
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Invalid email",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "bee745bd-506d-4ce4-bd97-1f9eb8d2b1c5",
+								"type": "text/javascript",
+								"exec": [
+									"pm.test('Response code is 401', () => {",
+									"    pm.response.to.have.status(401);",
+									"});",
+									"",
+									"pm.test('Response body contains \"Invalid username/email and/or password\"', () => {",
+									"    pm.expect(pm.response.text()).to.include('Invalid username/email and/or password');",
+									"})",
+									"",
+									"pm.test('Set-Cookie is not present', () => {",
+									"    pm.response.to.not.have.header('Set-Cookie');",
+									"});"
+								]
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "1e86aee1-709f-4544-b971-2c8a5bf527b4",
+								"type": "text/javascript",
+								"exec": [
+									""
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"email\": \"notmyemail@gmail.com\",\n\t\"password\": \"Sup3rS3cr3t\"\n}"
+						},
+						"url": {
+							"raw": "{{SCHEME}}://{{HOST}}:{{PORT}}{{PREFIX}}/login",
+							"protocol": "{{SCHEME}}",
+							"host": [
+								"{{HOST}}"
+							],
+							"port": "{{PORT}}{{PREFIX}}",
+							"path": [
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Invalid password",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "bb0f9108-7075-48fa-96c0-9d2dfd90e4fd",
+								"type": "text/javascript",
+								"exec": [
+									"pm.test('Response code is 401', () => {",
+									"    pm.response.to.have.status(401);",
+									"});",
+									"",
+									"pm.test('Response body contains \"Invalid username/email and/or password\"', () => {",
+									"    pm.expect(pm.response.text()).to.include('Invalid username/email and/or password');",
+									"})",
+									"",
+									"pm.test('Set-Cookie is not present', () => {",
+									"    pm.response.to.not.have.header('Set-Cookie');",
+									"});"
+								]
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "1e86aee1-709f-4544-b971-2c8a5bf527b4",
+								"type": "text/javascript",
+								"exec": [
+									""
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"email\": \"lperez@gmail.com\",\n\t\"password\": \"N0tmyP4ssw0rd\"\n}"
+						},
+						"url": {
+							"raw": "{{SCHEME}}://{{HOST}}:{{PORT}}{{PREFIX}}/login",
+							"protocol": "{{SCHEME}}",
+							"host": [
+								"{{HOST}}"
+							],
+							"port": "{{PORT}}{{PREFIX}}",
+							"path": [
+								"login"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Logout",
+			"item": [
+				{
+					"name": "Happy path",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "dcda4d51-9bda-409f-87fb-fb049c8f26ee",
+								"type": "text/javascript",
+								"exec": [
+									"pm.test('Response code is 205', () => {",
+									"    pm.response.to.have.status(205);",
+									"});",
+									"",
+									"pm.test('Set-Cookie is not present', () => {",
+									"    pm.response.to.not.have.header('Set-Cookie');",
+									"});"
+								]
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "bc28cf01-81c2-46f4-9dcc-e8a83691dd2b",
+								"type": "text/javascript",
+								"exec": [
+									"const scheme = pm.variables.get('SCHEME');",
+									"const host = pm.variables.get('HOST');",
+									"const port = pm.variables.get('PORT');",
+									"const prefix = pm.variables.get('PREFIX');",
+									"const body = {",
+									"\tfirst_name: 'Martín',",
+									"\tlast_name: 'Moscosa',",
+									"\tmiddle_name: 'Martínez',",
+									"\tusername: 'mmoscosa1',",
+									"\temail: 'mmoscosa@gmail.com',",
+									"\tpassword: 'Sup3rS3cr3t!',",
+									"};",
+									"const preRequest = {",
+									"    url: `${scheme}://${host}:${port}${prefix}/signup`,",
+									"    method: 'POST',",
+									"    header: { 'Content-Type': 'application/json' },",
+									"    body: {",
+									"        mode: 'raw',",
+									"        raw: JSON.stringify(body),",
+									"    },",
+									"};",
+									"",
+									"pm.sendRequest(preRequest, (err, response) => {",
+									"    let cookie = response.header['set-cookie']",
+									"    pm.variables.set('COOKIE', cookie);",
+									"}); ",
+									""
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Cookie",
+								"value": "{{COOKIE}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{}"
+						},
+						"url": {
+							"raw": "{{SCHEME}}://{{HOST}}:{{PORT}}{{PREFIX}}/logout",
+							"protocol": "{{SCHEME}}",
+							"host": [
+								"{{HOST}}"
+							],
+							"port": "{{PORT}}{{PREFIX}}",
+							"path": [
+								"logout"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Not logged in",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "20ecaa40-c383-40f2-b839-418f064995b3",
+								"type": "text/javascript",
+								"exec": [
+									"pm.test('Response code is 205', () => {",
+									"    pm.response.to.have.status(205);",
+									"});",
+									"",
+									"pm.test('Set-Cookie is not present', () => {",
+									"    pm.response.to.not.have.header('Set-Cookie');",
+									"});"
+								]
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "1e86aee1-709f-4544-b971-2c8a5bf527b4",
+								"type": "text/javascript",
+								"exec": [
+									""
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{}"
+						},
+						"url": {
+							"raw": "{{SCHEME}}://{{HOST}}:{{PORT}}{{PREFIX}}/logout",
+							"protocol": "{{SCHEME}}",
+							"host": [
+								"{{HOST}}"
+							],
+							"port": "{{PORT}}{{PREFIX}}",
+							"path": [
+								"logout"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}

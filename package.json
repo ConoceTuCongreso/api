@@ -1,0 +1,39 @@
+{
+  "name": "api",
+  "version": "1.0.0",
+  "main": "src/app.js",
+  "engines": {
+    "node": ">=4"
+  },
+  "repository": "git@github.com:ConoceTuCongreso/api.git",
+  "author": "ConoceTuCongreso",
+  "license": "MIT",
+  "dependencies": {
+    "babel-cli": "^6.26.0",
+    "bcrypt": "^3.0.1",
+    "body-parser": "^1.18.3",
+    "cookie-parser": "^1.4.3",
+    "cors": "^2.8.4",
+    "email-validator": "^2.0.4",
+    "eslint": "^5.6.1",
+    "eslint-config-airbnb": "^17.1.0",
+    "eslint-config-airbnb-base": "^13.1.0",
+    "eslint-plugin-import": "^2.14.0",
+    "express": "^4.16.4",
+    "express-session": "^1.15.6",
+    "mocha": "^5.2.0",
+    "newman": "^4.1.0",
+    "nodemon": "^1.18.4",
+    "pg": "^7.5.0",
+    "sinon": "^7.1.1",
+    "winston": "^3.1.0"
+  },
+  "scripts": {
+    "lint": "eslint -f json -o report.json src/",
+    "start": "nodemon -e css,ejs,js,json --watch app src/app.js --ignore 'feedback.json'",
+    "build": "babel src/ -d build",
+    "serve": "nodemon -e css,ejs,js,json --watch app src/app.js --ignore 'feedback.json'",
+    "test": "mocha test",
+    "integrate": "node_modules/.bin/newman run postman/api-test.postman_collection.json -e  postman/Local.postman_environment.json"
+  }
+}
