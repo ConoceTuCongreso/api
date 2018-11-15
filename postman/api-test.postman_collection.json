@@ -659,7 +659,7 @@
 			]
 		},
 		{
-			"name": "Iniciatives",
+			"name": "Initiatives",
 			"description": null,
 			"item": [
 				{
@@ -782,15 +782,15 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "32b4e234-8824-43a2-b031-f3ad54390215",
+								"id": "133decdb-2d35-4232-abf7-2f489f971041",
 								"type": "text/javascript",
 								"exec": [
 									"pm.test('Response code is 404', () => {",
 									"    pm.response.to.have.status(404);",
 									"});",
 									"",
-									"pm.test('Response body contains \"Iniciative with ID 10 not found\"', () => {",
-									"    pm.expect(pm.response.text()).to.include('Iniciative with ID 10 not found');",
+									"pm.test('Response body contains \"Initiative with ID 10 not found\"', () => {",
+									"    pm.expect(pm.response.text()).to.include('Initiative with ID 10 not found');",
 									"});",
 									""
 								]
@@ -799,11 +799,11 @@
 						{
 							"listen": "prerequest",
 							"script": {
-								"id": "34dfcf43-dd67-430e-8343-d26ac6731efd",
+								"id": "8998d6c0-6965-436c-8054-d0db7303bdc9",
 								"type": "text/javascript",
 								"exec": [
 									"const iniciativeID = '10';",
-									"pm.variables.set('INICIATIVE_ID', iniciativeID);",
+									"pm.variables.set('INITIATIVE_ID', initiativeID);",
 									""
 								]
 							}
@@ -826,15 +826,369 @@
 							"raw": "{}"
 						},
 						"url": {
-							"raw": "{{SCHEME}}://{{HOST}}:{{PORT}}{{PREFIX}}/iniciatives/{{INICIATIVE_ID}}",
+							"raw": "{{SCHEME}}://{{HOST}}:{{PORT}}{{PREFIX}}/initiatives/{{INITIATIVE_ID}}",
 							"protocol": "{{SCHEME}}",
 							"host": [
 								"{{HOST}}"
 							],
 							"port": "{{PORT}}{{PREFIX}}",
 							"path": [
-								"iniciatives",
-								"{{INICIATIVE_ID}}"
+								"initiatives",
+								"{{INITIATIVE_ID}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Happy path category",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "03922ae0-eafa-41e5-83b1-be5566c526c7",
+								"type": "text/javascript",
+								"exec": [
+									"pm.test('Response code is 200', () => {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"const schema = {",
+									"    \"type\" : \"array\",",
+									"    \"items\" : {",
+									"        \"id\": {",
+									"            \"type\": \"number\"",
+									"        },",
+									"        \"description\": {",
+									"            \"type\": \"string\"",
+									"        },",
+									"        \"status\": {",
+									"            \"type\": \"string\"",
+									"        },",
+									"        \"document_url\": {",
+									"            \"type\": \"string\"",
+									"        },",
+									"        \"author\": {",
+									"            \"type\": \"string\"",
+									"        },",
+									"        \"infolej_number\": {",
+									"            \"type\": \"string\"",
+									"        },",
+									"    },",
+									"};",
+									"const body = pm.response.text();",
+									"pm.test('Schema is an array of initiatives', () => {",
+									"    pm.expect(tv4.validate(body, schema)).to.be.true;",
+									"});l",
+									"",
+									"const areEqual = (a, b) => {",
+									"  return a.id === b.id &&",
+									"    a.description === b.description &&",
+									"    a.status === b.status &&",
+									"    a.document_url === b.document_url &&",
+									"    a.author === b.author &&",
+									"    a.infolej_number === b.infolej_number",
+									"};",
+									"",
+									"const bodyJSON = JSON.parse(body);",
+									"const initiativeOne = {",
+									"    id: '1',",
+									"    description: 'Iniciativa número uno',",
+									"    document_url: 'http://congresoweb.congresojal.gob.mx',",
+									"    author: 'José Guadalupe Posada',",
+									"    infolej_number: '001',",
+									"};",
+									"pm.test(`First item equals ${initiativeOne}`, () => {",
+									"    pm.expect(areEqual(bodyJSON[0], initiativeOne)).to.be.true;",
+									"});",
+									"",
+									"const initiativeTwo = {",
+									"    id: '1',",
+									"    description: 'Iniciativa número dos',",
+									"    document_url: 'http://congresoweb.congresojal.gob.mx',",
+									"    author: 'José Arango Arámbula',",
+									"    infolej_number: '002',",
+									"};",
+									"pm.test(`Second item equals ${initiativeTwo}`, () => {",
+									"    pm.expect(areEqual(bodyJSON[1], initiativeTwo)).to.be.true;",
+									"});",
+									"",
+									""
+								]
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "57a331ad-c315-4b71-bf4e-b97e8528e83a",
+								"type": "text/javascript",
+								"exec": [
+									"const categoryID = '1';",
+									"pm.variables.set('CATEGORY_ID', categoryID);",
+									""
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Cookie",
+								"value": "{{COOKIE}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{}"
+						},
+						"url": {
+							"raw": "{{SCHEME}}://{{HOST}}:{{PORT}}{{PREFIX}}/initiatives?category_id={{CATEGORY_ID}}",
+							"protocol": "{{SCHEME}}",
+							"host": [
+								"{{HOST}}"
+							],
+							"port": "{{PORT}}{{PREFIX}}",
+							"path": [
+								"initiatives"
+							],
+							"query": [
+								{
+									"key": "category_id",
+									"value": "{{CATEGORY_ID}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Empty category",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "29a41fd3-6671-4716-84ea-22e0958e07ff",
+								"type": "text/javascript",
+								"exec": [
+									"pm.test('Response code is 200', () => {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"const schema = {",
+									"    \"type\" : \"array\",",
+									"    \"items\" : {",
+									"        \"id\": {",
+									"            \"type\": \"number\"",
+									"        },",
+									"        \"description\": {",
+									"            \"type\": \"string\"",
+									"        },",
+									"        \"status\": {",
+									"            \"type\": \"string\"",
+									"        },",
+									"        \"document_url\": {",
+									"            \"type\": \"string\"",
+									"        },",
+									"        \"author\": {",
+									"            \"type\": \"string\"",
+									"        },",
+									"        \"infolej_number\": {",
+									"            \"type\": \"string\"",
+									"        },",
+									"    },",
+									"};",
+									"const body = pm.response.text();",
+									"pm.test('Schema is an array of initiatives', () => {",
+									"    pm.expect(tv4.validate(body, schema)).to.be.true;",
+									"});l",
+									"",
+									"const bodyJSON = JSON.parse(body);",
+									"pm.test('List is empty', () => {",
+									"    pm.expect(bodyJSON.length).to.equal(0);",
+									"});",
+									""
+								]
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "7831c584-f8b4-4f18-b2e8-82c56740c952",
+								"type": "text/javascript",
+								"exec": [
+									"const categoryID = '2';",
+									"pm.variables.set('CATEGORY_ID', categoryID);",
+									""
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Cookie",
+								"value": "{{COOKIE}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{}"
+						},
+						"url": {
+							"raw": "{{SCHEME}}://{{HOST}}:{{PORT}}{{PREFIX}}/initiatives?category_id={{CATEGORY_ID}}",
+							"protocol": "{{SCHEME}}",
+							"host": [
+								"{{HOST}}"
+							],
+							"port": "{{PORT}}{{PREFIX}}",
+							"path": [
+								"initiatives"
+							],
+							"query": [
+								{
+									"key": "category_id",
+									"value": "{{CATEGORY_ID}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Non-existent category",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "9e394585-0cab-4dbe-b0fd-f3382ee44f32",
+								"type": "text/javascript",
+								"exec": [
+									"pm.test('Response code is 404', () => {",
+									"    pm.response.to.have.status(404);",
+									"});",
+									"",
+									"pm.test('Response body contains \"Category with ID 10 not found\"', () => {",
+									"    pm.expect(pm.response.text()).to.include('Category with ID 10 not found');",
+									"});",
+									""
+								]
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "b380ca68-5cfb-4265-801a-6e76cbc3726f",
+								"type": "text/javascript",
+								"exec": [
+									"const categoryID = '10';",
+									"pm.variables.set('CATEGORY_ID', categoryID);",
+									""
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Cookie",
+								"value": "{{COOKIE}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{}"
+						},
+						"url": {
+							"raw": "{{SCHEME}}://{{HOST}}:{{PORT}}{{PREFIX}}/initiatives?category_id={{CATEGORY_ID}}",
+							"protocol": "{{SCHEME}}",
+							"host": [
+								"{{HOST}}"
+							],
+							"port": "{{PORT}}{{PREFIX}}",
+							"path": [
+								"initiatives"
+							],
+							"query": [
+								{
+									"key": "category_id",
+									"value": "{{CATEGORY_ID}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Missing required parameter",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "73420747-1dce-4526-8c11-070d8a45623f",
+								"type": "text/javascript",
+								"exec": [
+									"pm.test('Response code is 400', () => {",
+									"    pm.response.to.have.status(400);",
+									"});",
+									"",
+									"pm.test('Response body contains \"Missing required parameter \\'category_id\\'\"', () => {",
+									"    pm.expect(pm.response.text()).to.include('Missing required parameter \\'category_id\\'');",
+									"});",
+									""
+								]
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "40f95b6d-9053-4942-b64b-22bbd03c8816",
+								"type": "text/javascript",
+								"exec": [
+									""
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Cookie",
+								"value": "{{COOKIE}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{}"
+						},
+						"url": {
+							"raw": "{{SCHEME}}://{{HOST}}:{{PORT}}{{PREFIX}}/initiatives",
+							"protocol": "{{SCHEME}}",
+							"host": [
+								"{{HOST}}"
+							],
+							"port": "{{PORT}}{{PREFIX}}",
+							"path": [
+								"initiatives"
 							]
 						}
 					},
