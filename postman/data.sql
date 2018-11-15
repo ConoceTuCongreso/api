@@ -21,6 +21,8 @@ INSERT INTO users(
 
 INSERT INTO categories(id, name) VALUES (1, 'Cultura'), (2, 'Reglamentos');
 
+INSERT INTO initiative_status(id, name) VALUES (1, 'Activa'), (2, 'Inactiva');
+
 INSERT INTO initiatives(
     id,
     description,
