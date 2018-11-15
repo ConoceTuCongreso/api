@@ -668,7 +668,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "4ef98adb-5b82-4f25-b238-350836869969",
+								"id": "7035d90a-2281-401a-ba59-7c1e50d3487a",
 								"type": "text/javascript",
 								"exec": [
 									"pm.test('Response code is 200', () => {",
@@ -695,7 +695,7 @@
 									"    \"author\": {",
 									"        \"type\": \"string\"",
 									"    },",
-									"    \"infolej_num\": {",
+									"    \"infolej_number\": {",
 									"        \"type\": \"string\"",
 									"    },",
 									"};",
@@ -706,7 +706,7 @@
 									"",
 									"const bodyJSON = JSON.parse(body);",
 									"pm.test('id equals \"1\"', () => {",
-									"    pm.expect(bodyJSON.id).to.be.equal.to('1');",
+									"    pm.expect(bodyJSON.id).to.equal('1');",
 									"});",
 									"",
 									"pm.test('description equals \"Iniciativa número uno\"', () => {",
@@ -725,8 +725,8 @@
 									"    pm.expect(bodyJSON.author).to.equal('José Guadalupe Posada');",
 									"});",
 									"",
-									"pm.test('infolej_num equals \"001\"', () => {",
-									"    pm.expect(bodyJSON.infolej_num).to.equal('001');",
+									"pm.test('infolej_number equals \"001\"', () => {",
+									"    pm.expect(bodyJSON.infolej_number).to.equal('001');",
 									"});",
 									""
 								]
