@@ -758,7 +758,7 @@
 							"raw": "{}"
 						},
 						"url": {
-							"raw": "{{SCHEME}}://{{HOST}}:{{PORT}}{{PREFIX}}/initiatives/{{INICIATIVE_ID}}",
+							"raw": "{{SCHEME}}://{{HOST}}:{{PORT}}{{PREFIX}}/initiatives/{{INITIATIVE_ID}}",
 							"protocol": "{{SCHEME}}",
 							"host": [
 								"{{HOST}}"
@@ -766,7 +766,7 @@
 							"port": "{{PORT}}{{PREFIX}}",
 							"path": [
 								"initiatives",
-								"{{INICIATIVE_ID}}"
+								"{{INITIATIVE_ID}}"
 							]
 						}
 					},
