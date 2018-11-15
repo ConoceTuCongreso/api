@@ -35,7 +35,7 @@ INSERT INTO initiatives(
 VALUES
 (
     1,
-    'Iniciativa número 1',
+    'Iniciativa número uno',
     1,
     'http://congresoweb.congresojal.gob.mx',
     'José Guadalupe Posada',
