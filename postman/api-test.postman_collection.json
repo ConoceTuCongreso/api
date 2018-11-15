@@ -1,12 +1,13 @@
 {
 	"info": {
-		"_postman_id": "2610e312-a82e-4425-8ed7-2da12120ba49",
+		"_postman_id": "4eb2ca7d-1020-4a16-9342-aa051e7a7eb0",
 		"name": "api-test",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
 	"item": [
 		{
 			"name": "Sign up",
+			"description": null,
 			"item": [
 				{
 					"name": "Happy path",
@@ -240,6 +241,7 @@
 		},
 		{
 			"name": "Login",
+			"description": null,
 			"item": [
 				{
 					"name": "Happy path username",
@@ -510,6 +512,7 @@
 		},
 		{
 			"name": "Logout",
+			"description": null,
 			"item": [
 				{
 					"name": "Happy path",
@@ -657,6 +660,7 @@
 		},
 		{
 			"name": "Iniciatives",
+			"description": null,
 			"item": [
 				{
 					"name": "Happy path one",
@@ -664,7 +668,8 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "9c54053f-e6b7-4eb7-a74f-efa911490050",
+								"id": "a5de9360-0f5e-4f63-b651-505e88da6082",
+								"type": "text/javascript",
 								"exec": [
 									"pm.test('Response code is 200', () => {",
 									"    pm.response.to.have.status(200);",
@@ -697,7 +702,7 @@
 									"const body = pm.response.text();",
 									"pm.test(`Schema contains fields ${Object.keys(schema)}`, () => {",
 									"    pm.expect(tv4.validate(body, schema)).to.be.true;",
-									"});l",
+									"});",
 									"",
 									"const bodyJSON = JSON.parse(body);",
 									"pm.test('id equals 1', () => {",
@@ -724,20 +729,19 @@
 									"    pm.expect(bodyJSON.infolej_num).to.be.equal.to('001');",
 									"});",
 									""
-								],
-								"type": "text/javascript"
+								]
 							}
 						},
 						{
 							"listen": "prerequest",
 							"script": {
 								"id": "1a28b67d-315d-494e-8e55-c963ae385817",
+								"type": "text/javascript",
 								"exec": [
 									"const iniciativeID = '1';",
 									"pm.variables.set('INITIATIVE_ID', iniciativeID);",
 									""
-								],
-								"type": "text/javascript"
+								]
 							}
 						}
 					],
@@ -767,6 +771,70 @@
 							"path": [
 								"initiatives",
 								"{{INITIATIVE_ID}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Non-existent iniciative",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "32b4e234-8824-43a2-b031-f3ad54390215",
+								"type": "text/javascript",
+								"exec": [
+									"pm.test('Response code is 404', () => {",
+									"    pm.response.to.have.status(404);",
+									"});",
+									"",
+									"pm.test('Response body contains \"Iniciative with ID 10 not found\"', () => {",
+									"    pm.expect(pm.response.text()).to.include('Iniciative with ID 10 not found');",
+									"});",
+									""
+								]
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "34dfcf43-dd67-430e-8343-d26ac6731efd",
+								"type": "text/javascript",
+								"exec": [
+									"const iniciativeID = '10';",
+									"pm.variables.set('INICIATIVE_ID', iniciativeID);",
+									""
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Cookie",
+								"value": "{{COOKIE}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{}"
+						},
+						"url": {
+							"raw": "{{SCHEME}}://{{HOST}}:{{PORT}}{{PREFIX}}/iniciatives/{{INICIATIVE_ID}}",
+							"protocol": "{{SCHEME}}",
+							"host": [
+								"{{HOST}}"
+							],
+							"port": "{{PORT}}{{PREFIX}}",
+							"path": [
+								"iniciatives",
+								"{{INICIATIVE_ID}}"
 							]
 						}
 					},
