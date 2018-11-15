@@ -1,13 +1,12 @@
 {
 	"info": {
-		"_postman_id": "a7877c01-2873-4ae8-8e24-1a0f80fe2f30",
+		"_postman_id": "2610e312-a82e-4425-8ed7-2da12120ba49",
 		"name": "api-test",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
 	"item": [
 		{
 			"name": "Sign up",
-			"description": null,
 			"item": [
 				{
 					"name": "Happy path",
@@ -241,7 +240,6 @@
 		},
 		{
 			"name": "Login",
-			"description": null,
 			"item": [
 				{
 					"name": "Happy path username",
@@ -512,7 +510,6 @@
 		},
 		{
 			"name": "Logout",
-			"description": null,
 			"item": [
 				{
 					"name": "Happy path",
@@ -660,7 +657,6 @@
 		},
 		{
 			"name": "Iniciatives",
-			"description": "",
 			"item": [
 				{
 					"name": "Happy path one",
@@ -669,7 +665,6 @@
 							"listen": "test",
 							"script": {
 								"id": "9c54053f-e6b7-4eb7-a74f-efa911490050",
-								"type": "text/javascript",
 								"exec": [
 									"pm.test('Response code is 200', () => {",
 									"    pm.response.to.have.status(200);",
@@ -729,19 +724,20 @@
 									"    pm.expect(bodyJSON.infolej_num).to.be.equal.to('001');",
 									"});",
 									""
-								]
+								],
+								"type": "text/javascript"
 							}
 						},
 						{
 							"listen": "prerequest",
 							"script": {
 								"id": "1a28b67d-315d-494e-8e55-c963ae385817",
-								"type": "text/javascript",
 								"exec": [
 									"const iniciativeID = '1';",
-									"pm.variables.set('INICIATIVE_ID', iniciativeID);",
+									"pm.variables.set('INITIATIVE_ID', iniciativeID);",
 									""
-								]
+								],
+								"type": "text/javascript"
 							}
 						}
 					],
@@ -762,14 +758,14 @@
 							"raw": "{}"
 						},
 						"url": {
-							"raw": "{{SCHEME}}://{{HOST}}:{{PORT}}{{PREFIX}}/iniciatives/{{INICIATIVE_ID}}",
+							"raw": "{{SCHEME}}://{{HOST}}:{{PORT}}{{PREFIX}}/initiatives/{{INICIATIVE_ID}}",
 							"protocol": "{{SCHEME}}",
 							"host": [
 								"{{HOST}}"
 							],
 							"port": "{{PORT}}{{PREFIX}}",
 							"path": [
-								"iniciatives",
+								"initiatives",
 								"{{INICIATIVE_ID}}"
 							]
 						}
