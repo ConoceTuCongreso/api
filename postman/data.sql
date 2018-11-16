@@ -44,10 +44,13 @@ VALUES
 ),
 (
     2,
-    'Iniciativa número 2',
+    'Iniciativa número dos',
     1,
     'http://congresoweb.congresojal.gob.mx',
     'José Arango Arámbula',
     '002',
     '002'
 );
+
+INSERT INTO initiatives_categories(category_id, initiatives_id) VALUES (1, 1);
+INSERT INTO initiatives_categories(category_id, initiatives_id) VALUES (1, 2);

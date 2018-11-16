@@ -71,7 +71,7 @@ class UserService extends DBServices {
       .then((user) => {
         if (!user) {
           this.getLogger().info('No user found with specified username.');
-          throw new this.Error(401, 'Invalid username/email and/or password"');
+          throw new this.Error(401, 'Invalid username/email and/or password');
         } else {
           return this.encryptor.compare(password, user.password_hash)
             .then((match) => {
@@ -79,11 +79,11 @@ class UserService extends DBServices {
                 return user;
               }
               this.getLogger().info('Miss match with username and password given.');
-              throw new this.Error(401, 'Invalid username/email and/or password"');
+              throw new this.Error(401, 'Invalid username/email and/or password');
             })
             .catch((e) => {
               this.getLogger().error(e.msg);
-              throw new this.Error(401, 'Invalid username/email and/or password"');
+              throw new this.Error(401, 'Invalid username/email and/or password');
             });
         }
       })

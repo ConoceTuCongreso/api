@@ -12,9 +12,21 @@ class Initiatives {
   }
 
   initiatives(req, res) {
-    this.initiativeService.getInitiatives()
-      .then((result) => {
-        res.status(200).send(result);
+    try {
+      this.initiativeValidation.validateGetIntitiativesByCategory(req.query.category_id);
+    } catch (e) {
+      res.status(e.code).send(e.msg);
+      return;
+    }
+    this.initiativeService.validateCategory(req.query.category_id)
+      .then(() => {
+        this.initiativeService.getInitiatives(req.query.category_id)
+          .then((result) => {
+            res.status(200).send(result);
+          })
+          .catch((e) => {
+            res.status(e.code).send(e.msg);
+          });
       })
       .catch((e) => {
         res.status(e.code).send(e.msg);
@@ -22,6 +34,12 @@ class Initiatives {
   }
 
   initiativeById(req, res) {
+    try {
+      this.initiativeValidation.validateGetInitiative(req.params.initiativeId);
+    } catch (e) {
+      res.status(e.code).send(e.msg);
+      return;
+    }
     this.initiativeService.getInitiativeById(req.params.initiativeId)
       .then((result) => {
         res.status(200).send(result);
@@ -32,6 +50,12 @@ class Initiatives {
   }
 
   initiativeVotes(req, res) {
+    try {
+      this.initiativeValidation.validateGetInitiative(req.params.initiativeId);
+    } catch (e) {
+      res.status(e.code).send(e.msg);
+      return;
+    }
     this.initiativeService.validateInitiative(req.params.initiativeId)
       .then(() => {
         this.initiativeService.getInitiativeVotes(req.params.initiativeId)
@@ -48,6 +72,12 @@ class Initiatives {
   }
 
   addToFavorites(req, res) {
+    try {
+      this.initiativeValidation.validateGetInitiative(req.params.initiativeId);
+    } catch (e) {
+      res.status(e.code).send(e.msg);
+      return;
+    }
     this.initiativeService.validateInitiative(req.params.initiativeId)
       .then(() => {
         this.initiativeService.addToFavorites(req.session.user.id, req.params.initiativeId)
@@ -64,9 +94,21 @@ class Initiatives {
   }
 
   sign(req, res) {
-    this.initiativeService.validateInitiative(req.params.initiativeId)
+    try {
+      this.initiativeValidation.validateGetInitiative(req.params.initiativeId);
+      this.initiativeValidation.validateSignParameters(req.query);
+    } catch (e) {
+      res.status(e.code).send(e.msg);
+      return;
+    }
+    const params = {
+      initiative_id: req.params.initiativeId,
+      CIC: req.query.CIC,
+      OCR: req.query.OCR,
+    };
+    this.initiativeService.validateInitiative(params.initiative_id)
       .then(() => {
-        this.initiativeService.vote(req.params)
+        this.initiativeService.vote(params)
           .then(() => {
             res.status(200).send('OK');
           })

@@ -1,13 +1,12 @@
 {
 	"info": {
-		"_postman_id": "4eb2ca7d-1020-4a16-9342-aa051e7a7eb0",
+		"_postman_id": "4bea9c0e-4a13-44b2-a674-fef1670a4880",
 		"name": "api-test",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
 	"item": [
 		{
 			"name": "Sign up",
-			"description": null,
 			"item": [
 				{
 					"name": "Existing user",
@@ -184,7 +183,6 @@
 		},
 		{
 			"name": "Login",
-			"description": null,
 			"item": [
 				{
 					"name": "Happy path username",
@@ -455,7 +453,6 @@
 		},
 		{
 			"name": "Logout",
-			"description": null,
 			"item": [
 				{
 					"name": "Happy path",
@@ -603,7 +600,6 @@
 		},
 		{
 			"name": "Initiatives",
-			"description": null,
 			"item": [
 				{
 					"name": "Happy path one",
@@ -722,7 +718,6 @@
 							"listen": "test",
 							"script": {
 								"id": "fde3ab17-a99a-4efd-a817-ff2861e4eef2",
-								"type": "text/javascript",
 								"exec": [
 									"pm.test('Response code is 404', () => {",
 									"    pm.response.to.have.status(404);",
@@ -732,19 +727,20 @@
 									"    pm.expect(pm.response.text()).to.equal('Initiative with ID 10 not found');",
 									"});",
 									""
-								]
+								],
+								"type": "text/javascript"
 							}
 						},
 						{
 							"listen": "prerequest",
 							"script": {
 								"id": "8998d6c0-6965-436c-8054-d0db7303bdc9",
-								"type": "text/javascript",
 								"exec": [
-									"const iniciativeID = '10';",
+									"const initiativeID = '10';",
 									"pm.variables.set('INITIATIVE_ID', initiativeID);",
 									""
-								]
+								],
+								"type": "text/javascript"
 							}
 						}
 					],
@@ -786,7 +782,6 @@
 							"listen": "test",
 							"script": {
 								"id": "d0b34cc2-394c-48d8-9d69-e5226e20e9fb",
-								"type": "text/javascript",
 								"exec": [
 									"pm.test('Response code is 200', () => {",
 									"    pm.response.to.have.status(200);",
@@ -843,9 +838,9 @@
 									"});",
 									"",
 									"const initiativeTwo = {",
-									"    id: '1',",
+									"    id: '2',",
 									"    description: 'Iniciativa número dos',",
-									"    status: 'Inctiva',",
+									"    status: 'Activa',",
 									"    document_url: 'http://congresoweb.congresojal.gob.mx',",
 									"    author: 'José Arango Arámbula',",
 									"    infolej_number: '002',",
@@ -855,19 +850,20 @@
 									"});",
 									"",
 									""
-								]
+								],
+								"type": "text/javascript"
 							}
 						},
 						{
 							"listen": "prerequest",
 							"script": {
 								"id": "57a331ad-c315-4b71-bf4e-b97e8528e83a",
-								"type": "text/javascript",
 								"exec": [
 									"const categoryID = '1';",
 									"pm.variables.set('CATEGORY_ID', categoryID);",
 									""
-								]
+								],
+								"type": "text/javascript"
 							}
 						}
 					],
@@ -914,7 +910,6 @@
 							"listen": "test",
 							"script": {
 								"id": "61dcd9c4-23a2-4d08-8ec0-315c45a75866",
-								"type": "text/javascript",
 								"exec": [
 									"pm.test('Response code is 200', () => {",
 									"    pm.response.to.have.status(200);",
@@ -946,26 +941,27 @@
 									"const body = pm.response.text();",
 									"pm.test('Schema is an array of initiatives', () => {",
 									"    pm.expect(tv4.validate(body, schema)).to.be.true;",
-									"});l",
+									"});",
 									"",
 									"const bodyJSON = JSON.parse(body);",
 									"pm.test('List is empty', () => {",
 									"    pm.expect(bodyJSON.length).to.equal(0);",
 									"});",
 									""
-								]
+								],
+								"type": "text/javascript"
 							}
 						},
 						{
 							"listen": "prerequest",
 							"script": {
 								"id": "7831c584-f8b4-4f18-b2e8-82c56740c952",
-								"type": "text/javascript",
 								"exec": [
 									"const categoryID = '2';",
 									"pm.variables.set('CATEGORY_ID', categoryID);",
 									""
-								]
+								],
+								"type": "text/javascript"
 							}
 						}
 					],
