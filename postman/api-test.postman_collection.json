@@ -10,77 +10,20 @@
 			"description": null,
 			"item": [
 				{
-					"name": "Happy path",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"id": "01aac61f-cf5e-4101-a3cc-b6da15b553e0",
-								"type": "text/javascript",
-								"exec": [
-									"pm.test('Response code is 200', () => {",
-									"    pm.response.to.have.status(200);",
-									"});",
-									"",
-									"pm.test('Response body contains \"OK\"', () => {",
-									"    pm.expect(pm.response.text()).to.include('OK');",
-									"});",
-									""
-								]
-							}
-						},
-						{
-							"listen": "prerequest",
-							"script": {
-								"id": "1e86aee1-709f-4544-b971-2c8a5bf527b4",
-								"type": "text/javascript",
-								"exec": [
-									""
-								]
-							}
-						}
-					],
-					"request": {
-						"method": "POST",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/json"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n\t\"first_name\": \"Juan\",\n\t\"last_name\": \"Pérez\",\n\t\"middle_name\": \"López\",\n\t\"username\": \"jperez1\",\n\t\"email\": \"jperez@gmail.com\",\n\t\"password\": \"Sup3rS3cr3t!\"\n}"
-						},
-						"url": {
-							"raw": "{{SCHEME}}://{{HOST}}:{{PORT}}{{PREFIX}}/signup",
-							"protocol": "{{SCHEME}}",
-							"host": [
-								"{{HOST}}"
-							],
-							"port": "{{PORT}}{{PREFIX}}",
-							"path": [
-								"signup"
-							]
-						}
-					},
-					"response": []
-				},
-				{
 					"name": "Existing user",
 					"event": [
 						{
 							"listen": "test",
 							"script": {
-								"id": "152acaa7-d6b0-4105-b321-9abbe7c15c65",
+								"id": "40e7905e-b6ea-4353-8a3e-8358d0af62e1",
 								"type": "text/javascript",
 								"exec": [
 									"pm.test('Response code is 409', () => {",
 									"    pm.response.to.have.status(409);",
 									"});",
 									"",
-									"pm.test('Response body contains \"Username and/or email already registered\"', () => {",
-									"    pm.expect(pm.response.text()).to.include('Username and/or email already registered');",
+									"pm.test('Response body equals \"Username and/or email already registered\"', () => {",
+									"    pm.expect(pm.response.text()).to.equal('Username and/or email already registered');",
 									"});",
 									""
 								]
@@ -129,15 +72,15 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "ab57899c-cf99-4fd4-b512-0cacd0165e00",
+								"id": "8168ed11-ba23-4214-8d70-d8d3e136f4cc",
 								"type": "text/javascript",
 								"exec": [
 									"pm.test('Response code is 400', () => {",
 									"    pm.response.to.have.status(400);",
 									"});",
 									"",
-									"pm.test('Response body contains \"Invalid email\"', () => {",
-									"    pm.expect(pm.response.text()).to.include('Invalid email');",
+									"pm.test('Response body equals \"Invalid email\"', () => {",
+									"    pm.expect(pm.response.text()).to.equal('Invalid email');",
 									"});",
 									""
 								]
@@ -186,15 +129,15 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "403bd0c9-bac1-487e-ab2b-a1293843e06e",
+								"id": "8e60255a-180b-42e4-847e-5c1931926b9c",
 								"type": "text/javascript",
 								"exec": [
 									"pm.test('Response code is 400', () => {",
 									"    pm.response.to.have.status(400);",
 									"});",
 									"",
-									"pm.test('Response body contains \"Password is too weak\"', () => {",
-									"    pm.expect(pm.response.text()).to.include('Password is too weak');",
+									"pm.test('Response body equals \"Password is too weak\"', () => {",
+									"    pm.expect(pm.response.text()).to.equal('Password is too weak');",
 									"});",
 									""
 								]
@@ -249,15 +192,15 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "a0944784-633c-471c-b5b1-4f51972cdf50",
+								"id": "186e8037-fd62-4fc2-b039-3b385cd69e17",
 								"type": "text/javascript",
 								"exec": [
 									"pm.test('Response code is 200', () => {",
 									"    pm.response.to.have.status(200);",
 									"});",
 									"",
-									"pm.test('Response body is successful', () => {",
-									"    pm.expect(pm.response.text()).to.include('OK');",
+									"pm.test('Response body equals \"OK\"', () => {",
+									"    pm.expect(pm.response.text()).to.equal('OK');",
 									"});",
 									"",
 									"pm.test('Set-Cookie is present', () => {",
@@ -333,15 +276,15 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "99d3ade1-3a54-4e75-be70-e6881670b456",
+								"id": "46a33dbb-3819-4e80-8435-b6e5c07a911a",
 								"type": "text/javascript",
 								"exec": [
 									"pm.test('Response code is 200', () => {",
 									"    pm.response.to.have.status(200);",
 									"});",
 									"",
-									"pm.test('Response body is successful', () => {",
-									"    pm.expect(pm.response.text()).to.include('OK');",
+									"pm.test('Response body equals \"OK\"', () => {",
+									"    pm.expect(pm.response.text()).to.equal('OK');",
 									"});",
 									"",
 									"pm.test('Set-Cookie is present', () => {",
@@ -394,15 +337,15 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "bee745bd-506d-4ce4-bd97-1f9eb8d2b1c5",
+								"id": "34ad39fc-31ff-40a6-950b-0d8e5891cab2",
 								"type": "text/javascript",
 								"exec": [
 									"pm.test('Response code is 401', () => {",
 									"    pm.response.to.have.status(401);",
 									"});",
 									"",
-									"pm.test('Response body contains \"Invalid username/email and/or password\"', () => {",
-									"    pm.expect(pm.response.text()).to.include('Invalid username/email and/or password');",
+									"pm.test('Response body equals \"Invalid username/email and/or password\"', () => {",
+									"    pm.expect(pm.response.text()).to.equal('Invalid username/email and/or password');",
 									"})",
 									"",
 									"pm.test('Set-Cookie is not present', () => {",
@@ -454,15 +397,15 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "bb0f9108-7075-48fa-96c0-9d2dfd90e4fd",
+								"id": "49b5b26e-93ec-42e6-94d5-fbc4dc38fab5",
 								"type": "text/javascript",
 								"exec": [
 									"pm.test('Response code is 401', () => {",
 									"    pm.response.to.have.status(401);",
 									"});",
 									"",
-									"pm.test('Response body contains \"Invalid username/email and/or password\"', () => {",
-									"    pm.expect(pm.response.text()).to.include('Invalid username/email and/or password');",
+									"pm.test('Response body equals \"Invalid username/email and/or password\"', () => {",
+									"    pm.expect(pm.response.text()).to.equal('Invalid username/email and/or password');",
 									"})",
 									"",
 									"pm.test('Set-Cookie is not present', () => {",
@@ -668,35 +611,31 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "7035d90a-2281-401a-ba59-7c1e50d3487a",
+								"id": "f36a111f-29e6-4bc5-be22-14d5018c084d",
 								"type": "text/javascript",
 								"exec": [
 									"pm.test('Response code is 200', () => {",
 									"    pm.response.to.have.status(200);",
 									"});",
 									"",
-									"pm.test('Set-Cookie is not present', () => {",
-									"    pm.response.to.not.have.header('Set-Cookie');",
-									"});",
-									"",
 									"const schema = {",
-									"    \"id\": {",
-									"        \"type\": \"number\"",
+									"    id: {",
+									"        type: 'number',",
 									"    },",
-									"    \"description\": {",
-									"        \"type\": \"string\"",
+									"    description: {",
+									"        type: 'string',",
 									"    },",
-									"    \"status\": {",
-									"        \"type\": \"string\"",
+									"    status: {",
+									"        type: 'string',",
 									"    },",
-									"    \"document_url\": {",
-									"        \"type\": \"string\"",
+									"    document_url: {",
+									"        type: 'string',",
 									"    },",
-									"    \"author\": {",
-									"        \"type\": \"string\"",
+									"    author: {",
+									"        type: 'string',",
 									"    },",
-									"    \"infolej_number\": {",
-									"        \"type\": \"string\"",
+									"    infolej_number: {",
+									"        type: 'string',",
 									"    },",
 									"};",
 									"const body = pm.response.text();",
@@ -782,15 +721,15 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "133decdb-2d35-4232-abf7-2f489f971041",
+								"id": "fde3ab17-a99a-4efd-a817-ff2861e4eef2",
 								"type": "text/javascript",
 								"exec": [
 									"pm.test('Response code is 404', () => {",
 									"    pm.response.to.have.status(404);",
 									"});",
 									"",
-									"pm.test('Response body contains \"Initiative with ID 10 not found\"', () => {",
-									"    pm.expect(pm.response.text()).to.include('Initiative with ID 10 not found');",
+									"pm.test('Response body equals \"Initiative with ID 10 not found\"', () => {",
+									"    pm.expect(pm.response.text()).to.equal('Initiative with ID 10 not found');",
 									"});",
 									""
 								]
@@ -846,7 +785,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "03922ae0-eafa-41e5-83b1-be5566c526c7",
+								"id": "d0b34cc2-394c-48d8-9d69-e5226e20e9fb",
 								"type": "text/javascript",
 								"exec": [
 									"pm.test('Response code is 200', () => {",
@@ -854,32 +793,32 @@
 									"});",
 									"",
 									"const schema = {",
-									"    \"type\" : \"array\",",
-									"    \"items\" : {",
-									"        \"id\": {",
-									"            \"type\": \"number\"",
+									"    type: 'array',",
+									"    items: {",
+									"        id: {",
+									"            type: 'number',",
 									"        },",
-									"        \"description\": {",
-									"            \"type\": \"string\"",
+									"        description: {",
+									"            type: 'string',",
 									"        },",
-									"        \"status\": {",
-									"            \"type\": \"string\"",
+									"        status: {",
+									"            type: 'string',",
 									"        },",
-									"        \"document_url\": {",
-									"            \"type\": \"string\"",
+									"        document_url: {",
+									"            type: 'string',",
 									"        },",
-									"        \"author\": {",
-									"            \"type\": \"string\"",
+									"        author: {",
+									"            type: 'string',",
 									"        },",
-									"        \"infolej_number\": {",
-									"            \"type\": \"string\"",
-									"        },",
+									"        infolej_number: {",
+									"            type: 'string',",
+									"        },  ",
 									"    },",
 									"};",
 									"const body = pm.response.text();",
 									"pm.test('Schema is an array of initiatives', () => {",
 									"    pm.expect(tv4.validate(body, schema)).to.be.true;",
-									"});l",
+									"});",
 									"",
 									"const areEqual = (a, b) => {",
 									"  return a.id === b.id &&",
@@ -887,13 +826,14 @@
 									"    a.status === b.status &&",
 									"    a.document_url === b.document_url &&",
 									"    a.author === b.author &&",
-									"    a.infolej_number === b.infolej_number",
+									"    a.infolej_number === b.infolej_number;",
 									"};",
 									"",
 									"const bodyJSON = JSON.parse(body);",
 									"const initiativeOne = {",
 									"    id: '1',",
 									"    description: 'Iniciativa número uno',",
+									"    status: 'Activa',",
 									"    document_url: 'http://congresoweb.congresojal.gob.mx',",
 									"    author: 'José Guadalupe Posada',",
 									"    infolej_number: '001',",
@@ -905,6 +845,7 @@
 									"const initiativeTwo = {",
 									"    id: '1',",
 									"    description: 'Iniciativa número dos',",
+									"    status: 'Inctiva',",
 									"    document_url: 'http://congresoweb.congresojal.gob.mx',",
 									"    author: 'José Arango Arámbula',",
 									"    infolej_number: '002',",
@@ -972,7 +913,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "29a41fd3-6671-4716-84ea-22e0958e07ff",
+								"id": "61dcd9c4-23a2-4d08-8ec0-315c45a75866",
 								"type": "text/javascript",
 								"exec": [
 									"pm.test('Response code is 200', () => {",
@@ -980,26 +921,26 @@
 									"});",
 									"",
 									"const schema = {",
-									"    \"type\" : \"array\",",
-									"    \"items\" : {",
-									"        \"id\": {",
-									"            \"type\": \"number\"",
+									"    type: 'array',",
+									"    items: {",
+									"        id: {",
+									"            type: 'number',",
 									"        },",
-									"        \"description\": {",
-									"            \"type\": \"string\"",
+									"        description: {",
+									"            type: 'string',",
 									"        },",
-									"        \"status\": {",
-									"            \"type\": \"string\"",
+									"        status: {",
+									"            type: 'string',",
 									"        },",
-									"        \"document_url\": {",
-									"            \"type\": \"string\"",
+									"        document_url: {",
+									"            type: 'string',",
 									"        },",
-									"        \"author\": {",
-									"            \"type\": \"string\"",
+									"        author: {",
+									"            type: 'string',",
 									"        },",
-									"        \"infolej_number\": {",
-									"            \"type\": \"string\"",
-									"        },",
+									"        infolej_number: {",
+									"            type: 'string',",
+									"        },  ",
 									"    },",
 									"};",
 									"const body = pm.response.text();",
@@ -1070,15 +1011,15 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "9e394585-0cab-4dbe-b0fd-f3382ee44f32",
+								"id": "462620b1-f85a-4264-bf3b-6168e0e22007",
 								"type": "text/javascript",
 								"exec": [
 									"pm.test('Response code is 404', () => {",
 									"    pm.response.to.have.status(404);",
 									"});",
 									"",
-									"pm.test('Response body contains \"Category with ID 10 not found\"', () => {",
-									"    pm.expect(pm.response.text()).to.include('Category with ID 10 not found');",
+									"pm.test('Response body equals \"Category with ID 10 not found\"', () => {",
+									"    pm.expect(pm.response.text()).to.equal('Category with ID 10 not found');",
 									"});",
 									""
 								]
@@ -1139,15 +1080,15 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "73420747-1dce-4526-8c11-070d8a45623f",
+								"id": "4251815e-96be-4b45-bb78-922e70e3262d",
 								"type": "text/javascript",
 								"exec": [
 									"pm.test('Response code is 400', () => {",
 									"    pm.response.to.have.status(400);",
 									"});",
 									"",
-									"pm.test('Response body contains \"Missing required parameter \\'category_id\\'\"', () => {",
-									"    pm.expect(pm.response.text()).to.include('Missing required parameter \\'category_id\\'');",
+									"pm.test('Response body equals \"Missing required parameter \\'category_id\\'\"', () => {",
+									"    pm.expect(pm.response.text()).to.equal('Missing required parameter \\'category_id\\'');",
 									"});",
 									""
 								]
