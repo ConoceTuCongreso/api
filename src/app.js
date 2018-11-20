@@ -4,16 +4,9 @@ const bodyParser = require('body-parser');
 const session = require('express-session');
 const cookieParser = require('cookie-parser');
 const http = require('http');
-const env = require('dotenv');
 
 const usersRouter = require('./routes/users');
 const initiativesRouter = require('./routes/initiative');
-
-if (process.env.NODE_ENV === 'test') {
-  env.config();
-} else if (process.env.NODE_ENV === 'dev') {
-  env.config({ path: '/home/drag/Documents/semestrei' });
-}
 
 const app = express();
 
