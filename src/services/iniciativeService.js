@@ -147,7 +147,7 @@ class InitiativeService extends DBServices {
           .catch((e) => {
             client.release();
             this.getLogger().error(`Request to insert failed. ${e}`);
-            throw new this.Error(409, 'Initiative signed already');
+            throw new this.Error(409, 'Initiative already signed with that INE');
           });
       })
       .catch((e) => {

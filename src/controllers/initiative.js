@@ -98,15 +98,15 @@ class Initiatives {
   sign(req, res) {
     try {
       this.initiativeValidation.validateGetInitiative(req.params.initiativeId);
-      this.initiativeValidation.validateSignParameters(req.query);
+      this.initiativeValidation.validateSignParameters(req.body);
     } catch (e) {
       res.status(e.code).send(e.msg);
       return;
     }
     const params = {
       initiative_id: req.params.initiativeId,
-      CIC: req.query.CIC,
-      OCR: req.query.OCR,
+      CIC: req.body.CIC,
+      OCR: req.body.OCR,
     };
     this.initiativeService.validateInitiative(params.initiative_id)
       .then(() => {
