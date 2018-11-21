@@ -715,13 +715,10 @@
 							"raw": "{}"
 						},
 						"url": {
-							"raw": "{{SCHEME}}://10.43.50.5:{{PORT}}{{PREFIX}}/logout",
+							"raw": "{{SCHEME}}://{{HOST}}:{{PORT}}{{PREFIX}}/logout",
 							"protocol": "{{SCHEME}}",
 							"host": [
-								"10",
-								"43",
-								"50",
-								"5"
+								"{{HOST}}"
 							],
 							"port": "{{PORT}}{{PREFIX}}",
 							"path": [
