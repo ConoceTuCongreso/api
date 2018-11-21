@@ -1,3 +1,5 @@
+const CODES = require('../utils/statusCodes');
+
 class User {
   constructor(logger, encryptor, userService, userValidation) {
     this.logger = logger;
@@ -31,7 +33,7 @@ class User {
           password: user.password_hash,
         };
         this.logger.info(`Successful login, user: ${req.body.username}.`);
-        res.status(200).send('OK');
+        res.status(CODES.OK).send('OK');
       })
       .catch((e) => {
         res.status(e.code).send(e.msg);
@@ -39,14 +41,9 @@ class User {
   }
 
   logout(req, res) {
-    if (req.session.user && req.cookies.user_sid) {
-      res.clearCookie('user_sid');
-      res.removeHeader('Set-Cookie');
-      this.logger.info('Successful logout');
-      res.status(205).send('OK');
-    } else {
-      res.status(205).send('You must be logged in to sign out.');
-    }
+    res.clearCookie('user_sid');
+    this.logger.info('Successful logout');
+    res.status(205).send('OK');
   }
 
   signup(req, res) {
@@ -90,7 +87,7 @@ class User {
                       password: user.password,
                     };
                     this.logger.info(`Successful registration, user: ${req.body.username}, email ${req.body.email}`);
-                    res.status('200').send('OK');
+                    res.status(CODES.OK).send('OK');
                   })
                   .catch((e) => {
                     this.logger.error(e);

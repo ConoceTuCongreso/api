@@ -1,3 +1,5 @@
+const CODES = require('../utils/statusCodes');
+
 class Initiatives {
   constructor(logger, initiativeService, initiativeValidation) {
     this.logger = logger;
@@ -22,7 +24,7 @@ class Initiatives {
       .then(() => {
         this.initiativeService.getInitiatives(req.query.category_id)
           .then((result) => {
-            res.status(200).send(result);
+            res.status(CODES.OK).send(result);
           })
           .catch((e) => {
             res.status(e.code).send(e.msg);
@@ -42,7 +44,7 @@ class Initiatives {
     }
     this.initiativeService.getInitiativeById(req.params.initiativeId)
       .then((result) => {
-        res.status(200).send(result);
+        res.status(CODES.OK).send(result);
       })
       .catch((e) => {
         res.status(e.code).send(e.msg);
@@ -60,7 +62,7 @@ class Initiatives {
       .then(() => {
         this.initiativeService.getInitiativeVotes(req.params.initiativeId)
           .then((result) => {
-            res.status(200).send(result);
+            res.status(CODES.OK).send(result);
           })
           .catch((e) => {
             res.status(e.code).send(e.msg);
@@ -82,7 +84,7 @@ class Initiatives {
       .then(() => {
         this.initiativeService.addToFavorites(req.session.user.id, req.params.initiativeId)
           .then(() => {
-            res.status(200).send('OK');
+            res.status(CODES.OK).send('OK');
           })
           .catch((e) => {
             res.status(e.code).send(e.msg);
@@ -110,7 +112,7 @@ class Initiatives {
       .then(() => {
         this.initiativeService.vote(params)
           .then(() => {
-            res.status(200).send('OK');
+            res.status(CODES.OK).send('OK');
           })
           .catch((e) => {
             res.status(e.code).send(e.msg);

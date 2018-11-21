@@ -68,7 +68,7 @@ class InitiativeService extends DBServices {
           });
       })
       .catch((e) => {
-        if (!e.code) {
+        if (!e.msg) {
           this.getLogger().error('Error Connecting to database');
           throw new this.Error(500, 'Error Connecting to database');
         }
@@ -119,11 +119,11 @@ class InitiativeService extends DBServices {
           .catch((e) => {
             client.release();
             this.getLogger().error(`Request to insert failed. ${e}`);
-            throw new this.Error(500, 'Favorite already added');
+            throw new this.Error(409, 'Favorite already added');
           });
       })
       .catch((e) => {
-        if (!e.code) {
+        if (!e.msg) {
           this.getLogger().error(`Error Connecting to database ${e}`);
           throw new this.Error(500, 'Error Connecting to database');
         }
@@ -147,7 +147,7 @@ class InitiativeService extends DBServices {
           .catch((e) => {
             client.release();
             this.getLogger().error(`Request to insert failed. ${e}`);
-            throw new this.Error(500, 'Initiative signed already');
+            throw new this.Error(409, 'Initiative signed already');
           });
       })
       .catch((e) => {

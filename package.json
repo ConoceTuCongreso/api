@@ -14,7 +14,6 @@
     "body-parser": "^1.18.3",
     "cookie-parser": "^1.4.3",
     "cors": "^2.8.4",
-    "dotenv": "^6.1.0",
     "email-validator": "^2.0.4",
     "eslint": "^5.6.1",
     "eslint-config-airbnb": "^17.1.0",
@@ -34,7 +33,7 @@
     "start": "nodemon src/app.js --ignore 'feedback.json'",
     "build": "babel src/ -d build",
     "serve": "nodemon src/app.js --ignore 'feedback.json'",
-    "test": "mocha test",
+    "test": "mocha --recursive test",
     "setup": "bash db-setup.sh; nodemon src/app.js --ignore 'feedback.json'",
     "integrate": "node_modules/.bin/newman run postman/api-test.postman_collection.json -e  postman/Local.postman_environment.json"
   }
