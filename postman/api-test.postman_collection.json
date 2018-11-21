@@ -10,6 +10,63 @@
 			"description": null,
 			"item": [
 				{
+					"name": "Happy path",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "01aac61f-cf5e-4101-a3cc-b6da15b553e0",
+								"type": "text/javascript",
+								"exec": [
+									"pm.test('Response code is 200', () => {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test('Response body contains \"OK\"', () => {",
+									"    pm.expect(pm.response.text()).to.include('OK');",
+									"});",
+									""
+								]
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "1e86aee1-709f-4544-b971-2c8a5bf527b4",
+								"type": "text/javascript",
+								"exec": [
+									""
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"first_name\": \"Juan\",\n\t\"last_name\": \"Pérez\",\n\t\"middle_name\": \"López\",\n\t\"username\": \"jperez1\",\n\t\"email\": \"jperez@gmail.com\",\n\t\"password\": \"Sup3rS3cr3t!\"\n}"
+						},
+						"url": {
+							"raw": "{{SCHEME}}://{{HOST}}:{{PORT}}{{PREFIX}}/signup",
+							"protocol": "{{SCHEME}}",
+							"host": [
+								"{{HOST}}"
+							],
+							"port": "{{PORT}}{{PREFIX}}",
+							"path": [
+								"signup"
+							]
+						}
+					},
+					"response": []
+				},
+				{
 					"name": "Existing user",
 					"event": [
 						{
@@ -213,32 +270,33 @@
 						{
 							"listen": "prerequest",
 							"script": {
-								"id": "24b2625e-e1c8-43c0-a713-a96c5ce32c5f",
+								"id": "d7cb262f-353d-4eea-8c8d-ea63b35eff9f",
 								"type": "text/javascript",
 								"exec": [
 									"const scheme = pm.variables.get('SCHEME');",
 									"const host = pm.variables.get('HOST');",
 									"const port = pm.variables.get('PORT');",
 									"const prefix = pm.variables.get('PREFIX');",
-									"const body = {",
+									"",
+									"const signupBody = {",
 									"\tfirst_name: 'Hermes',",
 									"\tlast_name: 'Espinola',",
 									"\tmiddle_name: 'Gonzalez',",
 									"\tusername: 'memes97',",
 									"\temail: 'memes97@gmail.com',",
-									"\tpassword: 'SoyHermes!',",
+									"\tpassword: 'SoyHermes0!',",
 									"};",
-									"const preRequest = {",
+									"const signupRequest = {",
 									"    url: `${scheme}://${host}:${port}${prefix}/signup`,",
 									"    method: 'POST',",
 									"    header: { 'Content-Type': 'application/json' },",
 									"    body: {",
 									"        mode: 'raw',",
-									"        raw: JSON.stringify(body),",
+									"        raw: JSON.stringify(signupBody),",
 									"    },",
 									"};",
 									"",
-									"pm.sendRequest(preRequest);",
+									"pm.sendRequest(signupRequest);",
 									""
 								]
 							}
@@ -254,7 +312,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\t\"username\": \"memes97\",\n\t\"password\": \"SoyHermes!\"\n}"
+							"raw": "{\n\t\"username\": \"memes97\",\n\t\"password\": \"SoyHermes0!\"\n}"
 						},
 						"url": {
 							"raw": "{{SCHEME}}://{{HOST}}:{{PORT}}{{PREFIX}}/login",
@@ -297,9 +355,33 @@
 						{
 							"listen": "prerequest",
 							"script": {
-								"id": "1e86aee1-709f-4544-b971-2c8a5bf527b4",
+								"id": "82e1169c-647c-40c4-8ffc-143905208065",
 								"type": "text/javascript",
 								"exec": [
+									"const scheme = pm.variables.get('SCHEME');",
+									"const host = pm.variables.get('HOST');",
+									"const port = pm.variables.get('PORT');",
+									"const prefix = pm.variables.get('PREFIX');",
+									"",
+									"const signupBody = {",
+									"\tfirst_name: 'Hermes',",
+									"\tlast_name: 'Espinola',",
+									"\tmiddle_name: 'Gonzalez',",
+									"\tusername: 'memes98',",
+									"\temail: 'memes98@gmail.com',",
+									"\tpassword: 'SoyHermes0!',",
+									"};",
+									"const signupRequest = {",
+									"    url: `${scheme}://${host}:${port}${prefix}/signup`,",
+									"    method: 'POST',",
+									"    header: { 'Content-Type': 'application/json' },",
+									"    body: {",
+									"        mode: 'raw',",
+									"        raw: JSON.stringify(signupBody),",
+									"    },",
+									"};",
+									"",
+									"pm.sendRequest(signupRequest);",
 									""
 								]
 							}
@@ -315,7 +397,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\t\"email\": \"memes97@gmail.com\",\n\t\"password\": \"SoyHermes!\"\n}"
+							"raw": "{\n\t\"email\": \"memes98@gmail.com\",\n\t\"password\": \"SoyHermes0!\"\n}"
 						},
 						"url": {
 							"raw": "{{SCHEME}}://{{HOST}}:{{PORT}}{{PREFIX}}/login",
@@ -417,9 +499,33 @@
 						{
 							"listen": "prerequest",
 							"script": {
-								"id": "1e86aee1-709f-4544-b971-2c8a5bf527b4",
+								"id": "5351b017-a96a-420a-83ff-2b20d47220ce",
 								"type": "text/javascript",
 								"exec": [
+									"const scheme = pm.variables.get('SCHEME');",
+									"const host = pm.variables.get('HOST');",
+									"const port = pm.variables.get('PORT');",
+									"const prefix = pm.variables.get('PREFIX');",
+									"",
+									"const signupBody = {",
+									"\tfirst_name: 'Hermes',",
+									"\tlast_name: 'Espinola',",
+									"\tmiddle_name: 'Gonzalez',",
+									"\tusername: 'memes99',",
+									"\temail: 'memes99@gmail.com',",
+									"\tpassword: 'SoyHermes0!',",
+									"};",
+									"const signupRequest = {",
+									"    url: `${scheme}://${host}:${port}${prefix}/signup`,",
+									"    method: 'POST',",
+									"    header: { 'Content-Type': 'application/json' },",
+									"    body: {",
+									"        mode: 'raw',",
+									"        raw: JSON.stringify(signupBody),",
+									"    },",
+									"};",
+									"",
+									"pm.sendRequest(signupRequest);",
 									""
 								]
 							}
@@ -435,7 +541,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\t\"email\": \"lperez@gmail.com\",\n\t\"password\": \"N0tmyP4ssw0rd\"\n}"
+							"raw": "{\n\t\"email\": \"memes99@gmail.com\",\n\t\"password\": \"N0tmyP4ssw0rd!\"\n}"
 						},
 						"url": {
 							"raw": "{{SCHEME}}://{{HOST}}:{{PORT}}{{PREFIX}}/login",
@@ -479,14 +585,15 @@
 						{
 							"listen": "prerequest",
 							"script": {
-								"id": "26a0ce93-001a-47f5-a30b-903da45132aa",
+								"id": "45124f51-3c84-4b73-b9f5-aa009a098976",
 								"type": "text/javascript",
 								"exec": [
 									"const scheme = pm.variables.get('SCHEME');",
 									"const host = pm.variables.get('HOST');",
 									"const port = pm.variables.get('PORT');",
 									"const prefix = pm.variables.get('PREFIX');",
-									"const body = {",
+									"",
+									"const signupBody = {",
 									"\tfirst_name: 'Martín',",
 									"\tlast_name: 'Moscosa',",
 									"\tmiddle_name: 'Martínez',",
@@ -494,19 +601,33 @@
 									"\temail: 'mmoscosa@gmail.com',",
 									"\tpassword: 'Sup3rS3cr3t!',",
 									"};",
-									"const preRequest = {",
+									"const signupRequest = {",
 									"    url: `${scheme}://${host}:${port}${prefix}/signup`,",
 									"    method: 'POST',",
 									"    header: { 'Content-Type': 'application/json' },",
 									"    body: {",
 									"        mode: 'raw',",
-									"        raw: JSON.stringify(body),",
+									"        raw: JSON.stringify(signupBody),",
 									"    },",
 									"};",
-									"",
-									"pm.sendRequest(preRequest, (err, response) => {",
-									"    let cookie = response.header['set-cookie']",
-									"    pm.variables.set('COOKIE', cookie);",
+									"pm.sendRequest(signupRequest, (err, response) => {",
+									"    const loginBody = {",
+									"    \tusername: 'mmoscosa1',",
+									"    \tpassword: 'Sup3rS3cr3t!',",
+									"    };",
+									"    const loginRequest = {",
+									"        url: `${scheme}://${host}:${port}${prefix}/login`,",
+									"        method: 'POST',",
+									"        header: { 'Content-Type': 'application/json' },",
+									"        body: {",
+									"            mode: 'raw',",
+									"            raw: JSON.stringify(loginBody),",
+									"        },",
+									"    };",
+									"    pm.sendRequest(loginRequest, (err, response) => {",
+									"       const cookie = response.headers.get('Set-Cookie');",
+									"        pm.variables.set('COOKIE', cookie); ",
+									"    });",
 									"});",
 									""
 								]
@@ -602,16 +723,16 @@
 			]
 		},
 		{
-			"name": "Initiatives",
-			"description": null,
+			"name": "Get initiative",
+			"description": "",
 			"item": [
 				{
-					"name": "Happy path one",
+					"name": "Happy path",
 					"event": [
 						{
 							"listen": "test",
 							"script": {
-								"id": "f36a111f-29e6-4bc5-be22-14d5018c084d",
+								"id": "00c9b315-4812-4267-befc-e869f2329894",
 								"type": "text/javascript",
 								"exec": [
 									"pm.test('Response code is 200', () => {",
@@ -639,34 +760,33 @@
 									"    },",
 									"};",
 									"const body = pm.response.text();",
-									"pm.test(`Schema contains fields ${Object.keys(schema)}`, () => {",
+									"pm.test('Schema is an initiative', () => {",
 									"    pm.expect(tv4.validate(body, schema)).to.be.true;",
 									"});",
 									"",
+									"const areEqual = (a, b) => {",
+									"  return a.id === b.id &&",
+									"    a.description === b.description &&",
+									"    a.status === b.status &&",
+									"    a.document_url === b.document_url &&",
+									"    a.author === b.author &&",
+									"    a.infolej_number === b.infolej_number;",
+									"};",
+									"",
 									"const bodyJSON = JSON.parse(body);",
-									"pm.test('id equals \"1\"', () => {",
-									"    pm.expect(bodyJSON.id).to.equal('1');",
+									"const initiative = {",
+									"    id: '1',",
+									"    description: 'Iniciativa número uno',",
+									"    status: 'Activa',",
+									"    document_url: 'http://congresoweb.congresojal.gob.mx',",
+									"    author: 'José Guadalupe Posada',",
+									"    infolej_number: '001',",
+									"};",
+									"pm.test(`Initiative equals ${initiative}`, () => {",
+									"    pm.expect(areEqual(bodyJSON, initiative)).to.be.true;",
 									"});",
 									"",
-									"pm.test('description equals \"Iniciativa número uno\"', () => {",
-									"    pm.expect(bodyJSON.description).to.equal('Iniciativa número uno');",
-									"});",
 									"",
-									"pm.test('status equals \"Activa\"', () => {",
-									"    pm.expect(bodyJSON.status).to.equal('Activa');",
-									"});",
-									"",
-									"pm.test('document_url equals \"http://congresoweb.congresojal.gob.mx\"', () => {",
-									"    pm.expect(bodyJSON.document_url).to.equal('http://congresoweb.congresojal.gob.mx');",
-									"});",
-									"",
-									"pm.test('author equals \"José Guadalupe Posada\"', () => {",
-									"    pm.expect(bodyJSON.author).to.equal('José Guadalupe Posada');",
-									"});",
-									"",
-									"pm.test('infolej_number equals \"001\"', () => {",
-									"    pm.expect(bodyJSON.infolej_number).to.equal('001');",
-									"});",
 									""
 								]
 							}
@@ -674,11 +794,11 @@
 						{
 							"listen": "prerequest",
 							"script": {
-								"id": "1a28b67d-315d-494e-8e55-c963ae385817",
+								"id": "372cbc50-f38c-42dc-9c44-601bd068dd66",
 								"type": "text/javascript",
 								"exec": [
-									"const iniciativeID = '1';",
-									"pm.variables.set('INITIATIVE_ID', iniciativeID);",
+									"const initiativeID = '1';",
+									"pm.variables.set('INITIATIVE_ID', initiativeID);",
 									""
 								]
 							}
@@ -716,7 +836,7 @@
 					"response": []
 				},
 				{
-					"name": "Non-existent iniciative",
+					"name": "Non-existent",
 					"event": [
 						{
 							"listen": "test",
@@ -778,9 +898,15 @@
 						}
 					},
 					"response": []
-				},
+				}
+			]
+		},
+		{
+			"name": "Get category's initiatives",
+			"description": "",
+			"item": [
 				{
-					"name": "Happy path category",
+					"name": "Happy path",
 					"event": [
 						{
 							"listen": "test",
@@ -876,10 +1002,6 @@
 							{
 								"key": "Content-Type",
 								"value": "application/json"
-							},
-							{
-								"key": "Cookie",
-								"value": "{{COOKIE}}"
 							}
 						],
 						"body": {
@@ -973,10 +1095,6 @@
 							{
 								"key": "Content-Type",
 								"value": "application/json"
-							},
-							{
-								"key": "Cookie",
-								"value": "{{COOKIE}}"
 							}
 						],
 						"body": {
@@ -1004,7 +1122,7 @@
 					"response": []
 				},
 				{
-					"name": "Non-existent category",
+					"name": "Non-existent",
 					"event": [
 						{
 							"listen": "test",
@@ -1042,10 +1160,6 @@
 							{
 								"key": "Content-Type",
 								"value": "application/json"
-							},
-							{
-								"key": "Cookie",
-								"value": "{{COOKIE}}"
 							}
 						],
 						"body": {
@@ -1109,10 +1223,6 @@
 							{
 								"key": "Content-Type",
 								"value": "application/json"
-							},
-							{
-								"key": "Cookie",
-								"value": "{{COOKIE}}"
 							}
 						],
 						"body": {
@@ -1134,6 +1244,732 @@
 					"response": []
 				}
 			]
+		},
+		{
+			"name": "Add initiative to favorites",
+			"description": null,
+			"item": [
+				{
+					"name": "Happy path",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "7a1b5641-1431-46b1-a286-86ab84a70a59",
+								"type": "text/javascript",
+								"exec": [
+									"pm.test('Response code is 200', () => {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test('Response body equals \"OK\"', () => {",
+									"    pm.expect(pm.response.text()).to.equal('OK');",
+									"});",
+									""
+								]
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "cb20b762-2767-4c25-a343-e4d88948390f",
+								"type": "text/javascript",
+								"exec": [
+									"const initiativeID = '1';",
+									"pm.variables.set('INITIATIVE_ID', initiativeID);",
+									"",
+									"const scheme = pm.variables.get('SCHEME');",
+									"const host = pm.variables.get('HOST');",
+									"const port = pm.variables.get('PORT');",
+									"const prefix = pm.variables.get('PREFIX');",
+									"",
+									"const signupBody = {",
+									"\tfirst_name: 'Carmina',",
+									"\tlast_name: 'Pérez',",
+									"\tmiddle_name: 'Guerrero',",
+									"\tusername: 'carmina00',",
+									"\temail: 'cperez@gmail.com',",
+									"\tpassword: 'SoyCarmina0!',",
+									"};",
+									"const signupRequest = {",
+									"    url: `${scheme}://${host}:${port}${prefix}/signup`,",
+									"    method: 'POST',",
+									"    header: { 'Content-Type': 'application/json' },",
+									"    body: {",
+									"        mode: 'raw',",
+									"        raw: JSON.stringify(signupBody),",
+									"    },",
+									"};",
+									"pm.sendRequest(signupRequest, () => {",
+									"    const loginBody = {",
+									"        username: 'carmina00',",
+									"        password: 'SoyCarmina0!',",
+									"    };",
+									"    const loginRequest = {",
+									"        url: `${scheme}://${host}:${port}${prefix}/login`,",
+									"        method: 'POST',",
+									"        header: { 'Content-Type': 'application/json' },",
+									"        body: {",
+									"            mode: 'raw',",
+									"            raw: JSON.stringify(loginBody),",
+									"        },",
+									"    };",
+									"    pm.sendRequest(loginRequest, (err, response) => {",
+									"       const cookie = response.headers.get('Set-Cookie');",
+									"       pm.variables.set('COOKIE', cookie);",
+									"    });",
+									"});",
+									""
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Cookie",
+								"value": "{{COOKIE}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{}"
+						},
+						"url": {
+							"raw": "{{SCHEME}}://{{HOST}}:{{PORT}}{{PREFIX}}/initiatives/{{INITIATIVE_ID}}/addToFavorites",
+							"protocol": "{{SCHEME}}",
+							"host": [
+								"{{HOST}}"
+							],
+							"port": "{{PORT}}{{PREFIX}}",
+							"path": [
+								"initiatives",
+								"{{INITIATIVE_ID}}",
+								"addToFavorites"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Unauthenticated",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "798e169c-b76a-435e-af49-e709834ae366",
+								"type": "text/javascript",
+								"exec": [
+									"pm.test('Response code is 401', () => {",
+									"    pm.response.to.have.status(401);",
+									"});",
+									"",
+									"pm.test('Response body equals \"Unauthorized\"', () => {",
+									"    pm.expect(pm.response.text()).to.equal('Unauthorized');",
+									"});",
+									""
+								]
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "90e3fec6-0dff-4981-bf1e-cf67ab2c44ae",
+								"type": "text/javascript",
+								"exec": [
+									"const initiativeID = '1';",
+									"pm.variables.set('INITIATIVE_ID', initiativeID);",
+									""
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Cookie",
+								"value": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{}"
+						},
+						"url": {
+							"raw": "{{SCHEME}}://{{HOST}}:{{PORT}}{{PREFIX}}/initiatives/{{INITIATIVE_ID}}/addToFavorites",
+							"protocol": "{{SCHEME}}",
+							"host": [
+								"{{HOST}}"
+							],
+							"port": "{{PORT}}{{PREFIX}}",
+							"path": [
+								"initiatives",
+								"{{INITIATIVE_ID}}",
+								"addToFavorites"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Already added",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "7cd465ca-63d2-493b-ad07-d66ce8517aa7",
+								"type": "text/javascript",
+								"exec": [
+									"pm.test('Response code is 409', () => {",
+									"    pm.response.to.have.status(409);",
+									"});",
+									"",
+									"pm.test('Response body equals \"Favorite already added\"', () => {",
+									"    pm.expect(pm.response.text()).to.equal('Favorite already added');",
+									"});",
+									""
+								]
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "496a994f-271d-428d-b998-d47ca78e7a74",
+								"type": "text/javascript",
+								"exec": [
+									"const initiativeID = '1';",
+									"pm.variables.set('INITIATIVE_ID', initiativeID);",
+									"",
+									"const scheme = pm.variables.get('SCHEME');",
+									"const host = pm.variables.get('HOST');",
+									"const port = pm.variables.get('PORT');",
+									"const prefix = pm.variables.get('PREFIX');",
+									"",
+									"const signupBody = {",
+									"\tfirst_name: 'Alejandro',",
+									"\tlast_name: 'Güereca',",
+									"\tmiddle_name: 'Valdivia',",
+									"\tusername: 'dragv',",
+									"\temail: 'aguereca@gmail.com',",
+									"\tpassword: 'SoyGuereca0!',",
+									"};",
+									"const signupRequest = {",
+									"    url: `${scheme}://${host}:${port}${prefix}/signup`,",
+									"    method: 'POST',",
+									"    header: { 'Content-Type': 'application/json' },",
+									"    body: {",
+									"        mode: 'raw',",
+									"        raw: JSON.stringify(signupBody),",
+									"    },",
+									"};",
+									"pm.sendRequest(signupRequest, () => {",
+									"    const loginBody = {",
+									"        username: 'dragv',",
+									"        password: 'SoyGuereca0!',",
+									"    };",
+									"    const loginRequest = {",
+									"        url: `${scheme}://${host}:${port}${prefix}/login`,",
+									"        method: 'POST',",
+									"        header: { 'Content-Type': 'application/json' },",
+									"        body: {",
+									"            mode: 'raw',",
+									"            raw: JSON.stringify(loginBody),",
+									"        },",
+									"    };",
+									"    pm.sendRequest(loginRequest, (err, response) => {",
+									"        const cookie = response.headers.get('Set-Cookie');",
+									"        pm.variables.set('COOKIE', cookie);",
+									"        const addToFavoriteRequest = {",
+									"            url: `${scheme}://${host}:${port}${prefix}/initiatives/${initiativeID}/addToFavorites`,",
+									"            method: 'POST',",
+									"            header: {",
+									"                'Content-Type': 'application/json',",
+									"                'Cookie': cookie,",
+									"            },",
+									"        };",
+									"        pm.sendRequest(addToFavoriteRequest);",
+									"    });",
+									"});",
+									""
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Cookie",
+								"value": "{{COOKIE}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{}"
+						},
+						"url": {
+							"raw": "{{SCHEME}}://{{HOST}}:{{PORT}}{{PREFIX}}/initiatives/{{INITIATIVE_ID}}/addToFavorites",
+							"protocol": "{{SCHEME}}",
+							"host": [
+								"{{HOST}}"
+							],
+							"port": "{{PORT}}{{PREFIX}}",
+							"path": [
+								"initiatives",
+								"{{INITIATIVE_ID}}",
+								"addToFavorites"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Non-existent initiative",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "ae16137c-c94d-4ba2-86fd-0d849f5ebf30",
+								"type": "text/javascript",
+								"exec": [
+									"pm.test('Response code is 404', () => {",
+									"    pm.response.to.have.status(404);",
+									"});",
+									"",
+									"pm.test('Response body equals \"Initiative with ID 10 not found\"', () => {",
+									"    pm.expect(pm.response.text()).to.equal('Initiative with ID 10 not found');",
+									"});",
+									""
+								]
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "564547da-262d-401b-8b88-0bd73c285b4c",
+								"type": "text/javascript",
+								"exec": [
+									"const initiativeID = '10';",
+									"pm.variables.set('INITIATIVE_ID', initiativeID);",
+									"",
+									"const scheme = pm.variables.get('SCHEME');",
+									"const host = pm.variables.get('HOST');",
+									"const port = pm.variables.get('PORT');",
+									"const prefix = pm.variables.get('PREFIX');",
+									"",
+									"const signupBody = {",
+									"\tfirst_name: 'Alejandro',",
+									"\tlast_name: 'Güereca',",
+									"\tmiddle_name: 'Valdivia',",
+									"\tusername: 'dragv2',",
+									"\temail: 'aguereca2@gmail.com',",
+									"\tpassword: 'SoyGuereca0!',",
+									"};",
+									"const signupRequest = {",
+									"    url: `${scheme}://${host}:${port}${prefix}/signup`,",
+									"    method: 'POST',",
+									"    header: { 'Content-Type': 'application/json' },",
+									"    body: {",
+									"        mode: 'raw',",
+									"        raw: JSON.stringify(signupBody),",
+									"    },",
+									"};",
+									"pm.sendRequest(signupRequest, () => {",
+									"    const loginBody = {",
+									"        username: 'dragv2',",
+									"        password: 'SoyGuereca0!',",
+									"    };",
+									"    const loginRequest = {",
+									"        url: `${scheme}://${host}:${port}${prefix}/login`,",
+									"        method: 'POST',",
+									"        header: { 'Content-Type': 'application/json' },",
+									"        body: {",
+									"            mode: 'raw',",
+									"            raw: JSON.stringify(loginBody),",
+									"        },",
+									"    };",
+									"    pm.sendRequest(loginRequest, (err, response) => {",
+									"        const cookie = response.headers.get('Set-Cookie');",
+									"        pm.variables.set('COOKIE', cookie);",
+									"    });",
+									"});",
+									""
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Cookie",
+								"value": "{{COOKIE}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{}"
+						},
+						"url": {
+							"raw": "{{SCHEME}}://{{HOST}}:{{PORT}}{{PREFIX}}/initiatives/{{INITIATIVE_ID}}/addToFavorites",
+							"protocol": "{{SCHEME}}",
+							"host": [
+								"{{HOST}}"
+							],
+							"port": "{{PORT}}{{PREFIX}}",
+							"path": [
+								"initiatives",
+								"{{INITIATIVE_ID}}",
+								"addToFavorites"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Sign initiative",
+			"description": "",
+			"item": [
+				{
+					"name": "Happy path",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "cbae2a2f-b8a4-4159-a979-54dff93d2552",
+								"type": "text/javascript",
+								"exec": [
+									"pm.test('Response code is 200', () => {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test('Response body equals \"OK\"', () => {",
+									"    pm.expect(pm.response.text()).to.equal('OK');",
+									"});",
+									""
+								]
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "49bddf7d-6ff2-460f-855b-39c41c01cecd",
+								"type": "text/javascript",
+								"exec": [
+									"const initiativeID = '1';",
+									"pm.variables.set('INITIATIVE_ID', initiativeID);",
+									"",
+									"const scheme = pm.variables.get('SCHEME');",
+									"const host = pm.variables.get('HOST');",
+									"const port = pm.variables.get('PORT');",
+									"const prefix = pm.variables.get('PREFIX');",
+									"",
+									"const signupBody = {",
+									"\tfirst_name: 'Jesús',",
+									"\tlast_name: 'Álvarez',",
+									"\tmiddle_name: 'Gómez',",
+									"\tusername: 'skullgsus2',",
+									"\temail: 'jgomez2@gmail.com',",
+									"\tpassword: 'SoyJesus0!',",
+									"};",
+									"const signupRequest = {",
+									"    url: `${scheme}://${host}:${port}${prefix}/signup`,",
+									"    method: 'POST',",
+									"    header: { 'Content-Type': 'application/json' },",
+									"    body: {",
+									"        mode: 'raw',",
+									"        raw: JSON.stringify(signupBody),",
+									"    },",
+									"};",
+									"pm.sendRequest(signupRequest, () => {",
+									"    const loginBody = {",
+									"        username: 'skullgsus2',",
+									"\t    password: 'SoyJesus0!',",
+									"    };",
+									"    const loginRequest = {",
+									"        url: `${scheme}://${host}:${port}${prefix}/login`,",
+									"        method: 'POST',",
+									"        header: { 'Content-Type': 'application/json' },",
+									"        body: {",
+									"            mode: 'raw',",
+									"            raw: JSON.stringify(loginBody),",
+									"        },",
+									"    };",
+									"    pm.sendRequest(loginRequest, (err, response) => {",
+									"       const cookie = response.headers.get('Set-Cookie');",
+									"       pm.variables.set('COOKIE', cookie);",
+									"    });",
+									"});",
+									""
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Cookie",
+								"value": "{{COOKIE}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"CIC\": \"SomeNumber\",\n\t\"OCR\": \"AnotherNumber\"\n}"
+						},
+						"url": {
+							"raw": "{{SCHEME}}://{{HOST}}:{{PORT}}{{PREFIX}}/initiatives/{{INITIATIVE_ID}}/sign",
+							"protocol": "{{SCHEME}}",
+							"host": [
+								"{{HOST}}"
+							],
+							"port": "{{PORT}}{{PREFIX}}",
+							"path": [
+								"initiatives",
+								"{{INITIATIVE_ID}}",
+								"sign"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Unauthorized",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "633b96f9-f08b-4746-9337-d3f8f50e7acc",
+								"type": "text/javascript",
+								"exec": [
+									"pm.test('Response code is 401', () => {",
+									"    pm.response.to.have.status(401);",
+									"});",
+									"",
+									"pm.test('Response body equals \"Unauthorized\"', () => {",
+									"    pm.expect(pm.response.text()).to.equal('Unauthorized');",
+									"});",
+									""
+								]
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "bd485750-86e9-446c-b009-66a53c41fe1e",
+								"type": "text/javascript",
+								"exec": [
+									"const initiativeID = '1';",
+									"pm.variables.set('INITIATIVE_ID', initiativeID);",
+									""
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Cookie",
+								"value": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"CIC\": \"SomeNumber\",\n\t\"OCR\": \"AnotherNumber\"\n}"
+						},
+						"url": {
+							"raw": "{{SCHEME}}://{{HOST}}:{{PORT}}{{PREFIX}}/initiatives/{{INITIATIVE_ID}}/sign",
+							"protocol": "{{SCHEME}}",
+							"host": [
+								"{{HOST}}"
+							],
+							"port": "{{PORT}}{{PREFIX}}",
+							"path": [
+								"initiatives",
+								"{{INITIATIVE_ID}}",
+								"sign"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Already signed",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "e1445f22-b47f-44d0-bd98-85c04e384d96",
+								"type": "text/javascript",
+								"exec": [
+									"pm.test('Response code is 409', () => {",
+									"    pm.response.to.have.status(409);",
+									"});",
+									"",
+									"pm.test('Response body equals \"Initiative already signed with that INE\"', () => {",
+									"    pm.expect(pm.response.text()).to.equal('Initiative already signed with that INE');",
+									"});",
+									""
+								]
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "855b0437-0969-4cd4-9930-72b61c31c9e0",
+								"type": "text/javascript",
+								"exec": [
+									"const initiativeID = '1';",
+									"pm.variables.set('INITIATIVE_ID', initiativeID);",
+									"",
+									"const scheme = pm.variables.get('SCHEME');",
+									"const host = pm.variables.get('HOST');",
+									"const port = pm.variables.get('PORT');",
+									"const prefix = pm.variables.get('PREFIX');",
+									"",
+									"const signupBody = {",
+									"\tfirst_name: 'Jesús',",
+									"\tlast_name: 'Álvarez',",
+									"\tmiddle_name: 'Gómez',",
+									"\tusername: 'skullgsus3',",
+									"\temail: 'jgomez3@gmail.com',",
+									"\tpassword: 'SoyJesus0!',",
+									"};",
+									"const signupRequest = {",
+									"    url: `${scheme}://${host}:${port}${prefix}/signup`,",
+									"    method: 'POST',",
+									"    header: { 'Content-Type': 'application/json' },",
+									"    body: {",
+									"        mode: 'raw',",
+									"        raw: JSON.stringify(signupBody),",
+									"    },",
+									"};",
+									"pm.sendRequest(signupRequest, () => {",
+									"    const loginBody = {",
+									"        username: 'skullgsus3',",
+									"\t    password: 'SoyJesus0!',",
+									"    };",
+									"    const loginRequest = {",
+									"        url: `${scheme}://${host}:${port}${prefix}/login`,",
+									"        method: 'POST',",
+									"        header: { 'Content-Type': 'application/json' },",
+									"        body: {",
+									"            mode: 'raw',",
+									"            raw: JSON.stringify(loginBody),",
+									"        },",
+									"    };",
+									"    pm.sendRequest(loginRequest, (err, response) => {",
+									"       const cookie = response.headers.get('Set-Cookie');",
+									"       pm.variables.set('COOKIE', cookie);",
+									"       const signRequest = {",
+									"            url: `${scheme}://${host}:${port}${prefix}/initiatives/${initiativeID}/sign`,",
+									"            method: 'POST',",
+									"            header: {",
+									"                'Content-Type': 'application/json',",
+									"                'Cookie': cookie,",
+									"            },",
+									"        };",
+									"        pm.sendRequest(signRequest);",
+									"    });",
+									"});",
+									""
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Cookie",
+								"value": "{{COOKIE}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"CIC\": \"SomeNumber\",\n\t\"OCR\": \"AnotherNumber\"\n}"
+						},
+						"url": {
+							"raw": "{{SCHEME}}://{{HOST}}:{{PORT}}{{PREFIX}}/initiatives/{{INITIATIVE_ID}}/sign",
+							"protocol": "{{SCHEME}}",
+							"host": [
+								"{{HOST}}"
+							],
+							"port": "{{PORT}}{{PREFIX}}",
+							"path": [
+								"initiatives",
+								"{{INITIATIVE_ID}}",
+								"sign"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"id": "18bed66d-8070-4380-890e-09dce0b5a16a",
+				"type": "text/javascript",
+				"exec": [
+					"const scheme = pm.variables.get('SCHEME');",
+					"const host = pm.variables.get('HOST');",
+					"const port = pm.variables.get('PORT');",
+					"const prefix = pm.variables.get('PREFIX');",
+					"const logoutRequest = {",
+					"    url: `${scheme}://${host}:${port}${prefix}/logout`,",
+					"    method: 'POST',",
+					"};",
+					"pm.sendRequest(logoutRequest);",
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"id": "2bd53aff-7127-4e41-97a5-0ef22f588a53",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
 		}
 	]
 }
