@@ -1,4 +1,5 @@
 const DBServices = require('./db');
+const CODES = require('../utils/statusCodes');
 
 class InitiativeService extends DBServices {
   getInitiatives(categoryId) {
@@ -27,7 +28,7 @@ class InitiativeService extends DBServices {
             }
             client.release();
             this.getLogger().error(`Internal Server Error: ${e}`);
-            throw new this.Error(500, 'Internal Server Error');
+            throw new this.Error(CODES.INTERNAL_SERVER_ERROR, 'Internal Server Error');
           });
       })
       .catch((e) => {
@@ -35,7 +36,7 @@ class InitiativeService extends DBServices {
           throw e;
         }
         this.getLogger().error(`Internal Server Error: ${e}`);
-        throw new this.Error(500, 'Internal Server Error');
+        throw new this.Error(CODES.INTERNAL_SERVER_ERROR, 'Internal Server Error');
       });
   }
 
@@ -52,7 +53,7 @@ class InitiativeService extends DBServices {
         return client.query(query)
           .then((result) => {
             if (result.rows.length < 1) {
-              throw new this.Error(404, `Initiative with ID ${id} not found`);
+              throw new this.Error(CODES.NOT_FOUND, `Initiative with ID ${id} not found`);
             }
             client.release();
             return result.rows[0];
@@ -64,13 +65,13 @@ class InitiativeService extends DBServices {
               throw e;
             }
             this.getLogger().error(e);
-            throw new this.Error(500, 'Error retrieving data');
+            throw new this.Error(CODES.INTERNAL_SERVER_ERROR, 'Error retrieving data');
           });
       })
       .catch((e) => {
         if (!e.msg) {
           this.getLogger().error('Error Connecting to database');
-          throw new this.Error(500, 'Error Connecting to database');
+          throw new this.Error(CODES.INTERNAL_SERVER_ERROR, 'Error Connecting to database');
         }
         throw e;
       });
@@ -96,12 +97,12 @@ class InitiativeService extends DBServices {
           .catch(() => {
             client.release();
             this.getLogger().error('Query was a no no');
-            throw new this.Error(500, 'Error Connecting to database');
+            throw new this.Error(CODES.INTERNAL_SERVER_ERROR, 'Error Connecting to database');
           });
       })
       .catch(() => {
         this.getLogger().error('Error Connecting to database');
-        throw new this.Error(500, 'Error Connecting to database');
+        throw new this.Error(CODES.INTERNAL_SERVER_ERROR, 'Error Connecting to database');
       });
   }
 
@@ -119,13 +120,13 @@ class InitiativeService extends DBServices {
           .catch((e) => {
             client.release();
             this.getLogger().error(`Request to insert failed. ${e}`);
-            throw new this.Error(409, 'Favorite already added');
+            throw new this.Error(CODES.CONFLICT, 'Favorite already added');
           });
       })
       .catch((e) => {
         if (!e.msg) {
           this.getLogger().error(`Error Connecting to database ${e}`);
-          throw new this.Error(500, 'Error Connecting to database');
+          throw new this.Error(CODES.INTERNAL_SERVER_ERROR, 'Error Connecting to database');
         }
         throw e;
       });
@@ -147,13 +148,13 @@ class InitiativeService extends DBServices {
           .catch((e) => {
             client.release();
             this.getLogger().error(`Request to insert failed. ${e}`);
-            throw new this.Error(409, 'Initiative already signed with that INE');
+            throw new this.Error(CODES.CONFLICT, 'Initiative already signed with that INE');
           });
       })
       .catch((e) => {
         if (!e.msg) {
           this.getLogger().error('Error Connecting to database');
-          throw new this.Error(500, 'Error Connecting to database');
+          throw new this.Error(CODES.INTERNAL_SERVER_ERROR, 'Error Connecting to database');
         }
         throw e;
       });
@@ -178,7 +179,7 @@ class InitiativeService extends DBServices {
             client.release();
             if (result.rows.length < 1) {
               this.getLogger().error(`Category with ID ${id} not found`);
-              throw new this.Error(404, `Category with ID ${id} not found`);
+              throw new this.Error(CODES.NOT_FOUND, `Category with ID ${id} not found`);
             }
             this.getLogger().info(`Category with ID ${id} found`);
           })
@@ -187,7 +188,7 @@ class InitiativeService extends DBServices {
               throw e;
             }
             this.getLogger().error(`Internal Server Error: ${e}`);
-            throw new this.Error(500, 'Internal Server Error');
+            throw new this.Error(CODES.INTERNAL_SERVER_ERROR, 'Internal Server Error');
           });
       })
       .catch((e) => {
@@ -195,7 +196,7 @@ class InitiativeService extends DBServices {
           throw e;
         }
         this.getLogger().error(`Internal Server Error: ${e}`);
-        throw new this.Error(500, 'Internal Server Error');
+        throw new this.Error(CODES.INTERNAL_SERVER_ERROR, 'Internal Server Error');
       });
   }
 }

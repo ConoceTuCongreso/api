@@ -1,5 +1,6 @@
 const DBServices = require('./db');
 const Encryptor = require('./encryptor');
+const CODES = require('../utils/statusCodes');
 
 class UserService extends DBServices {
   constructor() {
@@ -31,7 +32,7 @@ class UserService extends DBServices {
       })
       .catch((e) => {
         this.getLogger().error(e);
-        throw new this.Error(500, 'Error Connecting to database');
+        throw new this.Error(CODES.INTERNAL_SERVER_ERROR, 'Internal Server Error');
       });
   }
 
@@ -56,7 +57,7 @@ class UserService extends DBServices {
       })
       .catch((e) => {
         this.getLogger().error(e);
-        throw new this.Error(500, 'Error Connecting to database');
+        throw new this.Error(CODES.INTERNAL_SERVER_ERROR, 'Internal Server Error');
       });
   }
 
@@ -71,7 +72,7 @@ class UserService extends DBServices {
       .then((user) => {
         if (!user) {
           this.getLogger().info('No user found with specified username.');
-          throw new this.Error(401, 'Invalid username/email and/or password');
+          throw new this.Error(CODES.UNAUTHORIZED, 'Invalid username/email and/or password');
         } else {
           return this.encryptor.compare(password, user.password_hash)
             .then((match) => {
@@ -79,11 +80,11 @@ class UserService extends DBServices {
                 return user;
               }
               this.getLogger().info('Miss match with username and password given.');
-              throw new this.Error(401, 'Invalid username/email and/or password');
+              throw new this.Error(CODES.UNAUTHORIZED, 'Invalid username/email and/or password');
             })
             .catch((e) => {
               this.getLogger().error(e.msg);
-              throw new this.Error(401, 'Invalid username/email and/or password');
+              throw new this.Error(CODES.UNAUTHORIZED, 'Invalid username/email and/or password');
             });
         }
       })
@@ -98,7 +99,7 @@ class UserService extends DBServices {
       .then((user) => {
         if (user) {
           this.getLogger().info('Username already taken.');
-          throw new this.Error(409, 'Username and/or email already registered');
+          throw new this.Error(CODES.CONFLICT, 'Username and/or email already registered');
         }
       })
       .catch((e) => {
@@ -112,7 +113,7 @@ class UserService extends DBServices {
       .then((user) => {
         if (user) {
           this.getLogger().info('Email already taken.');
-          throw new this.Error(400, 'Username and/or email already registered');
+          throw new this.Error(CODES.BAD_REQUEST, 'Username and/or email already registered');
         }
       })
       .catch((e) => {
