@@ -43,7 +43,7 @@ class User {
   logout(req, res) {
     res.clearCookie('user_sid');
     this.logger.info('Successful logout');
-    res.status(205).send('OK');
+    res.status(CODES.RESET_CONTENT).send('OK');
   }
 
   signup(req, res) {
@@ -91,7 +91,7 @@ class User {
                   })
                   .catch((e) => {
                     this.logger.error(e);
-                    res.status('500').send('Error connecting to the database');
+                    res.status(CODES.INTERNAL_SERVER_ERROR).send('Internal Server Error');
                   });
               });
           })
