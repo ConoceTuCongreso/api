@@ -52,5 +52,20 @@ VALUES
     '002'
 );
 
-INSERT INTO initiatives_categories(category_id, initiatives_id) VALUES (1, 1);
-INSERT INTO initiatives_categories(category_id, initiatives_id) VALUES (1, 2);
+INSERT INTO initiatives_categories(category_id, initiatives_id) VALUES (1, 1), (1, 2);
+
+INSERT INTO vote_values(id, name) VALUES (1, 'A favor'), (2, 'En contra');
+
+INSERT INTO congresspeople(id, name) VALUES
+(1, 'Marcos Martínez'),
+(2, 'Pedro Fernández'),
+(3, 'Juan Pérez'),
+(4, 'Marta López'),
+(5, 'Mark Zuckerberg');
+
+INSERT INTO initiative_votes(value_id, initiative_id, congressperson_id) VALUES
+(1, 1, 3),
+(1, 1, 4),
+(1, 1, 5),
+(2, 1, 1),
+(2, 1, 2);

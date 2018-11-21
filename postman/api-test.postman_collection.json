@@ -902,6 +902,185 @@
 			]
 		},
 		{
+			"name": "Get initiative's votes",
+			"description": "",
+			"item": [
+				{
+					"name": "Happy path",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "bab5da9d-535b-4abf-99fd-25f1d7fcb3ca",
+								"type": "text/javascript",
+								"exec": [
+									"pm.test('Response code is 200', () => {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"const schema = {",
+									"    items: {",
+									"        value: {",
+									"            type: 'string',",
+									"        },",
+									"        congresspeople: {",
+									"            items: {",
+									"                type: 'string',",
+									"            },",
+									"        },",
+									"    },",
+									"};",
+									"const body = pm.response.text();",
+									"pm.test('Schema is a list of vote values and congresspeople', () => {",
+									"    pm.expect(tv4.validate(body, schema)).to.be.true;",
+									"});",
+									"",
+									"const areEqualLists = (a, b) => {",
+									"    if (a.length != b.length) return false;",
+									"    for (let i = 0; i < a.length; i++) {",
+									"        if (a[i] !== b[i]) return false;",
+									"    }",
+									"    return true;",
+									"};",
+									"",
+									"const areEqual = (a, b) => {",
+									"  return a.value === b.value && areEqualLists(a.congresspeople, b.congresspeople);",
+									"};",
+									"",
+									"const bodyJSON = JSON.parse(body);",
+									"",
+									"const values1 = {",
+									"    value: 'A favor',",
+									"    congresspeople: [",
+									"        'Juan Pérez',",
+									"        'Mark Zuckerberg',",
+									"        'Marta López',",
+									"    ],",
+									"};",
+									"pm.test(`First item equals ${values1}`, () => {",
+									"    pm.expect(areEqual(bodyJSON[0], values1)).to.be.true;",
+									"});",
+									"",
+									"const values2 = {",
+									"    value: 'En contra',",
+									"    congresspeople: [",
+									"        'Marcos Martínez',",
+									"        'Pedro Fernández',",
+									"    ],",
+									"};",
+									"pm.test(`Second item equals ${values1}`, () => {",
+									"    pm.expect(areEqual(bodyJSON[1], values2)).to.be.true;",
+									"});",
+									"",
+									""
+								]
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "372cbc50-f38c-42dc-9c44-601bd068dd66",
+								"type": "text/javascript",
+								"exec": [
+									"const initiativeID = '1';",
+									"pm.variables.set('INITIATIVE_ID', initiativeID);",
+									""
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{}"
+						},
+						"url": {
+							"raw": "{{SCHEME}}://{{HOST}}:{{PORT}}{{PREFIX}}/initiatives/{{INITIATIVE_ID}}/votes",
+							"protocol": "{{SCHEME}}",
+							"host": [
+								"{{HOST}}"
+							],
+							"port": "{{PORT}}{{PREFIX}}",
+							"path": [
+								"initiatives",
+								"{{INITIATIVE_ID}}",
+								"votes"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Non-existent",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "fde3ab17-a99a-4efd-a817-ff2861e4eef2",
+								"exec": [
+									"pm.test('Response code is 404', () => {",
+									"    pm.response.to.have.status(404);",
+									"});",
+									"",
+									"pm.test('Response body equals \"Initiative with ID 10 not found\"', () => {",
+									"    pm.expect(pm.response.text()).to.equal('Initiative with ID 10 not found');",
+									"});",
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "8998d6c0-6965-436c-8054-d0db7303bdc9",
+								"exec": [
+									"const initiativeID = '10';",
+									"pm.variables.set('INITIATIVE_ID', initiativeID);",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{}"
+						},
+						"url": {
+							"raw": "{{SCHEME}}://{{HOST}}:{{PORT}}{{PREFIX}}/initiatives/{{INITIATIVE_ID}}/votes",
+							"protocol": "{{SCHEME}}",
+							"host": [
+								"{{HOST}}"
+							],
+							"port": "{{PORT}}{{PREFIX}}",
+							"path": [
+								"initiatives",
+								"{{INITIATIVE_ID}}",
+								"votes"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
 			"name": "Get category's initiatives",
 			"description": "",
 			"item": [
