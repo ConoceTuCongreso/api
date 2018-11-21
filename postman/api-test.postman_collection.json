@@ -15,7 +15,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "01aac61f-cf5e-4101-a3cc-b6da15b553e0",
+								"id": "764ba33a-8885-448b-bc3a-b5b36b377af3",
 								"type": "text/javascript",
 								"exec": [
 									"pm.test('Response code is 200', () => {",
@@ -24,6 +24,15 @@
 									"",
 									"pm.test('Response body contains \"OK\"', () => {",
 									"    pm.expect(pm.response.text()).to.include('OK');",
+									"});",
+									"",
+									"pm.test('Set-Cookie is present', () => {",
+									"    pm.response.to.have.header('Set-Cookie');",
+									"});",
+									"",
+									"pm.test('Cookie \"user_sid\" exists', () => {",
+									"    const hasUserSIDCookie = pm.cookies.has('user_sid');",
+									"    pm.expect(hasUserSIDCookie).to.be.true;",
 									"});",
 									""
 								]
@@ -249,7 +258,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "186e8037-fd62-4fc2-b039-3b385cd69e17",
+								"id": "b77bcee1-1909-4926-a5b5-047498f6e7a3",
 								"type": "text/javascript",
 								"exec": [
 									"pm.test('Response code is 200', () => {",
@@ -263,6 +272,11 @@
 									"pm.test('Set-Cookie is present', () => {",
 									"    pm.response.to.have.header('Set-Cookie');",
 									"});",
+									"",
+									"pm.test('Cookie \"user_sid\" exists', () => {",
+									"    const hasUserSIDCookie = pm.cookies.has('user_sid');",
+									"    pm.expect(hasUserSIDCookie).to.be.true;",
+									"});",
 									""
 								]
 							}
@@ -270,7 +284,7 @@
 						{
 							"listen": "prerequest",
 							"script": {
-								"id": "d7cb262f-353d-4eea-8c8d-ea63b35eff9f",
+								"id": "f303cb28-9b74-4faf-bb9b-7a0d205675a6",
 								"type": "text/javascript",
 								"exec": [
 									"const scheme = pm.variables.get('SCHEME');",
@@ -295,7 +309,6 @@
 									"        raw: JSON.stringify(signupBody),",
 									"    },",
 									"};",
-									"",
 									"pm.sendRequest(signupRequest);",
 									""
 								]
@@ -334,7 +347,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "46a33dbb-3819-4e80-8435-b6e5c07a911a",
+								"id": "5b16c5f4-c61f-4460-9ddf-04b2d2bef9fd",
 								"type": "text/javascript",
 								"exec": [
 									"pm.test('Response code is 200', () => {",
@@ -347,6 +360,11 @@
 									"",
 									"pm.test('Set-Cookie is present', () => {",
 									"    pm.response.to.have.header('Set-Cookie');",
+									"});",
+									"",
+									"pm.test('Cookie \"user_sid\" exists', () => {",
+									"    const hasUserSIDCookie = pm.cookies.has('user_sid');",
+									"    pm.expect(hasUserSIDCookie).to.be.true;",
 									"});",
 									""
 								]
@@ -569,23 +587,29 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "dcda4d51-9bda-409f-87fb-fb049c8f26ee",
+								"id": "7f8d3ba0-4fce-4770-99a0-6335cc8148a5",
 								"type": "text/javascript",
 								"exec": [
 									"pm.test('Response code is 205', () => {",
 									"    pm.response.to.have.status(205);",
 									"});",
 									"",
-									"pm.test('Set-Cookie is not present', () => {",
-									"    pm.response.to.not.have.header('Set-Cookie');",
-									"});"
+									"pm.test('Set-Cookie is present', () => {",
+									"    pm.response.to.have.header('Set-Cookie');",
+									"});",
+									"",
+									"pm.test('Cookie \"user_id\" does not exist', () => {",
+									"    const hasUserSIDCookie = pm.cookies.has('user_sid');",
+									"    pm.expect(hasUserSIDCookie).to.not.be.true;",
+									"});",
+									""
 								]
 							}
 						},
 						{
 							"listen": "prerequest",
 							"script": {
-								"id": "45124f51-3c84-4b73-b9f5-aa009a098976",
+								"id": "d6e72088-2bd3-42de-a382-00f2bf6b28b5",
 								"type": "text/javascript",
 								"exec": [
 									"const scheme = pm.variables.get('SCHEME');",
@@ -610,25 +634,7 @@
 									"        raw: JSON.stringify(signupBody),",
 									"    },",
 									"};",
-									"pm.sendRequest(signupRequest, (err, response) => {",
-									"    const loginBody = {",
-									"    \tusername: 'mmoscosa1',",
-									"    \tpassword: 'Sup3rS3cr3t!',",
-									"    };",
-									"    const loginRequest = {",
-									"        url: `${scheme}://${host}:${port}${prefix}/login`,",
-									"        method: 'POST',",
-									"        header: { 'Content-Type': 'application/json' },",
-									"        body: {",
-									"            mode: 'raw',",
-									"            raw: JSON.stringify(loginBody),",
-									"        },",
-									"    };",
-									"    pm.sendRequest(loginRequest, (err, response) => {",
-									"       const cookie = response.headers.get('Set-Cookie');",
-									"        pm.variables.set('COOKIE', cookie); ",
-									"    });",
-									"});",
+									"pm.sendRequest(signupRequest);",
 									""
 								]
 							}
@@ -640,10 +646,6 @@
 							{
 								"key": "Content-Type",
 								"value": "application/json"
-							},
-							{
-								"key": "Cookie",
-								"value": "{{COOKIE}}"
 							}
 						],
 						"body": {
@@ -670,16 +672,22 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "20ecaa40-c383-40f2-b839-418f064995b3",
+								"id": "c107edd9-4912-4051-829d-34fa1604f215",
 								"type": "text/javascript",
 								"exec": [
 									"pm.test('Response code is 205', () => {",
 									"    pm.response.to.have.status(205);",
 									"});",
 									"",
-									"pm.test('Set-Cookie is not present', () => {",
-									"    pm.response.to.not.have.header('Set-Cookie');",
-									"});"
+									"pm.test('Set-Cookie is present', () => {",
+									"    pm.response.to.have.header('Set-Cookie');",
+									"});",
+									"",
+									"pm.test('Cookie \"user_id\" does not exist', () => {",
+									"    const hasUserSIDCookie = pm.cookies.has('user_sid');",
+									"    pm.expect(hasUserSIDCookie).to.not.be.true;",
+									"});",
+									""
 								]
 							}
 						},
@@ -707,10 +715,13 @@
 							"raw": "{}"
 						},
 						"url": {
-							"raw": "{{SCHEME}}://{{HOST}}:{{PORT}}{{PREFIX}}/logout",
+							"raw": "{{SCHEME}}://10.43.50.5:{{PORT}}{{PREFIX}}/logout",
 							"protocol": "{{SCHEME}}",
 							"host": [
-								"{{HOST}}"
+								"10",
+								"43",
+								"50",
+								"5"
 							],
 							"port": "{{PORT}}{{PREFIX}}",
 							"path": [
@@ -810,10 +821,6 @@
 							{
 								"key": "Content-Type",
 								"value": "application/json"
-							},
-							{
-								"key": "Cookie",
-								"value": "{{COOKIE}}"
 							}
 						],
 						"body": {
@@ -874,10 +881,6 @@
 							{
 								"key": "Content-Type",
 								"value": "application/json"
-							},
-							{
-								"key": "Cookie",
-								"value": "{{COOKIE}}"
 							}
 						],
 						"body": {
@@ -1330,10 +1333,6 @@
 							{
 								"key": "Content-Type",
 								"value": "application/json"
-							},
-							{
-								"key": "Cookie",
-								"value": "{{COOKIE}}"
 							}
 						],
 						"body": {
@@ -1395,10 +1394,6 @@
 							{
 								"key": "Content-Type",
 								"value": "application/json"
-							},
-							{
-								"key": "Cookie",
-								"value": ""
 							}
 						],
 						"body": {
@@ -1444,7 +1439,7 @@
 						{
 							"listen": "prerequest",
 							"script": {
-								"id": "496a994f-271d-428d-b998-d47ca78e7a74",
+								"id": "63b1bf35-b91f-43f6-8f1a-196a607411c2",
 								"type": "text/javascript",
 								"exec": [
 									"const initiativeID = '1';",
@@ -1487,15 +1482,10 @@
 									"        },",
 									"    };",
 									"    pm.sendRequest(loginRequest, (err, response) => {",
-									"        const cookie = response.headers.get('Set-Cookie');",
-									"        pm.variables.set('COOKIE', cookie);",
 									"        const addToFavoriteRequest = {",
 									"            url: `${scheme}://${host}:${port}${prefix}/initiatives/${initiativeID}/addToFavorites`,",
 									"            method: 'POST',",
-									"            header: {",
-									"                'Content-Type': 'application/json',",
-									"                'Cookie': cookie,",
-									"            },",
+									"            header: { 'Content-Type': 'application/json' },",
 									"        };",
 									"        pm.sendRequest(addToFavoriteRequest);",
 									"    });",
@@ -1511,10 +1501,6 @@
 							{
 								"key": "Content-Type",
 								"value": "application/json"
-							},
-							{
-								"key": "Cookie",
-								"value": "{{COOKIE}}"
 							}
 						],
 						"body": {
@@ -1560,7 +1546,7 @@
 						{
 							"listen": "prerequest",
 							"script": {
-								"id": "564547da-262d-401b-8b88-0bd73c285b4c",
+								"id": "4e7c89ee-f48a-4661-8d57-d809bac5e993",
 								"type": "text/javascript",
 								"exec": [
 									"const initiativeID = '10';",
@@ -1602,10 +1588,7 @@
 									"            raw: JSON.stringify(loginBody),",
 									"        },",
 									"    };",
-									"    pm.sendRequest(loginRequest, (err, response) => {",
-									"        const cookie = response.headers.get('Set-Cookie');",
-									"        pm.variables.set('COOKIE', cookie);",
-									"    });",
+									"    pm.sendRequest(loginRequest);",
 									"});",
 									""
 								]
@@ -1618,10 +1601,6 @@
 							{
 								"key": "Content-Type",
 								"value": "application/json"
-							},
-							{
-								"key": "Cookie",
-								"value": "{{COOKIE}}"
 							}
 						],
 						"body": {
@@ -1673,7 +1652,7 @@
 						{
 							"listen": "prerequest",
 							"script": {
-								"id": "49bddf7d-6ff2-460f-855b-39c41c01cecd",
+								"id": "636b7edc-f015-4419-8f0b-64f4823041f9",
 								"type": "text/javascript",
 								"exec": [
 									"const initiativeID = '1';",
@@ -1715,10 +1694,7 @@
 									"            raw: JSON.stringify(loginBody),",
 									"        },",
 									"    };",
-									"    pm.sendRequest(loginRequest, (err, response) => {",
-									"       const cookie = response.headers.get('Set-Cookie');",
-									"       pm.variables.set('COOKIE', cookie);",
-									"    });",
+									"    pm.sendRequest(loginRequest);",
 									"});",
 									""
 								]
@@ -1731,10 +1707,6 @@
 							{
 								"key": "Content-Type",
 								"value": "application/json"
-							},
-							{
-								"key": "Cookie",
-								"value": "{{COOKIE}}"
 							}
 						],
 						"body": {
@@ -1796,10 +1768,6 @@
 							{
 								"key": "Content-Type",
 								"value": "application/json"
-							},
-							{
-								"key": "Cookie",
-								"value": ""
 							}
 						],
 						"body": {
@@ -1845,7 +1813,7 @@
 						{
 							"listen": "prerequest",
 							"script": {
-								"id": "855b0437-0969-4cd4-9930-72b61c31c9e0",
+								"id": "f853902f-053e-4b9e-96db-ba17d8ba22b7",
 								"type": "text/javascript",
 								"exec": [
 									"const initiativeID = '1';",
@@ -1888,15 +1856,10 @@
 									"        },",
 									"    };",
 									"    pm.sendRequest(loginRequest, (err, response) => {",
-									"       const cookie = response.headers.get('Set-Cookie');",
-									"       pm.variables.set('COOKIE', cookie);",
 									"       const signRequest = {",
 									"            url: `${scheme}://${host}:${port}${prefix}/initiatives/${initiativeID}/sign`,",
 									"            method: 'POST',",
-									"            header: {",
-									"                'Content-Type': 'application/json',",
-									"                'Cookie': cookie,",
-									"            },",
+									"            header: { 'Content-Type': 'application/json' },",
 									"        };",
 									"        pm.sendRequest(signRequest);",
 									"    });",
