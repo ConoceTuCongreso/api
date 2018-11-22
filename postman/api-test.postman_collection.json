@@ -1425,6 +1425,342 @@
 			]
 		},
 		{
+			"name": "Get user's favorite initiatives",
+			"description": "",
+			"item": [
+				{
+					"name": "Happy path",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "e24e24b9-4417-4c09-bfcb-a6bd682e9a60",
+								"type": "text/javascript",
+								"exec": [
+									"pm.test('Response code is 200', () => {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"const schema = {",
+									"    items: {",
+									"        id: {",
+									"            type: 'number',",
+									"        },",
+									"        description: {",
+									"            type: 'string',",
+									"        },",
+									"        status: {",
+									"            type: 'string',",
+									"        },",
+									"        document_url: {",
+									"            type: 'string',",
+									"        },",
+									"        author: {",
+									"            type: 'string',",
+									"        },",
+									"        infolej_number: {",
+									"            type: 'string',",
+									"        },  ",
+									"    },",
+									"};",
+									"const body = pm.response.text();",
+									"pm.test('Schema is an array of initiatives', () => {",
+									"    pm.expect(tv4.validate(body, schema)).to.be.true;",
+									"});",
+									"",
+									"const areEqual = (a, b) => {",
+									"  return a.id === b.id &&",
+									"    a.description === b.description &&",
+									"    a.status === b.status &&",
+									"    a.document_url === b.document_url &&",
+									"    a.author === b.author &&",
+									"    a.infolej_number === b.infolej_number;",
+									"};",
+									"",
+									"const bodyJSON = JSON.parse(body);",
+									"const initiativeOne = {",
+									"    id: '1',",
+									"    description: 'Iniciativa número uno',",
+									"    status: 'Activa',",
+									"    document_url: 'http://congresoweb.congresojal.gob.mx',",
+									"    author: 'José Guadalupe Posada',",
+									"    infolej_number: '001',",
+									"};",
+									"pm.test(`First item equals ${initiativeOne}`, () => {",
+									"    pm.expect(areEqual(bodyJSON[0], initiativeOne)).to.be.true;",
+									"});",
+									""
+								]
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "e8cc51a4-c48c-4a28-8c39-7528d3bf1fd3",
+								"type": "text/javascript",
+								"exec": [
+									"const scheme = pm.variables.get('SCHEME');",
+									"const host = pm.variables.get('HOST');",
+									"const port = pm.variables.get('PORT');",
+									"const prefix = pm.variables.get('PREFIX');",
+									"",
+									"const signupBody = {",
+									"\tfirst_name: 'Carmina',",
+									"\tlast_name: 'Pérez',",
+									"\tmiddle_name: 'Guerrero',",
+									"\tusername: 'carmina01',",
+									"\temail: 'cperez1@gmail.com',",
+									"\tpassword: 'SoyCarmina0!',",
+									"};",
+									"const signupRequest = {",
+									"    url: `${scheme}://${host}:${port}${prefix}/signup`,",
+									"    method: 'POST',",
+									"    header: { 'Content-Type': 'application/json' },",
+									"    body: {",
+									"        mode: 'raw',",
+									"        raw: JSON.stringify(signupBody),",
+									"    },",
+									"};",
+									"pm.sendRequest(signupRequest, () => {",
+									"    const loginBody = {",
+									"        username: 'carmina01',",
+									"        password: 'SoyCarmina0!',",
+									"    };",
+									"    const loginRequest = {",
+									"        url: `${scheme}://${host}:${port}${prefix}/login`,",
+									"        method: 'POST',",
+									"        header: { 'Content-Type': 'application/json' },",
+									"        body: {",
+									"            mode: 'raw',",
+									"            raw: JSON.stringify(loginBody),",
+									"        },",
+									"    };",
+									"    pm.sendRequest(loginRequest, () => {",
+									"        const initiativeID = 1;",
+									"        const addToFavoriteRequest = {",
+									"            url: `${scheme}://${host}:${port}${prefix}/initiatives/${initiativeID}/addToFavorites`,",
+									"            method: 'POST',",
+									"            header: { 'Content-Type': 'application/json' },",
+									"        };",
+									"        pm.sendRequest(addToFavoriteRequest);",
+									"    });",
+									"});",
+									""
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{}"
+						},
+						"url": {
+							"raw": "{{SCHEME}}://{{HOST}}:{{PORT}}{{PREFIX}}/initiatives/favorites",
+							"protocol": "{{SCHEME}}",
+							"host": [
+								"{{HOST}}"
+							],
+							"port": "{{PORT}}{{PREFIX}}",
+							"path": [
+								"initiatives",
+								"favorites"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Empty list",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "9047a89e-6514-4ddc-aeca-92d7900f23bb",
+								"type": "text/javascript",
+								"exec": [
+									"pm.test('Response code is 200', () => {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"const schema = {",
+									"    items: {",
+									"        id: {",
+									"            type: 'number',",
+									"        },",
+									"        description: {",
+									"            type: 'string',",
+									"        },",
+									"        status: {",
+									"            type: 'string',",
+									"        },",
+									"        document_url: {",
+									"            type: 'string',",
+									"        },",
+									"        author: {",
+									"            type: 'string',",
+									"        },",
+									"        infolej_number: {",
+									"            type: 'string',",
+									"        },  ",
+									"    },",
+									"};",
+									"const body = pm.response.text();",
+									"pm.test('Schema is an array of initiatives', () => {",
+									"    pm.expect(tv4.validate(body, schema)).to.be.true;",
+									"});",
+									"",
+									"const bodyJSON = JSON.parse(body);",
+									"pm.test('List is empty', () => {",
+									"    pm.expect(bodyJSON.length).to.equal(0);",
+									"});",
+									""
+								]
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "59b03ac3-40ec-4cfa-afb3-3187fe6b9ef5",
+								"type": "text/javascript",
+								"exec": [
+									"const scheme = pm.variables.get('SCHEME');",
+									"const host = pm.variables.get('HOST');",
+									"const port = pm.variables.get('PORT');",
+									"const prefix = pm.variables.get('PREFIX');",
+									"",
+									"const signupBody = {",
+									"\tfirst_name: 'Carmina',",
+									"\tlast_name: 'Pérez',",
+									"\tmiddle_name: 'Guerrero',",
+									"\tusername: 'carmina01',",
+									"\temail: 'cperez1@gmail.com',",
+									"\tpassword: 'SoyCarmina0!',",
+									"};",
+									"const signupRequest = {",
+									"    url: `${scheme}://${host}:${port}${prefix}/signup`,",
+									"    method: 'POST',",
+									"    header: { 'Content-Type': 'application/json' },",
+									"    body: {",
+									"        mode: 'raw',",
+									"        raw: JSON.stringify(signupBody),",
+									"    },",
+									"};",
+									"pm.sendRequest(signupRequest, () => {",
+									"    const loginBody = {",
+									"        username: 'carmina01',",
+									"        password: 'SoyCarmina0!',",
+									"    };",
+									"    const loginRequest = {",
+									"        url: `${scheme}://${host}:${port}${prefix}/login`,",
+									"        method: 'POST',",
+									"        header: { 'Content-Type': 'application/json' },",
+									"        body: {",
+									"            mode: 'raw',",
+									"            raw: JSON.stringify(loginBody),",
+									"        },",
+									"    };",
+									"    pm.sendRequest(loginRequest);",
+									"});",
+									""
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{}"
+						},
+						"url": {
+							"raw": "{{SCHEME}}://{{HOST}}:{{PORT}}{{PREFIX}}/initiatives/favorites",
+							"protocol": "{{SCHEME}}",
+							"host": [
+								"{{HOST}}"
+							],
+							"port": "{{PORT}}{{PREFIX}}",
+							"path": [
+								"initiatives",
+								"favorites"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Missing required parameter",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "4251815e-96be-4b45-bb78-922e70e3262d",
+								"type": "text/javascript",
+								"exec": [
+									"pm.test('Response code is 400', () => {",
+									"    pm.response.to.have.status(400);",
+									"});",
+									"",
+									"pm.test('Response body equals \"Missing required parameter \\'category_id\\'\"', () => {",
+									"    pm.expect(pm.response.text()).to.equal('Missing required parameter \\'category_id\\'');",
+									"});",
+									""
+								]
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "40f95b6d-9053-4942-b64b-22bbd03c8816",
+								"type": "text/javascript",
+								"exec": [
+									""
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{}"
+						},
+						"url": {
+							"raw": "{{SCHEME}}://{{HOST}}:{{PORT}}{{PREFIX}}/initiatives",
+							"protocol": "{{SCHEME}}",
+							"host": [
+								"{{HOST}}"
+							],
+							"port": "{{PORT}}{{PREFIX}}",
+							"path": [
+								"initiatives"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
 			"name": "Add initiative to favorites",
 			"description": null,
 			"item": [
