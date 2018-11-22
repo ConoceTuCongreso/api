@@ -17,6 +17,8 @@ const initiativeController = new InitiativeController(
   initiativeValidation,
 );
 
+router.get('/initiatives/favorites', sessionChecker, initiativeController.getInitiativesFavorites);
+
 router.get('/initiatives', initiativeController.initiatives);
 
 router.get('/initiatives/:initiativeId', initiativeController.initiativeById);
@@ -26,6 +28,5 @@ router.get('/initiatives/:initiativeId/votes', initiativeController.initiativeVo
 router.post('/initiatives/:initiativeId/addToFavorites', sessionChecker, initiativeController.addToFavorites);
 
 router.post('/initiatives/:initiativeId/sign', sessionChecker, initiativeController.sign);
-
 
 module.exports = router;

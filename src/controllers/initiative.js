@@ -9,6 +9,7 @@ class Initiatives {
     this.initiatives = this.initiatives.bind(this);
     this.initiativeById = this.initiativeById.bind(this);
     this.initiativeVotes = this.initiativeVotes.bind(this);
+    this.getInitiativesFavorites = this.getInitiativesFavorites.bind(this);
     this.addToFavorites = this.addToFavorites.bind(this);
     this.sign = this.sign.bind(this);
   }
@@ -67,6 +68,16 @@ class Initiatives {
           .catch((e) => {
             res.status(e.code).send(e.msg);
           });
+      })
+      .catch((e) => {
+        res.status(e.code).send(e.msg);
+      });
+  }
+
+  getInitiativesFavorites(req, res) {
+    this.initiativeService.getInitiativesFavorites(req.session.user.id)
+      .then((result) => {
+        res.status(CODES.OK).send(result);
       })
       .catch((e) => {
         res.status(e.code).send(e.msg);

@@ -1,13 +1,12 @@
 {
 	"info": {
-		"_postman_id": "85a6fb2d-2e47-466a-8c99-79568e50a813",
+		"_postman_id": "4c44dcff-2d44-430c-9e92-7db5c416ff51",
 		"name": "api-test",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
 	"item": [
 		{
 			"name": "Sign up",
-			"description": null,
 			"item": [
 				{
 					"name": "Happy path",
@@ -250,7 +249,6 @@
 		},
 		{
 			"name": "Login",
-			"description": null,
 			"item": [
 				{
 					"name": "Happy path username",
@@ -579,7 +577,6 @@
 		},
 		{
 			"name": "Logout",
-			"description": null,
 			"item": [
 				{
 					"name": "Happy path",
@@ -732,7 +729,6 @@
 		},
 		{
 			"name": "Get initiative",
-			"description": "",
 			"item": [
 				{
 					"name": "Happy path",
@@ -903,7 +899,6 @@
 		},
 		{
 			"name": "Get initiative's votes",
-			"description": "",
 			"item": [
 				{
 					"name": "Happy path",
@@ -1082,7 +1077,6 @@
 		},
 		{
 			"name": "Get category's initiatives",
-			"description": "",
 			"item": [
 				{
 					"name": "Happy path",
@@ -1426,7 +1420,6 @@
 		},
 		{
 			"name": "Get user's favorite initiatives",
-			"description": "",
 			"item": [
 				{
 					"name": "Happy path",
@@ -1584,7 +1577,6 @@
 							"listen": "test",
 							"script": {
 								"id": "9047a89e-6514-4ddc-aeca-92d7900f23bb",
-								"type": "text/javascript",
 								"exec": [
 									"pm.test('Response code is 200', () => {",
 									"    pm.response.to.have.status(200);",
@@ -1622,14 +1614,14 @@
 									"    pm.expect(bodyJSON.length).to.equal(0);",
 									"});",
 									""
-								]
+								],
+								"type": "text/javascript"
 							}
 						},
 						{
 							"listen": "prerequest",
 							"script": {
 								"id": "59b03ac3-40ec-4cfa-afb3-3187fe6b9ef5",
-								"type": "text/javascript",
 								"exec": [
 									"const scheme = pm.variables.get('SCHEME');",
 									"const host = pm.variables.get('HOST');",
@@ -1640,8 +1632,8 @@
 									"\tfirst_name: 'Carmina',",
 									"\tlast_name: 'Pérez',",
 									"\tmiddle_name: 'Guerrero',",
-									"\tusername: 'carmina01',",
-									"\temail: 'cperez1@gmail.com',",
+									"\tusername: 'carmina02',",
+									"\temail: 'cperez2@gmail.com',",
 									"\tpassword: 'SoyCarmina0!',",
 									"};",
 									"const signupRequest = {",
@@ -1655,7 +1647,7 @@
 									"};",
 									"pm.sendRequest(signupRequest, () => {",
 									"    const loginBody = {",
-									"        username: 'carmina01',",
+									"        username: 'carmina02',",
 									"        password: 'SoyCarmina0!',",
 									"    };",
 									"    const loginRequest = {",
@@ -1670,7 +1662,8 @@
 									"    pm.sendRequest(loginRequest);",
 									"});",
 									""
-								]
+								],
+								"type": "text/javascript"
 							}
 						}
 					],
@@ -1762,7 +1755,6 @@
 		},
 		{
 			"name": "Add initiative to favorites",
-			"description": null,
 			"item": [
 				{
 					"name": "Happy path",
@@ -2139,7 +2131,6 @@
 		},
 		{
 			"name": "Sign initiative",
-			"description": "",
 			"item": [
 				{
 					"name": "Happy path",

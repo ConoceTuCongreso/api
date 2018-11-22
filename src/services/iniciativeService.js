@@ -121,9 +121,43 @@ class InitiativeService extends DBServices {
             throw new this.Error(CODES.INTERNAL_SERVER_ERROR, 'Error Connecting to database');
           });
       })
-      .catch((e) => {
-        console.log(e);
+      .catch(() => {
         this.getLogger().error('Error Connecting to database');
+        throw new this.Error(CODES.INTERNAL_SERVER_ERROR, 'Error Connecting to database');
+      });
+  }
+
+  getInitiativesFavorites(userId) {
+    return this.getDB().connect()
+      .then((client) => {
+        const query = {
+          text: 'SELECT initiatives.id, initiatives.description, initiative_status.name AS status, initiatives.document_url, initiatives.author, initiatives.infolej_number, initiatives.agreement_number '
+            + 'FROM user_favorites '
+            + 'LEFT JOIN initiatives ON initiatives.id = user_favorites.initiative_id '
+            + 'LEFT JOIN initiative_status ON initiative_status.id = initiatives.status_id '
+            + 'WHERE user_favorites.user_id = $1',
+          values: [userId],
+        };
+        return client.query(query)
+          .then((result) => {
+            this.getLogger().info(`Result of query ${result.rows}`);
+            client.release();
+            return result.rows;
+          })
+          .catch((e) => {
+            if (e.msg) {
+              throw e;
+            }
+            client.release();
+            this.getLogger().error(`Error Connecting to database ${e}`);
+            throw new this.Error(CODES.INTERNAL_SERVER_ERROR, 'Error Connecting to database');
+          });
+      })
+      .catch((e) => {
+        if (e.msg) {
+          throw e;
+        }
+        this.getLogger().error(`Error Connecting to database ${e}`);
         throw new this.Error(CODES.INTERNAL_SERVER_ERROR, 'Error Connecting to database');
       });
   }
