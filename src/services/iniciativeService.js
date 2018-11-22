@@ -80,19 +80,11 @@ class InitiativeService extends DBServices {
   getInitiativeVotes(id) {
     return this.getDB().connect()
       .then((client) => {
-        const query = {
-          text: 'SELECT initiative_votes.initiative_id, initiative_votes.congressperson_id, congresspeople.name, vote_values.name '
-            + 'FROM initiative_votes '
-            + 'LEFT JOIN vote_values ON initiative_votes.value_id = vote_values.id '
-            + 'LEFT JOIN congresspeople ON initiative_votes.congressperson_id = congresspeople.id '
-            + 'WHERE initiative_votes.initiative_id = $1 '
-            + 'ORDER BY congressperson_id',
-          values: [id],
-        };
-        return client.query(query)
+        const text = 'SELECT name FROM vote_values';
+        return client.query(text)
           .then((result) => {
-            client.release();
-            return result.rows;
+            this.getLogger().info(`Retrieve of vote values succesful ${result.rows}`);
+            return { client, voteValues: result.rows };
           })
           .catch(() => {
             client.release();
@@ -100,7 +92,37 @@ class InitiativeService extends DBServices {
             throw new this.Error(CODES.INTERNAL_SERVER_ERROR, 'Error Connecting to database');
           });
       })
-      .catch(() => {
+      .then((clientWithResponse) => {
+        const { client, voteValues } = clientWithResponse;
+        const query = {
+          text: 'SELECT congresspeople.name as name, vote_values.name as value '
+            + 'FROM initiative_votes '
+            + 'LEFT JOIN vote_values ON initiative_votes.value_id = vote_values.id '
+            + 'LEFT JOIN congresspeople ON initiative_votes.congressperson_id = congresspeople.id '
+            + 'WHERE initiative_votes.initiative_id = $1 '
+            + 'ORDER BY initiative_votes.value_id, congresspeople.name ASC',
+          values: [id],
+        };
+        return client.query(query)
+          .then((result) => {
+            client.release();
+            return voteValues.reduce((currentVotes, { name: voteValue }) => {
+              const congresspeople = result.rows.reduce((acc, { name, value }) => {
+                if (value === voteValue) acc.push(name);
+                return acc;
+              }, []);
+              currentVotes.push({ value: voteValue, congresspeople });
+              return currentVotes;
+            }, []);
+          })
+          .catch((e) => {
+            this.getLogger().error(e);
+            client.release();
+            throw new this.Error(CODES.INTERNAL_SERVER_ERROR, 'Error Connecting to database');
+          });
+      })
+      .catch((e) => {
+        console.log(e);
         this.getLogger().error('Error Connecting to database');
         throw new this.Error(CODES.INTERNAL_SERVER_ERROR, 'Error Connecting to database');
       });
