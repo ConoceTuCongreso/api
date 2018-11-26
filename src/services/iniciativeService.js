@@ -3,24 +3,72 @@ const CODES = require('../utils/statusCodes');
 
 class InitiativeService extends DBServices {
   getInitiatives(categoryId) {
-    let snippetOfQueryForCategory = '';
-    if (categoryId) {
-      this.getLogger().info(`Search with category id ${categoryId}`);
-      snippetOfQueryForCategory = 'LEFT JOIN initiatives_categories On initiatives.id = initiatives_categories.initiatives_id WHERE initiatives_categories.category_id = $1 ';
-    }
     return this.getDB().connect()
       .then((client) => {
         const query = {
+          text: 'SELECT initiative_status_dates.initiative_id AS id, to_char(status_date, \'YYYY-MM-DD\') AS date, status_conditions.name AS condition, initiative_status.name AS status '
+            + 'FROM initiative_status_dates '
+            + 'LEFT JOIN initiative_status ON initiative_status.id = initiative_status_dates.status_id '
+            + 'LEFT JOIN status_conditions ON initiative_status_dates.status_condition = status_conditions.id '
+            + 'LEFT JOIN initiatives_categories ON initiatives_categories.initiatives_id = initiative_status_dates.initiative_id '
+            + 'WHERE initiatives_categories.category_id = $1',
+          values: [categoryId],
+        };
+        return client.query(query)
+          .then((result) => {
+            this.getLogger().info('Successful fetching of data of dates');
+            return { client, datesOfInitiatives: result.rows };
+          })
+          .catch((e) => {
+            if (e.msg) {
+              throw e;
+            }
+            client.release();
+            this.getLogger().error(`Internal Server Error: ${e}`);
+            throw new this.Error(CODES.INTERNAL_SERVER_ERROR, 'Internal Server Error');
+          });
+      })
+      .then((clientWithResponse) => {
+        const { client, datesOfInitiatives } = clientWithResponse;
+        const query = {
           text: 'SELECT initiatives.id, initiatives.description, initiative_status.name AS status, initiatives.document_url, initiatives.author, initiatives.infolej_number, initiatives.agreement_number '
             + 'FROM initiatives '
-            + `LEFT JOIN initiative_status ON initiative_status.id = initiatives.status_id ${snippetOfQueryForCategory}`,
+            + 'LEFT JOIN initiative_status ON initiative_status.id = initiatives.status_id '
+            + 'LEFT JOIN initiatives_categories On initiatives.id = initiatives_categories.initiatives_id '
+            + 'WHERE initiatives_categories.category_id = $1',
           values: [categoryId],
         };
         return client.query(query)
           .then((result) => {
             client.release();
             this.getLogger().info('Query successful');
-            return result.rows;
+            return result.rows.reduce((initiativesFromCategory, {
+              id: initiativeId,
+              description,
+              status: initiativeStatus,
+              document_url: doc,
+              author,
+              infolej_number: infoNum,
+              agreement_number: agreeNum,
+            }) => {
+              const dates = datesOfInitiatives.reduce((acc, {
+                id, date, status, condition,
+              }) => {
+                if (initiativeId === id) acc.push({ date, status, condition });
+                return acc;
+              }, []);
+              initiativesFromCategory.push({
+                id: initiativeId,
+                description,
+                status: initiativeStatus,
+                document_url: doc,
+                author,
+                infolej_number: infoNum,
+                agreement_number: agreeNum,
+                dates,
+              });
+              return initiativesFromCategory;
+            }, []);
           })
           .catch((e) => {
             if (e.msg) {
@@ -40,23 +88,73 @@ class InitiativeService extends DBServices {
       });
   }
 
-  getInitiativeById(id) {
+  getInitiativeById(ID) {
     return this.getDB().connect()
       .then((client) => {
+        const query = {
+          text: 'SELECT initiative_status_dates.initiative_id AS id, to_char(status_date, \'YYYY-MM-DD\') AS date, status_conditions.name AS condition, initiative_status.name AS status '
+            + 'FROM initiative_status_dates '
+            + 'LEFT JOIN initiative_status ON initiative_status.id = initiative_status_dates.status_id '
+            + 'LEFT JOIN status_conditions ON initiative_status_dates.status_condition = status_conditions.id '
+            + 'WHERE initiative_status_dates.initiative_id = $1',
+          values: [ID],
+        };
+        return client.query(query)
+          .then((result) => {
+            this.getLogger().info('Successful fetching of data of dates');
+            return { client, datesOfInitiative: result.rows };
+          })
+          .catch((e) => {
+            if (e.msg) {
+              throw e;
+            }
+            client.release();
+            this.getLogger().error(`Internal Server Error: ${e}`);
+            throw new this.Error(CODES.INTERNAL_SERVER_ERROR, 'Internal Server Error');
+          });
+      })
+      .then((clientWithResponse) => {
+        const { client, datesOfInitiative } = clientWithResponse;
         const query = {
           text: 'SELECT initiatives.id, initiatives.description, initiative_status.name AS status, initiatives.document_url, initiatives.author, initiatives.infolej_number, initiatives.agreement_number '
             + 'FROM initiatives '
             + 'LEFT JOIN initiative_status ON initiative_status.id = initiatives.status_id '
             + 'WHERE initiatives.id = $1',
-          values: [id],
+          values: [ID],
         };
         return client.query(query)
           .then((result) => {
             if (result.rows.length < 1) {
-              throw new this.Error(CODES.NOT_FOUND, `Initiative with ID ${id} not found`);
+              throw new this.Error(CODES.NOT_FOUND, `Initiative with ID ${ID} not found`);
             }
             client.release();
-            return result.rows[0];
+            return result.rows.reduce((initiativeById, {
+              id: initiativeId,
+              description,
+              status: initiativeStatus,
+              document_url: doc,
+              author,
+              infolej_number: infoNum,
+              agreement_number: agreeNum,
+            }) => {
+              const dates = datesOfInitiative.reduce((acc, {
+                id, date, status, condition,
+              }) => {
+                if (initiativeId === id) acc.push({ date, status, condition });
+                return acc;
+              }, []);
+              initiativeById.push({
+                id: initiativeId,
+                description,
+                status: initiativeStatus,
+                document_url: doc,
+                author,
+                infolej_number: infoNum,
+                agreement_number: agreeNum,
+                dates,
+              });
+              return initiativeById;
+            }, [])[0];
           })
           .catch((e) => {
             client.release();
@@ -131,6 +229,31 @@ class InitiativeService extends DBServices {
     return this.getDB().connect()
       .then((client) => {
         const query = {
+          text: 'SELECT initiative_status_dates.initiative_id AS id, to_char(status_date, \'YYYY-MM-DD\') AS date, status_conditions.name AS condition, initiative_status.name AS status '
+            + 'FROM initiative_status_dates '
+            + 'LEFT JOIN initiative_status ON initiative_status.id = initiative_status_dates.status_id '
+            + 'LEFT JOIN status_conditions ON initiative_status_dates.status_condition = status_conditions.id '
+            + 'LEFT JOIN user_favorites ON initiative_status_dates.initiative_id = user_favorites.initiative_id '
+            + 'WHERE user_favorites.user_id = $1',
+          values: [userId],
+        };
+        return client.query(query)
+          .then((result) => {
+            this.getLogger().info('Successful fetching of data of dates');
+            return { client, datesOfInitiatives: result.rows };
+          })
+          .catch((e) => {
+            if (e.msg) {
+              throw e;
+            }
+            client.release();
+            this.getLogger().error(`Internal Server Error: ${e}`);
+            throw new this.Error(CODES.INTERNAL_SERVER_ERROR, 'Internal Server Error');
+          });
+      })
+      .then((clientWithResponse) => {
+        const { client, datesOfInitiatives } = clientWithResponse;
+        const query = {
           text: 'SELECT initiatives.id, initiatives.description, initiative_status.name AS status, initiatives.document_url, initiatives.author, initiatives.infolej_number, initiatives.agreement_number '
             + 'FROM user_favorites '
             + 'LEFT JOIN initiatives ON initiatives.id = user_favorites.initiative_id '
@@ -140,9 +263,35 @@ class InitiativeService extends DBServices {
         };
         return client.query(query)
           .then((result) => {
-            this.getLogger().info(`Result of query ${result.rows}`);
             client.release();
-            return result.rows;
+            this.getLogger().info(`Result of query ${result.rows}`);
+            return result.rows.reduce((initiativesFromCategory, {
+              id: initiativeId,
+              description,
+              status: initiativeStatus,
+              document_url: doc,
+              author,
+              infolej_number: infoNum,
+              agreement_number: agreeNum,
+            }) => {
+              const dates = datesOfInitiatives.reduce((acc, {
+                id, date, status, condition,
+              }) => {
+                if (initiativeId === id) acc.push({ date, status, condition });
+                return acc;
+              }, []);
+              initiativesFromCategory.push({
+                id: initiativeId,
+                description,
+                status: initiativeStatus,
+                document_url: doc,
+                author,
+                infolej_number: infoNum,
+                agreement_number: agreeNum,
+                dates,
+              });
+              return initiativesFromCategory;
+            }, []);
           })
           .catch((e) => {
             if (e.msg) {
