@@ -740,7 +740,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "243726da-9cc0-49b4-a7bf-851b8acdb6dc",
+								"id": "b9e9f85a-059b-4753-9846-f2125a3fcf8a",
 								"type": "text/javascript",
 								"exec": [
 									"pm.test('Response code is 200', () => {",
@@ -770,15 +770,12 @@
 									"        items: {",
 									"            date: {",
 									"                type: 'string',",
-									"                required: true,",
 									"            },",
 									"            status: {",
 									"                type: 'string',",
-									"                required: true,",
 									"            },",
 									"            condition: {",
 									"                type: 'string',",
-									"                required: true,",
 									"            },",
 									"        },",
 									"    },",
@@ -810,7 +807,7 @@
 									"const initiative = {",
 									"    id: '1',",
 									"    description: 'Iniciativa número uno',",
-									"    status: 'Activa',",
+									"    status: 'Activo',",
 									"    document_url: 'http://congresoweb.congresojal.gob.mx',",
 									"    author: 'José Guadalupe Posada',",
 									"    infolej_number: '001',",
@@ -1540,7 +1537,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "af6d6622-4af4-4425-82a4-b59babc62700",
+								"id": "2369bd45-7be1-4df3-af65-c90241f79232",
 								"type": "text/javascript",
 								"exec": [
 									"pm.test('Response code is 200', () => {",
@@ -1598,7 +1595,7 @@
 									"const initiativeOne = {",
 									"    id: '1',",
 									"    description: 'Iniciativa número uno',",
-									"    status: 'Activa',",
+									"    status: 'Activo',",
 									"    document_url: 'http://congresoweb.congresojal.gob.mx',",
 									"    author: 'José Guadalupe Posada',",
 									"    infolej_number: '001',",
