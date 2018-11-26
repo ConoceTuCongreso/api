@@ -1132,7 +1132,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "4ddd63db-a520-4431-a78f-208ae4353ce3",
+								"id": "c074742b-fa40-4d2c-8d02-2ed101b1aa97",
 								"type": "text/javascript",
 								"exec": [
 									"pm.test('Response code is 200', () => {",
@@ -1194,7 +1194,7 @@
 									"    a.document_url === b.document_url &&",
 									"    a.author === b.author &&",
 									"    a.infolej_number === b.infolej_number &&",
-									"    areEqualLists(a, b);",
+									"    areEqualLists(a.dates, b.dates);",
 									"};",
 									"",
 									"const bodyJSON = JSON.parse(body);",
