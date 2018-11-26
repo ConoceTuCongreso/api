@@ -23,6 +23,8 @@ INSERT INTO categories(id, name) VALUES (1, 'Cultura'), (2, 'Reglamentos');
 
 INSERT INTO initiative_status(id, name) VALUES (1, 'Activa'), (2, 'Inactiva');
 
+INSERT INTO status_conditions(id, name) VALUES (1, 'Ingreso'), (2, 'En votación'), (3, 'En vigor');
+
 INSERT INTO initiatives(
     id,
     description,
@@ -69,3 +71,10 @@ INSERT INTO initiative_votes(value_id, initiative_id, congressperson_id) VALUES
 (1, 1, 5),
 (2, 1, 1),
 (2, 1, 2);
+
+INSERT INTO initiative_status_dates(initiative_id, status_date, status_id, status_condition) VALUES
+(1, '2015-01-01', 2, 1),
+(1, '2015-02-01', 2, 2),
+(1, '2016-01-01', 1, 3),
+(2, '2014-03-22', 2, 1),
+(2, '2014-05-01', 2, 2);
