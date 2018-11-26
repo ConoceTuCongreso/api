@@ -1132,7 +1132,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "c074742b-fa40-4d2c-8d02-2ed101b1aa97",
+								"id": "2cba5eb3-30cf-4231-bd6b-ecf70e73ee19",
 								"type": "text/javascript",
 								"exec": [
 									"pm.test('Response code is 200', () => {",
@@ -1201,7 +1201,7 @@
 									"const initiativeOne = {",
 									"    id: '1',",
 									"    description: 'Iniciativa número uno',",
-									"    status: 'Activa',",
+									"    status: 'Activo',",
 									"    document_url: 'http://congresoweb.congresojal.gob.mx',",
 									"    author: 'José Guadalupe Posada',",
 									"    infolej_number: '001',",
@@ -1230,7 +1230,7 @@
 									"const initiativeTwo = {",
 									"    id: '2',",
 									"    description: 'Iniciativa número dos',",
-									"    status: 'Activa',",
+									"    status: 'Activo',",
 									"    document_url: 'http://congresoweb.congresojal.gob.mx',",
 									"    author: 'José Arango Arámbula',",
 									"    infolej_number: '002',",
