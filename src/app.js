@@ -12,11 +12,12 @@ const app = express();
 
 app.set('port', 3000);
 
-app.use(cors({
-  origin: 'http://localhost:8080',
+const corsProperty = process.env.CORS_ORIGIN ? {
   credentials: true,
-  exposedHeaders: ['set-cookie'],
-}));
+  origin: process.env.CORS_ORIGIN,
+} : {};
+
+app.use(cors(corsProperty));
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
