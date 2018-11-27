@@ -30,10 +30,9 @@ install:
 script:
   - yarn build
   - yarn lint
-  - yarn test
   - sonar-scanner
   - yarn start &
-  - yarn integrate
+  - yarn test
 
 branches:
   only:
