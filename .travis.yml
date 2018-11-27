@@ -1,3 +1,4 @@
+dist: xenial
 language: node_js
 node_js:
   - "8.12"
@@ -30,10 +31,9 @@ install:
 script:
   - yarn build
   - yarn lint
-  - yarn test
   - sonar-scanner
   - yarn start &
-  - yarn integrate
+  - yarn test
 
 branches:
   only:
