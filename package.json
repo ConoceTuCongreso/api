@@ -30,10 +30,11 @@
   },
   "scripts": {
     "lint": "eslint -f json -o report.json src/",
-    "start": "nodemon -e css,ejs,js,json --watch app src/app.js --ignore 'feedback.json'",
+    "start": "nodemon src/app.js --ignore 'feedback.json'",
     "build": "babel src/ -d build",
-    "serve": "nodemon -e css,ejs,js,json --watch app src/app.js --ignore 'feedback.json'",
-    "test": "mocha test",
+    "serve": "nodemon src/app.js --ignore 'feedback.json'",
+    "test": "mocha --recursive test",
+    "setup": "bash db-setup.sh; nodemon src/app.js --ignore 'feedback.json'",
     "integrate": "node_modules/.bin/newman run postman/api-test.postman_collection.json -e  postman/Local.postman_environment.json"
   }
 }
