@@ -26,7 +26,7 @@ before_script:
   - psql -U postgres -d test -a -f postman/data.sql
 
 install:
-  - npm install
+  - yarn install --ignore-engines
 
 script:
   - yarn build
