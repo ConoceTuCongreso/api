@@ -26,6 +26,9 @@
     "pg": "^7.5.0",
     "winston": "^3.1.0"
   },
+  "resolutions": {
+    "nodemon/**/event-stream": "3.3.4"
+  },
   "scripts": {
     "lint": "eslint -f json -o report.json src/",
     "start": "nodemon src/app.js --ignore 'feedback.json'",
