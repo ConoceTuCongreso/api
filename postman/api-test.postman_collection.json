@@ -2588,6 +2588,363 @@
 					"response": []
 				}
 			]
+		},
+		{
+			"name": "Get categories",
+			"description": null,
+			"item": [
+				{
+					"name": "Happy path",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "56775d77-2e63-4428-9ecb-6338f98a5ed7",
+								"type": "text/javascript",
+								"exec": [
+									"pm.test('Response code is 200', () => {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"const schema = {",
+									"    items: {",
+									"        group: {",
+									"            type: 'string'",
+									"        },",
+									"        categories: {",
+									"            items: {",
+									"                id: {",
+									"                    type: 'string',",
+									"                },",
+									"                name: {",
+									"                    type: 'string',   ",
+									"                },",
+									"            },",
+									"        },",
+									"    },",
+									"};",
+									"const body = pm.response.text();",
+									"pm.test('Schema is a group list', () => {",
+									"    pm.expect(tv4.validate(body, schema)).to.be.true;",
+									"});",
+									"",
+									"// Comparison functions",
+									"const areEqualCategories = (a, b) => {",
+									"  return a.id === b.id && a.name === b.name;  ",
+									"};",
+									"",
+									"const areEqualLists = (a, b) => {",
+									"    if (a.length != b.length) return false;",
+									"    for (let i = 0; i < a.length; i++) {",
+									"        if (!areEqualCategories(a[i], b[i])) return false;",
+									"    }",
+									"    return true;",
+									"};",
+									"",
+									"const areEqualGroups = (a, b) => {",
+									"  return a.group === b.group &&",
+									"    areEqualLists(a.categories, b.categories);",
+									"};",
+									"",
+									"const bodyJSON = JSON.parse(body);",
+									"const categories = [",
+									"    {",
+									"        group: 'Grupo 1',",
+									"        categories: [",
+									"            {",
+									"                id: '1',",
+									"                name: 'Categoría 1',",
+									"            },",
+									"            {",
+									"                id: '2',",
+									"                name: 'Categoría 2',",
+									"            },",
+									"        ],",
+									"    },",
+									"    {",
+									"        group: 'Grupo 2',",
+									"        categories: [],",
+									"    },",
+									"];",
+									"pm.test(`Body contains ${categories.length} element(s)`, () => {",
+									"    pm.expect(bodyJSON.length).to.equal(categories.length);",
+									"});",
+									"pm.test(`First item equals ${JSON.stringify(categories[0])}`, () => {",
+									"    pm.expect(areEqualGroups(bodyJSON[0], categories[0])).to.be.true;",
+									"});",
+									"pm.test(`Second item equals ${JSON.stringify(categories[1])}`, () => {",
+									"    pm.expect(areEqualGroups(bodyJSON[1], categories[1])).to.be.true;",
+									"});",
+									""
+								]
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "8c49f60e-9dd0-4062-b934-2cd61614c3b8",
+								"type": "text/javascript",
+								"exec": [
+									""
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{}"
+						},
+						"url": {
+							"raw": "{{SCHEME}}://{{HOST}}:{{PORT}}{{PREFIX}}/categories",
+							"protocol": "{{SCHEME}}",
+							"host": [
+								"{{HOST}}"
+							],
+							"port": "{{PORT}}{{PREFIX}}",
+							"path": [
+								"categories"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Empty list",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "d4e89488-688e-48e9-b23b-3877904e3d4a",
+								"type": "text/javascript",
+								"exec": [
+									"pm.test('Response code is 200', () => {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"const schema = {",
+									"    items: {",
+									"        group: {",
+									"            type: 'string'",
+									"        },",
+									"        categories: {",
+									"            items: {",
+									"                id: {",
+									"                    type: 'string',",
+									"                },",
+									"                name: {",
+									"                    type: 'string',   ",
+									"                },",
+									"            },",
+									"        },",
+									"    },",
+									"};",
+									"const body = pm.response.text();",
+									"pm.test('Schema is a category list', () => {",
+									"    pm.expect(tv4.validate(body, schema)).to.be.true;",
+									"});",
+									"",
+									"const bodyJSON = JSON.parse(body);",
+									"pm.test('List is empty', () => {",
+									"    pm.expect(bodyJSON.length).to.equal(0);",
+									"});",
+									""
+								]
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "09c201b3-9cd4-45e2-9142-b27b55e91b45",
+								"type": "text/javascript",
+								"exec": [
+									""
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{}"
+						},
+						"url": {
+							"raw": "{{SCHEME}}://{{HOST}}:{{PORT}}{{PREFIX}}/categories",
+							"protocol": "{{SCHEME}}",
+							"host": [
+								"{{HOST}}"
+							],
+							"port": "{{PORT}}{{PREFIX}}",
+							"path": [
+								"categories"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Get user's favorite categories",
+			"description": null,
+			"item": [
+				{
+					"name": "Happy path",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "eb09ecc7-db02-4088-ae01-67e467d6169a",
+								"type": "text/javascript",
+								"exec": [
+									"pm.test('Response code is 200', () => {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"const schema = {",
+									"    items: {",
+									"        id: {",
+									"            type: 'string',",
+									"        },",
+									"        name: {",
+									"            type: 'string',",
+									"        },  ",
+									"    },",
+									"};",
+									"const body = pm.response.text();",
+									"pm.test('Schema is an initiative', () => {",
+									"    pm.expect(tv4.validate(body, schema)).to.be.true;",
+									"});",
+									"",
+									"// Comparison functions",
+									"const areEqualCategories = (a, b) => {",
+									"  return a.id === b.id && a.name === b.name;  ",
+									"};",
+									"",
+									"const bodyJSON = JSON.parse(body);",
+									"const categories = [",
+									"    {",
+									"        id: '1',",
+									"        name: 'Categoría 1',",
+									"    },",
+									"];",
+									"pm.test(`Body contains ${categories.length} element(s)`, () => {",
+									"    pm.expect(bodyJSON.length).to.equal(categories.length);",
+									"});",
+									"pm.test(`First item equals ${JSON.stringify(categories[0])}`, () => {",
+									"    pm.expect(areEqualCategories(bodyJSON[0], categories[0])).to.be.true;",
+									"});",
+									""
+								]
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "8c49f60e-9dd0-4062-b934-2cd61614c3b8",
+								"type": "text/javascript",
+								"exec": [
+									""
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{}"
+						},
+						"url": {
+							"raw": "{{SCHEME}}://{{HOST}}:{{PORT}}{{PREFIX}}/categories/favorite",
+							"protocol": "{{SCHEME}}",
+							"host": [
+								"{{HOST}}"
+							],
+							"port": "{{PORT}}{{PREFIX}}",
+							"path": [
+								"categories",
+								"favorite"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Empty list",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "534b6647-8865-4e37-8da5-3b2ad4b2ec7e",
+								"type": "text/javascript",
+								"exec": [
+									"pm.test('Response code is 200', () => {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"const schema = {",
+									"    items: {",
+									"        id: {",
+									"            type: 'string',",
+									"        },",
+									"        name: {",
+									"            type: 'string',   ",
+									"        },",
+									"    },",
+									"};",
+									"const body = pm.response.text();",
+									"pm.test('Schema is an initiative', () => {",
+									"    pm.expect(tv4.validate(body, schema)).to.be.true;",
+									"});",
+									"",
+									"const bodyJSON = JSON.parse(body);",
+									"pm.test('List is empty', () => {",
+									"    pm.expect(bodyJSON.length).to.equal(0);",
+									"});",
+									""
+								]
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "09c201b3-9cd4-45e2-9142-b27b55e91b45",
+								"type": "text/javascript",
+								"exec": [
+									""
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{}"
+						},
+						"url": {
+							"raw": "{{SCHEME}}://{{HOST}}:{{PORT}}{{PREFIX}}/categories/favorite",
+							"protocol": "{{SCHEME}}",
+							"host": [
+								"{{HOST}}"
+							],
+							"port": "{{PORT}}{{PREFIX}}",
+							"path": [
+								"categories",
+								"favorite"
+							]
+						}
+					},
+					"response": []
+				}
+			]
 		}
 	],
 	"event": [

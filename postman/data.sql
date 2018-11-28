@@ -19,7 +19,9 @@ INSERT INTO users(
     '$2b$10$/TkUIa9Toa2vDtwHiw9LL.3s6ooPnGTDRQvyk1/Hl0elG4Opw.zxC'
 );
 
-INSERT INTO categories(id, name) VALUES (1, 'Cultura'), (2, 'Reglamentos');
+INSERT INTO category_groups(id, name) VALUES (1, 'Grupo 1'), (2, 'Grupo 2');
+
+INSERT INTO categories(id, name) VALUES (1, 'Categoría 1'), (2, 'Categoría 2');
 
 INSERT INTO initiative_status(id, name) VALUES (1, 'Activo'), (2, 'Inactivo');
 
