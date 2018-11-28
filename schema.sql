@@ -5,7 +5,7 @@
 -- Dumped from database version 9.6.6
 -- Dumped by pg_dump version 10.5
 
--- Started on 2018-11-14 19:46:01
+-- Started on 2018-11-27 18:37:57
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -26,7 +26,7 @@ CREATE EXTENSION IF NOT EXISTS plpgsql WITH SCHEMA pg_catalog;
 
 
 --
--- TOC entry 2857 (class 0 OID 0)
+-- TOC entry 2868 (class 0 OID 0)
 -- Dependencies: 1
 -- Name: EXTENSION plpgsql; Type: COMMENT; Schema: -; Owner: 
 --
@@ -43,7 +43,7 @@ CREATE EXTENSION IF NOT EXISTS "uuid-ossp" WITH SCHEMA public;
 
 
 --
--- TOC entry 2858 (class 0 OID 0)
+-- TOC entry 2869 (class 0 OID 0)
 -- Dependencies: 2
 -- Name: EXTENSION "uuid-ossp"; Type: COMMENT; Schema: -; Owner: 
 --
@@ -62,7 +62,8 @@ SET default_with_oids = false;
 
 CREATE TABLE public.categories (
     id bigint NOT NULL,
-    name text
+    name text,
+    group_id integer
 );
 
 
@@ -84,12 +85,49 @@ CREATE SEQUENCE public.categories_category_id_seq
 ALTER TABLE public.categories_category_id_seq OWNER TO postgres;
 
 --
--- TOC entry 2859 (class 0 OID 0)
+-- TOC entry 2870 (class 0 OID 0)
 -- Dependencies: 204
 -- Name: categories_category_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
 ALTER SEQUENCE public.categories_category_id_seq OWNED BY public.categories.id;
+
+
+--
+-- TOC entry 209 (class 1259 OID 17254)
+-- Name: category_groups; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.category_groups (
+    id integer NOT NULL,
+    name text
+);
+
+
+ALTER TABLE public.category_groups OWNER TO postgres;
+
+--
+-- TOC entry 208 (class 1259 OID 17252)
+-- Name: category_groups_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.category_groups_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.category_groups_id_seq OWNER TO postgres;
+
+--
+-- TOC entry 2871 (class 0 OID 0)
+-- Dependencies: 208
+-- Name: category_groups_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.category_groups_id_seq OWNED BY public.category_groups.id;
 
 
 --
@@ -121,7 +159,7 @@ CREATE SEQUENCE public.conditions_condition_id_seq
 ALTER TABLE public.conditions_condition_id_seq OWNER TO postgres;
 
 --
--- TOC entry 2860 (class 0 OID 0)
+-- TOC entry 2872 (class 0 OID 0)
 -- Dependencies: 192
 -- Name: conditions_condition_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
@@ -167,7 +205,7 @@ CREATE SEQUENCE public.congresspeople_congressperson_id_seq
 ALTER TABLE public.congresspeople_congressperson_id_seq OWNER TO postgres;
 
 --
--- TOC entry 2861 (class 0 OID 0)
+-- TOC entry 2873 (class 0 OID 0)
 -- Dependencies: 200
 -- Name: congresspeople_congressperson_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
@@ -264,7 +302,7 @@ CREATE SEQUENCE public.initiatives_initiative_id_seq
 ALTER TABLE public.initiatives_initiative_id_seq OWNER TO postgres;
 
 --
--- TOC entry 2862 (class 0 OID 0)
+-- TOC entry 2874 (class 0 OID 0)
 -- Dependencies: 189
 -- Name: initiatives_initiative_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
@@ -288,7 +326,7 @@ CREATE SEQUENCE public.initiatives_status_seq
 ALTER TABLE public.initiatives_status_seq OWNER TO postgres;
 
 --
--- TOC entry 2863 (class 0 OID 0)
+-- TOC entry 2875 (class 0 OID 0)
 -- Dependencies: 190
 -- Name: initiatives_status_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
@@ -327,7 +365,7 @@ CREATE SEQUENCE public.parties_party_id_seq
 ALTER TABLE public.parties_party_id_seq OWNER TO postgres;
 
 --
--- TOC entry 2864 (class 0 OID 0)
+-- TOC entry 2876 (class 0 OID 0)
 -- Dependencies: 198
 -- Name: parties_party_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
@@ -365,7 +403,7 @@ CREATE SEQUENCE public.statuses_status_id_seq
 ALTER TABLE public.statuses_status_id_seq OWNER TO postgres;
 
 --
--- TOC entry 2865 (class 0 OID 0)
+-- TOC entry 2877 (class 0 OID 0)
 -- Dependencies: 187
 -- Name: statuses_status_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
@@ -447,7 +485,7 @@ CREATE SEQUENCE public.values_value_id_seq
 ALTER TABLE public.values_value_id_seq OWNER TO postgres;
 
 --
--- TOC entry 2866 (class 0 OID 0)
+-- TOC entry 2878 (class 0 OID 0)
 -- Dependencies: 194
 -- Name: values_value_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
@@ -456,7 +494,7 @@ ALTER SEQUENCE public.values_value_id_seq OWNED BY public.vote_values.id;
 
 
 --
--- TOC entry 2687 (class 2604 OID 16799)
+-- TOC entry 2694 (class 2604 OID 16799)
 -- Name: categories id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -464,7 +502,15 @@ ALTER TABLE ONLY public.categories ALTER COLUMN id SET DEFAULT nextval('public.c
 
 
 --
--- TOC entry 2686 (class 2604 OID 16873)
+-- TOC entry 2695 (class 2604 OID 17257)
+-- Name: category_groups id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.category_groups ALTER COLUMN id SET DEFAULT nextval('public.category_groups_id_seq'::regclass);
+
+
+--
+-- TOC entry 2693 (class 2604 OID 16873)
 -- Name: congresspeople id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -472,7 +518,7 @@ ALTER TABLE ONLY public.congresspeople ALTER COLUMN id SET DEFAULT nextval('publ
 
 
 --
--- TOC entry 2680 (class 2604 OID 17054)
+-- TOC entry 2687 (class 2604 OID 17054)
 -- Name: initiative_status id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -480,7 +526,7 @@ ALTER TABLE ONLY public.initiative_status ALTER COLUMN id SET DEFAULT nextval('p
 
 
 --
--- TOC entry 2681 (class 2604 OID 16924)
+-- TOC entry 2688 (class 2604 OID 16924)
 -- Name: initiatives id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -488,7 +534,7 @@ ALTER TABLE ONLY public.initiatives ALTER COLUMN id SET DEFAULT nextval('public.
 
 
 --
--- TOC entry 2682 (class 2604 OID 17184)
+-- TOC entry 2689 (class 2604 OID 17184)
 -- Name: initiatives status_id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -496,7 +542,7 @@ ALTER TABLE ONLY public.initiatives ALTER COLUMN status_id SET DEFAULT nextval('
 
 
 --
--- TOC entry 2685 (class 2604 OID 16961)
+-- TOC entry 2692 (class 2604 OID 16961)
 -- Name: parties id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -504,7 +550,7 @@ ALTER TABLE ONLY public.parties ALTER COLUMN id SET DEFAULT nextval('public.part
 
 
 --
--- TOC entry 2683 (class 2604 OID 17019)
+-- TOC entry 2690 (class 2604 OID 17019)
 -- Name: status_conditions id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -512,7 +558,7 @@ ALTER TABLE ONLY public.status_conditions ALTER COLUMN id SET DEFAULT nextval('p
 
 
 --
--- TOC entry 2684 (class 2604 OID 16764)
+-- TOC entry 2691 (class 2604 OID 16764)
 -- Name: vote_values id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -520,7 +566,7 @@ ALTER TABLE ONLY public.vote_values ALTER COLUMN id SET DEFAULT nextval('public.
 
 
 --
--- TOC entry 2712 (class 2606 OID 16801)
+-- TOC entry 2720 (class 2606 OID 16801)
 -- Name: categories categories_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -529,7 +575,16 @@ ALTER TABLE ONLY public.categories
 
 
 --
--- TOC entry 2700 (class 2606 OID 17021)
+-- TOC entry 2726 (class 2606 OID 17262)
+-- Name: category_groups category_groups_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.category_groups
+    ADD CONSTRAINT category_groups_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 2708 (class 2606 OID 17021)
 -- Name: status_conditions conditions_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -538,7 +593,7 @@ ALTER TABLE ONLY public.status_conditions
 
 
 --
--- TOC entry 2708 (class 2606 OID 16875)
+-- TOC entry 2716 (class 2606 OID 16875)
 -- Name: congresspeople congresspeople_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -547,7 +602,7 @@ ALTER TABLE ONLY public.congresspeople
 
 
 --
--- TOC entry 2710 (class 2606 OID 16609)
+-- TOC entry 2718 (class 2606 OID 16609)
 -- Name: user_favorites favorites_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -556,7 +611,7 @@ ALTER TABLE ONLY public.user_favorites
 
 
 --
--- TOC entry 2714 (class 2606 OID 16636)
+-- TOC entry 2722 (class 2606 OID 16636)
 -- Name: initiatives_categories initiatives_categories_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -565,7 +620,7 @@ ALTER TABLE ONLY public.initiatives_categories
 
 
 --
--- TOC entry 2696 (class 2606 OID 16663)
+-- TOC entry 2704 (class 2606 OID 16663)
 -- Name: initiatives initiatives_infolej_num_key; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -574,7 +629,7 @@ ALTER TABLE ONLY public.initiatives
 
 
 --
--- TOC entry 2698 (class 2606 OID 16926)
+-- TOC entry 2706 (class 2606 OID 16926)
 -- Name: initiatives initiatives_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -583,7 +638,7 @@ ALTER TABLE ONLY public.initiatives
 
 
 --
--- TOC entry 2706 (class 2606 OID 16963)
+-- TOC entry 2714 (class 2606 OID 16963)
 -- Name: parties parties_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -592,7 +647,7 @@ ALTER TABLE ONLY public.parties
 
 
 --
--- TOC entry 2704 (class 2606 OID 17251)
+-- TOC entry 2712 (class 2606 OID 17251)
 -- Name: signatures signatures_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -601,7 +656,7 @@ ALTER TABLE ONLY public.signatures
 
 
 --
--- TOC entry 2694 (class 2606 OID 17056)
+-- TOC entry 2702 (class 2606 OID 17056)
 -- Name: initiative_status statuses_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -610,7 +665,7 @@ ALTER TABLE ONLY public.initiative_status
 
 
 --
--- TOC entry 2716 (class 2606 OID 16651)
+-- TOC entry 2724 (class 2606 OID 16651)
 -- Name: user_categories user_categories_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -619,7 +674,7 @@ ALTER TABLE ONLY public.user_categories
 
 
 --
--- TOC entry 2690 (class 2606 OID 16413)
+-- TOC entry 2698 (class 2606 OID 16413)
 -- Name: users users_email_key; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -628,7 +683,7 @@ ALTER TABLE ONLY public.users
 
 
 --
--- TOC entry 2692 (class 2606 OID 16411)
+-- TOC entry 2700 (class 2606 OID 16411)
 -- Name: users users_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -637,7 +692,7 @@ ALTER TABLE ONLY public.users
 
 
 --
--- TOC entry 2702 (class 2606 OID 16766)
+-- TOC entry 2710 (class 2606 OID 16766)
 -- Name: vote_values values_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -646,7 +701,7 @@ ALTER TABLE ONLY public.vote_values
 
 
 --
--- TOC entry 2688 (class 1259 OID 16414)
+-- TOC entry 2696 (class 1259 OID 16414)
 -- Name: emails; Type: INDEX; Schema: public; Owner: postgres
 --
 
@@ -654,7 +709,16 @@ CREATE UNIQUE INDEX emails ON public.users USING btree (email);
 
 
 --
--- TOC entry 2722 (class 2606 OID 17238)
+-- TOC entry 2738 (class 2606 OID 17263)
+-- Name: categories categories_group_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.categories
+    ADD CONSTRAINT categories_group_id_fkey FOREIGN KEY (group_id) REFERENCES public.category_groups(id) ON UPDATE CASCADE ON DELETE SET NULL;
+
+
+--
+-- TOC entry 2732 (class 2606 OID 17238)
 -- Name: congresspeople congresspeople_party_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -663,7 +727,7 @@ ALTER TABLE ONLY public.congresspeople
 
 
 --
--- TOC entry 2721 (class 2606 OID 17022)
+-- TOC entry 2731 (class 2606 OID 17022)
 -- Name: initiative_status_dates dates_conditions_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -672,7 +736,7 @@ ALTER TABLE ONLY public.initiative_status_dates
 
 
 --
--- TOC entry 2719 (class 2606 OID 17082)
+-- TOC entry 2729 (class 2606 OID 17082)
 -- Name: initiative_status_dates dates_initiative_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -681,7 +745,7 @@ ALTER TABLE ONLY public.initiative_status_dates
 
 
 --
--- TOC entry 2720 (class 2606 OID 17175)
+-- TOC entry 2730 (class 2606 OID 17175)
 -- Name: initiative_status_dates dates_status_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -690,7 +754,7 @@ ALTER TABLE ONLY public.initiative_status_dates
 
 
 --
--- TOC entry 2727 (class 2606 OID 16937)
+-- TOC entry 2737 (class 2606 OID 16937)
 -- Name: user_favorites favorites_initiative_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -699,7 +763,7 @@ ALTER TABLE ONLY public.user_favorites
 
 
 --
--- TOC entry 2726 (class 2606 OID 16610)
+-- TOC entry 2736 (class 2606 OID 16610)
 -- Name: user_favorites favorites_user_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -708,7 +772,7 @@ ALTER TABLE ONLY public.user_favorites
 
 
 --
--- TOC entry 2728 (class 2606 OID 16802)
+-- TOC entry 2739 (class 2606 OID 16802)
 -- Name: initiatives_categories initiatives_categories_category_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -717,7 +781,7 @@ ALTER TABLE ONLY public.initiatives_categories
 
 
 --
--- TOC entry 2729 (class 2606 OID 16942)
+-- TOC entry 2740 (class 2606 OID 16942)
 -- Name: initiatives_categories initiatives_categories_initiatives_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -726,7 +790,7 @@ ALTER TABLE ONLY public.initiatives_categories
 
 
 --
--- TOC entry 2718 (class 2606 OID 16992)
+-- TOC entry 2728 (class 2606 OID 16992)
 -- Name: signatures signatures_initiative_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -735,7 +799,7 @@ ALTER TABLE ONLY public.signatures
 
 
 --
--- TOC entry 2717 (class 2606 OID 17185)
+-- TOC entry 2727 (class 2606 OID 17185)
 -- Name: initiatives status; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -744,7 +808,7 @@ ALTER TABLE ONLY public.initiatives
 
 
 --
--- TOC entry 2731 (class 2606 OID 16807)
+-- TOC entry 2742 (class 2606 OID 16807)
 -- Name: user_categories user_categories_category_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -753,7 +817,7 @@ ALTER TABLE ONLY public.user_categories
 
 
 --
--- TOC entry 2730 (class 2606 OID 16657)
+-- TOC entry 2741 (class 2606 OID 16657)
 -- Name: user_categories user_categories_user_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -762,7 +826,7 @@ ALTER TABLE ONLY public.user_categories
 
 
 --
--- TOC entry 2723 (class 2606 OID 17206)
+-- TOC entry 2733 (class 2606 OID 17206)
 -- Name: initiative_votes votes_congressperson_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -771,7 +835,7 @@ ALTER TABLE ONLY public.initiative_votes
 
 
 --
--- TOC entry 2724 (class 2606 OID 17222)
+-- TOC entry 2734 (class 2606 OID 17222)
 -- Name: initiative_votes votes_initiative_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -780,7 +844,7 @@ ALTER TABLE ONLY public.initiative_votes
 
 
 --
--- TOC entry 2725 (class 2606 OID 17230)
+-- TOC entry 2735 (class 2606 OID 17230)
 -- Name: initiative_votes votes_value_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -789,18 +853,18 @@ ALTER TABLE ONLY public.initiative_votes
 
 
 --
--- TOC entry 2856 (class 0 OID 0)
+-- TOC entry 2867 (class 0 OID 0)
 -- Dependencies: 4
--- Name: SCHEMA public; Type: ACL; Schema: -; Owner: cloudsqlsuperuser
+-- Name: SCHEMA public; Type: ACL; Schema: -; Owner: postgres
 --
 
-REVOKE ALL ON SCHEMA public FROM cloudsqladmin;
+REVOKE ALL ON SCHEMA public FROM postgres;
 REVOKE ALL ON SCHEMA public FROM PUBLIC;
-GRANT ALL ON SCHEMA public TO cloudsqlsuperuser;
+GRANT ALL ON SCHEMA public TO postgres;
 GRANT ALL ON SCHEMA public TO PUBLIC;
 
 
--- Completed on 2018-11-14 19:46:14
+-- Completed on 2018-11-27 18:38:11
 
 --
 -- PostgreSQL database dump complete

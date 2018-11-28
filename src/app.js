@@ -7,6 +7,7 @@ const http = require('http');
 
 const usersRouter = require('./routes/users');
 const initiativesRouter = require('./routes/initiative');
+const categoriesRouter = require('./routes/categories');
 
 const app = express();
 
@@ -44,6 +45,7 @@ app.use((req, res, next) => {
 });
 app.use(`/${process.env.PATH_PREFIX || ''}`, usersRouter);
 app.use(`/${process.env.PATH_PREFIX || ''}`, initiativesRouter);
+app.use(`/${process.env.PATH_PREFIX || ''}`, categoriesRouter);
 
 const server = http.createServer(app);
 
