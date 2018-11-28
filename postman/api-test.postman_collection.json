@@ -1,13 +1,12 @@
 {
 	"info": {
-		"_postman_id": "4cc5e485-2923-4731-958e-71b14e01a211",
+		"_postman_id": "884066fb-570a-4dfe-8137-d6e8b873ba63",
 		"name": "api-test",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
 	"item": [
 		{
 			"name": "Sign up",
-			"description": null,
 			"item": [
 				{
 					"name": "Happy path",
@@ -250,7 +249,6 @@
 		},
 		{
 			"name": "Login",
-			"description": null,
 			"item": [
 				{
 					"name": "Happy path username",
@@ -579,7 +577,6 @@
 		},
 		{
 			"name": "Logout",
-			"description": null,
 			"item": [
 				{
 					"name": "Happy path",
@@ -732,7 +729,6 @@
 		},
 		{
 			"name": "Get initiative",
-			"description": null,
 			"item": [
 				{
 					"name": "Happy path",
@@ -945,7 +941,6 @@
 		},
 		{
 			"name": "Get initiative's votes",
-			"description": null,
 			"item": [
 				{
 					"name": "Happy path",
@@ -1127,7 +1122,6 @@
 		},
 		{
 			"name": "Get category's initiatives",
-			"description": null,
 			"item": [
 				{
 					"name": "Happy path",
@@ -1542,7 +1536,6 @@
 		},
 		{
 			"name": "Get user's favorite initiatives",
-			"description": null,
 			"item": [
 				{
 					"name": "Happy path",
@@ -1936,7 +1929,6 @@
 		},
 		{
 			"name": "Add initiative to favorites",
-			"description": null,
 			"item": [
 				{
 					"name": "Happy path",
@@ -2313,7 +2305,6 @@
 		},
 		{
 			"name": "Sign initiative",
-			"description": null,
 			"item": [
 				{
 					"name": "Happy path",
@@ -2591,7 +2582,6 @@
 		},
 		{
 			"name": "Get categories",
-			"description": null,
 			"item": [
 				{
 					"name": "Happy path",
@@ -2715,7 +2705,6 @@
 		},
 		{
 			"name": "Add category to favorites",
-			"description": null,
 			"item": [
 				{
 					"name": "Happy path",
@@ -2819,29 +2808,29 @@
 							"listen": "test",
 							"script": {
 								"id": "bf47428f-5adc-42d5-84af-bcf1dacefc19",
-								"type": "text/javascript",
 								"exec": [
 									"pm.test('Response code is 401', () => {",
 									"    pm.response.to.have.status(401);",
 									"});",
 									"",
-									"pm.test('Response body equals \"Unauthenticated\"', () => {",
-									"    pm.expect(pm.response.text()).to.equal('Unauthenticated');",
+									"pm.test('Response body equals \"Unauthorized\"', () => {",
+									"    pm.expect(pm.response.text()).to.equal('Unauthorized');",
 									"});",
 									""
-								]
+								],
+								"type": "text/javascript"
 							}
 						},
 						{
 							"listen": "prerequest",
 							"script": {
 								"id": "412d1e2c-2729-4203-9010-edecf2696d01",
-								"type": "text/javascript",
 								"exec": [
 									"const categoryID = '1';",
 									"pm.variables.set('CATEGORY_ID', categoryID);",
 									""
-								]
+								],
+								"type": "text/javascript"
 							}
 						}
 					],
@@ -2970,24 +2959,23 @@
 							"listen": "test",
 							"script": {
 								"id": "e06d8ebb-4873-4f35-8638-580bbd4204ab",
-								"type": "text/javascript",
 								"exec": [
 									"pm.test('Response code is 409', () => {",
 									"    pm.response.to.have.status(409);",
 									"});",
 									"",
 									"pm.test('Response body equals \"Category with ID 10 not found\"', () => {",
-									"    pm.expect(pm.response.text()).to.equal('Category with ID 10 not found');",
+									"    pm.expect(pm.response.text()).to.equal('Category already added');",
 									"});",
 									""
-								]
+								],
+								"type": "text/javascript"
 							}
 						},
 						{
 							"listen": "prerequest",
 							"script": {
 								"id": "b9a5133e-0d91-4c7d-b9e5-53049435dc4e",
-								"type": "text/javascript",
 								"exec": [
 									"const categoryID = '1';",
 									"pm.variables.set('CATEGORY_ID', categoryID);",
@@ -3037,7 +3025,8 @@
 									"    });",
 									"});",
 									""
-								]
+								],
+								"type": "text/javascript"
 							}
 						}
 					],
@@ -3068,7 +3057,6 @@
 		},
 		{
 			"name": "Get user's favorite categories",
-			"description": null,
 			"item": [
 				{
 					"name": "Happy path",
@@ -3312,27 +3300,27 @@
 							"listen": "test",
 							"script": {
 								"id": "97492eca-8899-476c-9d31-02ad2a3835cd",
-								"type": "text/javascript",
 								"exec": [
 									"pm.test('Response code is 401', () => {",
 									"    pm.response.to.have.status(401);",
 									"});",
 									"",
-									"pm.test('Response body equals \"Unauthenticated\"', () => {",
-									"    pm.expect(pm.response.text()).to.equal('Unauthenticated');",
+									"pm.test('Response body equals \"Unauthorized\"', () => {",
+									"    pm.expect(pm.response.text()).to.equal('Unauthorized');",
 									"});",
 									""
-								]
+								],
+								"type": "text/javascript"
 							}
 						},
 						{
 							"listen": "prerequest",
 							"script": {
 								"id": "09c201b3-9cd4-45e2-9142-b27b55e91b45",
-								"type": "text/javascript",
 								"exec": [
 									""
-								]
+								],
+								"type": "text/javascript"
 							}
 						}
 					],
