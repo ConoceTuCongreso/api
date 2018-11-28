@@ -21,7 +21,7 @@ INSERT INTO users(
 
 INSERT INTO category_groups(id, name) VALUES (1, 'Grupo 1'), (2, 'Grupo 2');
 
-INSERT INTO categories(id, name) VALUES (1, 'Categoría 1'), (2, 'Categoría 2');
+INSERT INTO categories(id, name, group_id) VALUES (1, 'Categoría 1', 1), (2, 'Categoría 2', 1);
 
 INSERT INTO initiative_status(id, name) VALUES (1, 'Activo'), (2, 'Inactivo');
 
