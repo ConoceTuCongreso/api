@@ -43,9 +43,9 @@ app.use((req, res, next) => {
   }
   next();
 });
-app.use(`/${process.env.PATH_PREFIX || ''}`, usersRouter);
-app.use(`/${process.env.PATH_PREFIX || ''}`, initiativesRouter);
-app.use(`/${process.env.PATH_PREFIX || ''}`, categoriesRouter);
+app.use(`${process.env.PATH_PREFIX || ''}`, usersRouter);
+app.use(`${process.env.PATH_PREFIX || ''}`, initiativesRouter);
+app.use(`${process.env.PATH_PREFIX || ''}`, categoriesRouter);
 
 const server = http.createServer(app);
 
