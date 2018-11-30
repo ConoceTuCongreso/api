@@ -18,6 +18,7 @@ env:
     - USER_POSTGRES=postgres
     - PATH_PREFIX=""
     - SSL_MODE=""
+    - COOKIE_MAX_AGE=20000
 
 before_script:
   - psql -U postgres -c 'CREATE DATABASE test;'
