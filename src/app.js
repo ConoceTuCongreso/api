@@ -29,7 +29,7 @@ app.use(session({
   resave: false,
   saveUninitialized: false,
   cookie: {
-    expires: 600000,
+    maxAge: process.env.COOKIE_MAX_AGE ? parseInt(process.env.COOKIE_MAX_AGE, 10) : 200000,
   },
 }));
 app.use((req, res, next) => {
