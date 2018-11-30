@@ -1,3 +1,5 @@
+const CODES = require('../utils/statusCodes');
+
 class User {
   constructor(logger, encryptor, userService, userValidation) {
     this.logger = logger;
@@ -23,14 +25,15 @@ class User {
       return;
     }
     this.userService.validateUsernamePassword(params.username, params.email, params.password)
-      .then((pass) => {
+      .then((user) => {
         req.session.user = {
+          id: user.user_id,
           username: req.body.username,
           email: req.body.email,
-          password: pass,
+          password: user.password_hash,
         };
         this.logger.info(`Successful login, user: ${req.body.username}.`);
-        res.status(200).send('OK');
+        res.status(CODES.OK).send('OK');
       })
       .catch((e) => {
         res.status(e.code).send(e.msg);
@@ -38,14 +41,9 @@ class User {
   }
 
   logout(req, res) {
-    if (req.session.user && req.cookies.user_sid) {
-      res.clearCookie('user_sid');
-      res.removeHeader('Set-Cookie');
-      this.logger.info('Successful logout');
-      res.status(205).send('OK');
-    } else {
-      res.status(205).send('You must be logged in to sign out.');
-    }
+    res.clearCookie('user_sid');
+    this.logger.info('Successful logout');
+    res.status(CODES.RESET_CONTENT).send('OK');
   }
 
   signup(req, res) {
@@ -81,18 +79,19 @@ class User {
                     hash: pass.password,
                   },
                 )
-                  .then(() => {
+                  .then((user) => {
                     req.session.user = {
-                      username: req.body.username,
-                      email: req.body.email,
-                      password: pass.password,
+                      id: user.user_id,
+                      username: user.username,
+                      email: user.email,
+                      password: user.password,
                     };
                     this.logger.info(`Successful registration, user: ${req.body.username}, email ${req.body.email}`);
-                    res.status('200').send('OK');
+                    res.status(CODES.OK).send('OK');
                   })
                   .catch((e) => {
                     this.logger.error(e);
-                    res.status('500').send('Error connecting to the database');
+                    res.status(CODES.INTERNAL_SERVER_ERROR).send('Internal Server Error');
                   });
               });
           })

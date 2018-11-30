@@ -5,13 +5,20 @@ const session = require('express-session');
 const cookieParser = require('cookie-parser');
 const http = require('http');
 
-const usersRouter = require('./routes/usuario');
+const usersRouter = require('./routes/users');
+const initiativesRouter = require('./routes/initiative');
+const categoriesRouter = require('./routes/categories');
 
 const app = express();
 
 app.set('port', 3000);
 
-app.use(cors());
+const corsProperty = process.env.CORS_ORIGIN ? {
+  credentials: true,
+  origin: process.env.CORS_ORIGIN,
+} : {};
+
+app.use(cors(corsProperty));
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
@@ -22,7 +29,7 @@ app.use(session({
   resave: false,
   saveUninitialized: false,
   cookie: {
-    expires: 600000,
+    maxAge: process.env.COOKIE_MAX_AGE ? parseInt(process.env.COOKIE_MAX_AGE, 10) : 200000,
   },
 }));
 app.use((req, res, next) => {
@@ -36,7 +43,9 @@ app.use((req, res, next) => {
   }
   next();
 });
-app.use(`/${process.env.PATH_PREFIX || ''}`, usersRouter);
+app.use(`${process.env.PATH_PREFIX || ''}`, usersRouter);
+app.use(`${process.env.PATH_PREFIX || ''}`, initiativesRouter);
+app.use(`${process.env.PATH_PREFIX || ''}`, categoriesRouter);
 
 const server = http.createServer(app);
 
